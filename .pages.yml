@@ -1,0 +1,88 @@
+# Runtime; content editor for GitHub Pages
+# Authorized GitHub repository editors manage posts at https://app.pagescms.org
+media:
+  - name: images
+    label: 활동 사진
+    input: public/uploads/images
+    output: /uploads/images
+    rename: safe
+    categories: [image]
+  - name: documents
+    label: 첨부 자료
+    input: public/uploads/files
+    output: /uploads/files
+    rename: safe
+    categories: [document, compressed, spreadsheet]
+
+content:
+  - name: project_posts
+    label: "Runtime; 프로젝트 및 수상 소식"
+    type: collection
+    path: src/content/project-posts
+    format: json
+    filename: "{year}-{month}-{day}-{primary}.json"
+    exclude: [".gitkeep"]
+    view:
+      primary: title
+      fields: [title, category, date, published]
+    fields:
+      - name: title
+        label: 제목
+        type: string
+        required: true
+      - name: category
+        label: 글 종류
+        type: select
+        required: true
+        options:
+          values:
+            - "해커톤"
+            - "경진대회"
+            - "공모전"
+            - "개발 프로젝트"
+            - "수상·소식"
+      - name: date
+        label: 활동 또는 소식 날짜
+        type: date
+        required: true
+      - name: team
+        label: 참여 팀 / 부원
+        type: string
+        required: false
+      - name: summary
+        label: 한 줄 요약
+        type: text
+        required: true
+      - name: body
+        label: 아이디어, 진행 과정, 후기
+        type: text
+        required: true
+      - name: award
+        label: 수상 명칭 (해당 시)
+        type: string
+        required: false
+      - name: cover
+        label: 대표 사진
+        type: image
+        required: false
+        options:
+          media: images
+      - name: attachments
+        label: 첨부파일 (PDF, ZIP, 문서 등)
+        type: file
+        required: false
+        options:
+          media: documents
+          categories: [document, compressed, spreadsheet]
+          multiple:
+            max: 5
+          unique: true
+          rename: true
+      - name: featured
+        label: 홈 화면에 강조
+        type: boolean
+        default: false
+      - name: published
+        label: 홈페이지에 공개
+        type: boolean
+        default: false
