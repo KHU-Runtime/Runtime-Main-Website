@@ -1,61 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
+import CommunityBoard, { CommunityNews } from './CommunityBoard'
 
 const INSTAGRAM = 'https://www.instagram.com/khu_runtime/'
 const GITHUB = 'https://github.com/KHU-Runtime/Runtime-Main-Website'
 
-
-const CMS_URL = 'https://app.pagescms.org/'
-const projectPostFiles = import.meta.glob('./content/project-posts/*.json', { eager: true, import: 'default' })
-const PROJECT_POSTS = Object.entries(projectPostFiles)
-  .map(([path, data]) => ({
-    ...(data || {}),
-    id: path.split('/').pop().replace(/\.json$/, ''),
-    attachments: Array.isArray(data?.attachments) ? data.attachments.filter((file) => typeof file === 'string') : [],
-  }))
-  .filter((post) => post.published === true && typeof post.title === 'string' && post.title.trim())
-  .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')))
-
-function postMediaUrl(path) {
-  if (typeof path !== 'string') return ''
-  if (/^https:\/\//i.test(path)) return path
-  if (/^\/?uploads\//.test(path)) return import.meta.env.BASE_URL + path.replace(/^\//, '')
-  return ''
-}
-
-function postDate(value) {
-  const match = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})/)
-  return match ? match[1] + '.' + match[2] + '.' + match[3] : ''
-}
-
-function PostCard({ post, open, onToggle }) {
-  const cover = postMediaUrl(post.cover)
-  return <article className="runtime-post">
-    <div className="post-cover">
-      {cover ? <img src={cover} alt={post.title + ' 사진'} loading="lazy" /> :
-        <div className="post-cover-empty"><span>Runtime;</span><strong>{post.category === '수상·소식' ? 'NEWS' : 'PROJECT'}</strong></div>}
-    </div>
-    <div className="post-content">
-      <div className="post-meta"><span>{post.category || '활동 기록'}</span><time>{postDate(post.date)}</time></div>
-      <h3>{post.title}</h3>
-      <p className="post-summary">{post.summary}</p>
-      {post.award && <p className="post-award">★ {post.award}</p>}
-      <button type="button" className="post-open" aria-expanded={open} onClick={onToggle}>{open ? '접기 −' : '내용 자세히 보기 ↗'}</button>
-      {open && <div className="post-expanded">
-        {post.team && <p><strong>참여 팀</strong> {post.team}</p>}
-        {post.body && <p className="post-body">{post.body}</p>}
-        {post.attachments.length > 0 && <div className="post-attachments">
-          <strong>첨부자료</strong>
-          {post.attachments.map((file, i) => {
-            const url = postMediaUrl(file)
-            return url ? <a key={file + i} href={url} target="_blank" rel="noopener noreferrer">
-              ↓ {file.split('/').pop()}</a> : null
-          })}
-        </div>}
-      </div>}
-    </div>
-  </article>
-}
 
 const NAV = [
   { id: 'home', label: '홈' },
@@ -72,7 +21,7 @@ const NAV = [
   { id: 'projects', label: '프로젝트', children: [
     { label: '활동 기록', section: 'archive' },
     { label: '수상·소식', section: 'awards' },
-    { label: '관리자 글쓰기', section: 'manage' },
+    { label: '글쓰기', section: 'manage' },
   ] },
   { id: 'study', label: '스터디룸', children: [
     { label: '세미나 복습', section: 'notes' },
@@ -311,13 +260,7 @@ function Home() {
         </div>
       </section>
     </div>
-    {PROJECT_POSTS.some((post) => post.category === '수상·소식') && <section className="container home-latest-news">
-      <div className="home-news-heading"><h2>Runtime; 소식</h2><a href="#/projects/awards">모든 소식 보기 ↗</a></div>
-      {PROJECT_POSTS.filter((post) => post.category === '수상·소식').slice(0,3).map((post) =>
-        <a className="home-news-item" key={post.id} href="#/projects/awards">
-          <time>{postDate(post.date)}</time><span>{post.title}</span><span aria-hidden="true">↗</span>
-        </a>)}
-    </section>}
+    <CommunityNews />
     <section className="container home-directory">
       <div className="directory-item">
         <div><SectionLabel number="01">프로젝트</SectionLabel><h2>팀이 함께 만든 결과물</h2>
@@ -378,131 +321,6 @@ function Activities() {
 }
 
 
-
-function ProjectEditorDemo({ onClose }) {
-  const [draft, setDraft] = useState({
-    title: '데이터 분석 해커톤 참가 기록',
-    category: '해커톤',
-    date: '2026-11-21',
-    team: 'Runtime; 프로젝트 팀',
-    summary: '팀 프로젝트의 문제 정의, 데이터 분석, 구현 내용을 기록합니다.',
-    body: '어떤 문제를 해결하려고 했는지, 어떤 데이터를 사용했는지, 결과물과 배운 점을 소개합니다.',
-    award: '',
-  })
-  const [files, setFiles] = useState([])
-  const setField = (key, value) => setDraft((old) => ({ ...old, [key]: value }))
-  return <section className="editor-demo" aria-label="관리자 글 작성 시연">
-    <div className="editor-demo-heading">
-      <div><span>EDITOR PREVIEW · 작성 시연</span><h3>글 등록 화면 미리보기</h3>
-        <p>아래에 입력하면 미리보기가 바뀌어요. 시연 입력은 공개되거나 저장되지 않습니다.</p></div>
-      <button type="button" onClick={onClose}>닫기 ×</button>
-    </div>
-    <div className="editor-demo-layout">
-      <div className="editor-demo-fields">
-        <label>제목<input value={draft.title} onChange={(e) => setField('title',e.target.value)} /></label>
-        <div className="editor-demo-pair">
-          <label>분류<select value={draft.category} onChange={(e) => setField('category',e.target.value)}>
-            {['해커톤','경진대회','공모전','개발 프로젝트','수상·소식'].map((item) => <option key={item}>{item}</option>)}
-          </select></label>
-          <label>날짜<input type="date" value={draft.date} onChange={(e) => setField('date',e.target.value)} /></label>
-        </div>
-        <label>팀 / 참여자<input value={draft.team} onChange={(e) => setField('team',e.target.value)} /></label>
-        <label>요약<textarea rows={2} value={draft.summary} onChange={(e) => setField('summary',e.target.value)} /></label>
-        <label>아이디어 · 진행 과정<textarea rows={5} value={draft.body} onChange={(e) => setField('body',e.target.value)} /></label>
-        <label>수상 내용 (있는 경우만)<input value={draft.award} onChange={(e) => setField('award',e.target.value)}
-          placeholder="확인된 수상 내용만 작성" /></label>
-        <label className="editor-file-picker">사진 · 파일 첨부 (시연)
-          <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.xlsx,.csv,.zip"
-            onChange={(e) => setFiles(Array.from(e.target.files||[]).map((file) => file.name))}/>
-        </label>
-        {files.length>0 && <p className="editor-demo-files">선택한 파일: {files.join(', ')}</p>}
-        <p className="editor-demo-caution">실제 파일 업로드와 게시물 저장은 관리자용 Pages CMS에서 진행합니다.</p>
-        <a href={CMS_URL} target="_blank" rel="noopener noreferrer" className="records-admin-button">실제 관리자 도구 열기 ↗</a>
-      </div>
-      <div className="editor-demo-preview">
-        <span className="editor-preview-note">LIVE PREVIEW · 실제 실적이 아닌 입력 시연</span>
-        <div className="editor-preview-image"><span>Runtime;</span><b>{draft.category==='수상·소식'?'NEWS':'PROJECT LOG'}</b></div>
-        <div className="post-meta"><span>{draft.category}</span><time>{postDate(draft.date)}</time></div>
-        <h4>{draft.title||'제목을 입력하세요'}</h4>
-        <p>{draft.summary||'요약을 입력하세요'}</p>
-        {draft.award&&<p className="post-award">★ {draft.award}</p>}
-        {draft.team&&<p className="post-team"><strong>참여 팀</strong> {draft.team}</p>}
-        <p className="post-body">{draft.body||'본문을 입력하세요'}</p>
-        {files.length>0&&<div className="post-attachments"><strong>첨부자료 (시연)</strong>
-          {files.map((name,index)=><span key={index}>📎 {name}</span>)}
-        </div>}
-      </div>
-    </div>
-  </section>
-}
-
-function EmptyRecordIcon({ awards }) {
-  return <svg className="record-empty-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor"
-    strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    {awards ? <>
-      <path d="M15 8h18v13a9 9 0 0 1-18 0V8Z" />
-      <path d="M15 12H8v5a9 9 0 0 0 8 9M33 12h7v5a9 9 0 0 1-8 9M24 30v7M16 39h16" />
-    </> : <>
-      <path d="M5 15V11a4 4 0 0 1 4-4h11l4 5h15a4 4 0 0 1 4 4v4" />
-      <path d="M5 20h38l-4 18a4 4 0 0 1-4 3H11a4 4 0 0 1-4-3L5 20Z" />
-      <path d="M19 27l-4 4 4 4M29 27l4 4-4 4" />
-    </>}
-  </svg>
-}
-
-function Projects({ initialView = '' }) {
-  const [filter, setFilter] = useState(initialView === 'awards' ? 'awards' : 'all')
-  const [openId, setOpenId] = useState(null)
-  const [demoOpen, setDemoOpen] = useState(initialView === 'manage')
-  useEffect(() => {
-    if (initialView === 'awards') setFilter('awards')
-    else if (initialView === 'archive') setFilter('all')
-    if (initialView === 'manage') setDemoOpen(true)
-  }, [initialView])
-  const visible = PROJECT_POSTS.filter((post) =>
-    filter === 'all' || (filter === 'awards' ? post.category === '수상·소식' : post.category !== '수상·소식'))
-  return <>
-    <PageHeading number="04" eyebrow="PROJECT ARCHIVE" title={<>함께 도전한 기록,<br /><em>함께 만든 결과.</em></>}
-      description="해커톤·공모전·경진대회 참가 기록과 수상 소식을 한곳에서 확인하세요." />
-    <section className="container project-records" id="archive">
-      <div className="records-title">
-        <div><SectionLabel number="04.1">Runtime; 기록 보관소</SectionLabel>
-          <h2>프로젝트 & 소식</h2>
-          <p>수상 여부만큼 아이디어를 구현하는 과정도 소중하게 기록합니다.</p>
-        </div>
-        <div className="records-actions" id="manage">
-          <button type="button" className="records-demo-button" aria-expanded={demoOpen} onClick={() => setDemoOpen(!demoOpen)}>
-            {demoOpen ? '작성 시연 닫기' : '작성 화면 시연'}
-          </button>
-          <a className="records-admin-button" href={CMS_URL} target="_blank" rel="noopener noreferrer">관리자 글쓰기 ↗</a>
-        </div>
-      </div>
-      <div className="records-filter-row" role="group" id="awards" aria-label="게시물 유형">
-        {[['all','전체 기록'],['projects','프로젝트·대회'],['awards','수상·소식']].map(([value, label]) =>
-          <button key={value} type="button" aria-pressed={filter===value}
-            className={filter===value?'record-filter active':'record-filter'}
-            onClick={() => {setFilter(value);setOpenId(null)}}>{label}</button>)}
-      </div>
-      {demoOpen && <ProjectEditorDemo onClose={() => setDemoOpen(false)} />}
-      {visible.length > 0 ?
-        <div className="record-grid">{visible.map((post) => <PostCard key={post.id} post={post}
-          open={openId===post.id} onToggle={() => setOpenId(openId===post.id?null:post.id)} />)}</div> :
-        <div className="record-empty">
-          <EmptyRecordIcon awards={filter === 'awards'} />
-          <h3>{filter==='awards'?'새로운 수상·소식을 기다리고 있어요.':'첫 번째 활동 기록을 준비 중입니다.'}</h3>
-          <p>{filter==='awards'?'수상 및 대회 소식이 올라오면 이곳에 모아 보여줍니다.':
-            '관리자가 실제 프로젝트를 올리면 팀 소개, 아이디어, 사진과 첨부파일이 나타납니다.'}</p>
-          <button type="button" onClick={() => setDemoOpen(true)}>작성 화면 체험하기 →</button>
-        </div>}
-      <div className="records-help">
-        <h3>기록을 올리고 싶나요?</h3>
-        <p>관리자는 GitHub에 연결된 Pages CMS에서 글과 사진·PDF 등을 등록할 수 있어요.
-          게시를 위해 최초 한 번 GitHub 앱 승인과 저장소 접근 권한이 필요합니다.</p>
-        <a href={CMS_URL} target="_blank" rel="noopener noreferrer">관리자 게시 도구 열기 ↗</a>
-      </div>
-    </section>
-  </>
-}
 
 function Quiz() {
   const [idx, setIdx] = useState(0)
@@ -591,7 +409,7 @@ function App() {
       {location.page === 'home' && <Home />}
       {location.page === 'about' && <About />}
       {location.page === 'activities' && <Activities />}
-      {location.page === 'projects' && <Projects initialView={location.section} />}
+      {location.page === 'projects' && <CommunityBoard initialView={location.section} />}
       {location.page === 'study' && <StudyRoom initialTab={location.section} />}
       {location.page === 'join' && <Join />}
     </main>
