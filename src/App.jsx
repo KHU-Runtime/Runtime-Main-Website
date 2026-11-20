@@ -281,7 +281,7 @@ function Home() {
           <div className="overview-highlights">
             {highlights.map((item) => (
               <a className="overview-highlight" key={item.key}
-                href={item.key === 'trophy' ? '#/projects/archive' : '#/activities/seminars'}>
+                href={item.key === 'trophy' ? '#/projects/archive' : item.key === 'study' ? '#/activities/certificates' : item.key === 'code' ? '#/activities/practice' : '#/activities/seminars'}>
                 <ActivityIcon name={item.key} />
                 <strong>{item.title}</strong>
                 <span>{item.sub}</span>
