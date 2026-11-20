@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="120 125 285 164" role="img" aria-label="RUNTIME 반원과 토끼 로고">
+  <path d="M131 277 A132 132 0 0 1 395 277 L131 277 Z" fill="#303F83"/>
+  <path d="M131 277 A132 132 0 0 1 395 277" fill="none" stroke="#606060" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M268 216 L309 146 Q320 131 324 143 Q328 154 320 194 L294 225 Z" fill="#fff" stroke="#606060" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M267 218 L359 166 Q380 155 381 167 Q375 204 309 239 L329 277 H191 C183 263 179 242 183 231 Q194 205 232 211 Z" fill="#fff" stroke="#606060" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
