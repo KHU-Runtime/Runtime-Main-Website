@@ -436,6 +436,20 @@ function ProjectEditorDemo({ onClose }) {
   </section>
 }
 
+function EmptyRecordIcon({ awards }) {
+  return <svg className="record-empty-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor"
+    strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {awards ? <>
+      <path d="M15 8h18v13a9 9 0 0 1-18 0V8Z" />
+      <path d="M15 12H8v5a9 9 0 0 0 8 9M33 12h7v5a9 9 0 0 1-8 9M24 30v7M16 39h16" />
+    </> : <>
+      <path d="M5 15V11a4 4 0 0 1 4-4h11l4 5h15a4 4 0 0 1 4 4v4" />
+      <path d="M5 20h38l-4 18a4 4 0 0 1-4 3H11a4 4 0 0 1-4-3L5 20Z" />
+      <path d="M19 27l-4 4 4 4M29 27l4 4-4 4" />
+    </>}
+  </svg>
+}
+
 function Projects({ initialView = '' }) {
   const [filter, setFilter] = useState(initialView === 'awards' ? 'awards' : 'all')
   const [openId, setOpenId] = useState(null)
@@ -474,7 +488,7 @@ function Projects({ initialView = '' }) {
         <div className="record-grid">{visible.map((post) => <PostCard key={post.id} post={post}
           open={openId===post.id} onToggle={() => setOpenId(openId===post.id?null:post.id)} />)}</div> :
         <div className="record-empty">
-          <span aria-hidden="true">{filter==='awards'?'✳':'{ }'}</span>
+          <EmptyRecordIcon awards={filter === 'awards'} />
           <h3>{filter==='awards'?'새로운 수상·소식을 기다리고 있어요.':'첫 번째 활동 기록을 준비 중입니다.'}</h3>
           <p>{filter==='awards'?'수상 및 대회 소식이 올라오면 이곳에 모아 보여줍니다.':
             '관리자가 실제 프로젝트를 올리면 팀 소개, 아이디어, 사진과 첨부파일이 나타납니다.'}</p>
