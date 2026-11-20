@@ -457,3 +457,154 @@ body{background:#fff;color:var(--ink)}
  .site-header .brand-symbol{width:44px}
  .site-header .brand-text small{letter-spacing:.4px}
 }
+
+/* Runtime 2026-11-21: menu motion and mobile accordion final overrides */
+/* Keep the full mega-menu mounted so the browser can animate it rather than swapping display:none. */
+@media (min-width:1101px) {
+  .site-header .mega-menu {
+    display:block;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translate3d(0,-15px,0);
+    transform-origin:top center;
+    transition:
+      opacity 260ms cubic-bezier(.22,.61,.36,1),
+      transform 300ms cubic-bezier(.22,.61,.36,1),
+      visibility 300ms;
+    will-change:opacity,transform;
+  }
+  .site-header .mega-menu[data-open="true"] {
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translate3d(0,0,0);
+    transition:
+      opacity 280ms cubic-bezier(.22,.61,.36,1),
+      transform 320ms cubic-bezier(.22,.61,.36,1),
+      visibility 0s;
+  }
+  .site-header .mega-menu[data-open="false"] {
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .site-header .nav-chevron span {
+    display:inline-block;
+    transition:transform 220ms ease;
+  }
+  .site-header .nav-chevron[aria-expanded="true"] span {
+    transform:rotate(180deg);
+  }
+}
+/* The mobile navigation mirrors the reference: Home row, open About accordion,
+   then the remaining categories as full-width touch targets. */
+@media (max-width:1100px) {
+  .site-header .mobile-nav {
+    background:#fff;
+    padding:6px 24px 20px;
+    border-top:1px solid #e4e7ec;
+  }
+  .site-header .mobile-nav-group {
+    border-bottom:1px solid #e6e9ee;
+  }
+  .site-header .mobile-home-link,
+  .site-header .mobile-accordion-toggle {
+    display:flex;
+    width:100%;
+    min-height:49px;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:13px 11px;
+    font-size:16px;
+    font-weight:800;
+    line-height:1.5;
+    color:#010736;
+    background:transparent;
+    border:0;
+    border-radius:5px;
+    text-align:left;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .site-header .mobile-accordion-toggle[aria-expanded="true"] {
+    background:#ECEEF2;
+  }
+  .site-header .mobile-accordion-toggle:focus-visible,
+  .site-header .mobile-home-link:focus-visible {
+    outline:2px solid #22396F;
+    outline-offset:2px;
+  }
+  .site-header .mobile-chevron {
+    font-size:19px;
+    font-weight:700;
+    line-height:1;
+    flex:none;
+    transition:transform 240ms cubic-bezier(.22,.61,.36,1);
+  }
+  .site-header .mobile-accordion-toggle[aria-expanded="true"] .mobile-chevron {
+    transform:rotate(180deg);
+  }
+  .site-header .mobile-nav-sub {
+    display:grid;
+    grid-template-rows:0fr;
+    opacity:0;
+    overflow:hidden;
+    padding:0;
+    margin:0;
+    background:#F3F4F6;
+    border-radius:0 0 7px 7px;
+    transition:grid-template-rows 290ms cubic-bezier(.22,.61,.36,1), opacity 240ms ease;
+  }
+  .site-header .mobile-nav-sub.is-expanded {
+    grid-template-rows:1fr;
+    opacity:1;
+  }
+  .site-header .mobile-nav-sub-inner {
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    min-height:0;
+    overflow:hidden;
+    padding:0 15px;
+  }
+  .site-header .mobile-nav-sub a {
+    display:block;
+    padding:10px 13px;
+    min-height:42px;
+    font-size:14px;
+    font-weight:500;
+    line-height:1.5;
+    color:#1E293B;
+    border-radius:4px;
+    white-space:normal;
+  }
+  .site-header .mobile-nav-sub a:first-child { margin-top:8px; }
+  .site-header .mobile-nav-sub a:last-child { margin-bottom:8px; }
+  .site-header .mobile-nav-sub .mobile-category-link {
+    color:#22396F;
+    font-weight:700;
+    font-size:13px;
+    border-top:1px solid #DCE0E7;
+    margin-top:5px;
+  }
+}
+@media(max-width:720px) {
+  .site-header .mobile-nav{padding:4px 15px 18px}
+  .site-header .mobile-home-link,
+  .site-header .mobile-accordion-toggle{font-size:15px;min-height:46px;padding:12px 10px}
+  .site-header .mobile-nav-sub a{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  .site-header .mega-menu,
+  .site-header .mobile-chevron,
+  .site-header .mobile-nav-sub,
+  .site-header .nav-chevron span {
+    transition:none!important;
+  }
+}
+/* Keep the requested home sections explicit and readable even with older CSS above. */
+.home-showcase .home-hero{background-color:#010736;color:#fff}
+.home-showcase .home-hero h1{color:#fff}
+.home-showcase .home-overview{background:#ECEAE4;color:#010736}
