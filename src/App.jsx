@@ -220,8 +220,8 @@ function PageHeading({ number, eyebrow, title, description }) {
 function About() {
   return <>
     <PageHeading number="02" eyebrow="동아리 소개" title={<>런타임을<br /><em>소개합니다.</em></>} description="런타임은 프로그래밍 언어를 공부하는 데서 멈추지 않고, 학습한 기술을 실제 결과물로 연결하는 코딩 동아리입니다." />
-    <section id="overview" className="container about-overview"><div className="about-aside">RUNTIME IS<br /><span>MORE THAN<br />A STUDY.</span></div><div className="about-content"><h2>배움의 다음 단계를 향해.</h2><p>코딩에 대한 관심에서 출발해 세미나와 스터디로 지식을 쌓고, 실습과 팀 활동으로 직접 구현해 보는 경험을 중요하게 생각합니다. 서로의 아이디어를 나누고 함께 문제를 해결하는 과정 역시 런타임의 활동입니다.</p><div className="about-tags"><span>PROGRAMMING</span><span>DATA</span><span>COLLABORATION</span></div></div></section>
-    <section id="process" className="about-steps"><div className="container"><SectionLabel number="02.1">HOW WE GROW</SectionLabel><h2>런타임의 학습 사이클</h2><div className="step-grid"><div><span>01</span><h3>Learn</h3><p>세미나와 스터디에서 배우기</p></div><div><span>02</span><h3>Practice</h3><p>작은 문제를 직접 해결하기</p></div><div><span>03</span><h3>Build</h3><p>아이디어를 프로젝트로 구현하기</p></div><div><span>04</span><h3>Share</h3><p>결과와 시행착오를 나누기</p></div></div></div></section>
+    <section id="overview" className="container about-overview"><div className="about-aside">RUNTIME<br /><span>CODING CLUB.</span></div><div className="about-content"><h2>함께 배우고, 직접 만들어 봅니다.</h2><p>런타임은 Python과 R 등의 프로그래밍 언어를 세미나와 스터디로 공부합니다. 배운 내용을 직접 실습하고, 관심사가 맞는 부원들과 팀을 꾸려 공모전이나 해커톤에도 참여합니다.</p><div className="about-tags"><span>PROGRAMMING</span><span>DATA</span><span>COLLABORATION</span></div></div></section>
+    <section id="process" className="about-steps"><div className="container"><SectionLabel number="02.1">HOW WE GROW</SectionLabel><h2>런타임의 활동 방식</h2><div className="step-grid"><div><span>01</span><h3>세미나</h3><p>프로그래밍 기초를 함께 공부하기</p></div><div><span>02</span><h3>실습</h3><p>배운 내용으로 코드를 작성해 보기</p></div><div><span>03</span><h3>프로젝트</h3><p>팀을 꾸려 아이디어를 구체화하기</p></div><div><span>04</span><h3>공유</h3><p>결과와 배운 내용을 함께 나누기</p></div></div></div></section>
     <section className="container about-cta"><h2>런타임이 어떤 활동을 하는지<br />조금 더 궁금해졌나요?</h2><TextLink to="activities">활동 확인하기</TextLink></section>
   </>
 }
@@ -232,7 +232,7 @@ function Activities() {
     <section id="seminars" className="container activity-list" aria-label="런타임 주요 활동">
       {ACTIVITY_LIST.map((activity) => <article className="activity-row" key={activity.n}><div className="activity-no">{activity.n} <span>↗</span></div><div><span className="activity-tag">{activity.tag}</span><h2>{activity.title}</h2></div><div className="activity-body"><p>{activity.description}</p><small>{activity.detail}</small></div></article>)}
     </section>
-    <section id="collaboration" className="container activity-bottom"><div><SectionLabel number="03.1">AFTER LEARNING</SectionLabel><h2>이제 배운 것을<br />직접 만들어볼 차례.</h2></div><div><p>같은 관심사를 가진 부원들과 팀을 이루고, 각자의 아이디어를 실제 프로젝트로 발전시킬 수 있습니다.</p><TextLink to="projects">프로젝트 살펴보기</TextLink></div></section>
+    <section id="collaboration" className="container activity-bottom"><div><SectionLabel number="03.1">AFTER LEARNING</SectionLabel><h2>배운 내용을 활용하는<br />프로젝트와 대회 참여</h2></div><div><p>같은 관심사를 가진 부원들과 팀을 이루고, 각자의 아이디어를 실제 프로젝트로 발전시킬 수 있습니다.</p><TextLink to="projects">프로젝트 살펴보기</TextLink></div></section>
   </>
 }
 
@@ -312,7 +312,7 @@ function StudyRoom({ initialTab = 'notes' }) {
 
 function Join() {
   return <>
-    <PageHeading number="06" eyebrow="지원 안내" title={<>런타임과<br /><em>함께하고 싶다면.</em></>} description="코드를 배우는 순간부터 함께 프로젝트를 만드는 경험까지. 런타임의 다음 활동을 함께할 새로운 부원을 기다립니다." />
+    <PageHeading number="06" eyebrow="지원 안내" title={<>런타임과<br /><em>함께하고 싶다면.</em></>} description="런타임의 활동과 모집 안내를 확인하고, 함께할 기회를 살펴보세요. 자세한 모집 일정은 공식 인스타그램을 통해 안내합니다." />
     <section id="guide" className="container join-grid"><div className="join-panel"><SectionLabel number="06.1">GET STARTED</SectionLabel><h2>궁금하다면,<br />먼저 알아보세요.</h2><p>모집 일정과 지원 방법은 공식 인스타그램 공지를 통해 확인해 주세요. 아래 지원 버튼은 디자인 시연용이며 실제 지원서는 연결되어 있지 않습니다.</p><div className="join-actions"><button type="button" className="button button-primary application-placeholder" disabled title="지원서 연결 전입니다">지원하기 <span aria-hidden="true">↗</span></button><a className="button button-light" href={INSTAGRAM} target="_blank" rel="noopener noreferrer">모집 공지 확인 <span aria-hidden="true">↗</span></a></div><span className="join-note">* 지원하기 버튼은 의도적으로 비활성화되어 있습니다.</span></div><div className="join-side"><span>RUNTIME / KHU</span><div className="join-side-art" aria-hidden="true">R<span>↗</span></div><p>LEARN TO CODE.<br />CODE TO CREATE.</p></div></section>
     <section id="faq" className="container faq-section"><div className="faq-heading"><SectionLabel number="06.2">FREQUENTLY ASKED</SectionLabel><h2>자주 궁금해할 질문</h2></div><div className="faq-list"><details><summary>런타임에서는 주로 어떤 활동을 하나요?<span>+</span></summary><p>Python과 R 등 프로그래밍 언어를 공부하는 세미나·스터디를 진행하고, 실습이나 자격증 공부, 공모전 및 해커톤 등에 함께 참여합니다.</p></details><details><summary>코딩을 처음 배우는 사람도 지원할 수 있나요?<span>+</span></summary><p>활동에는 세미나와 스터디가 포함되어 있습니다. 다만 지원 자격과 요구되는 선수 지식은 해당 학기 공식 모집 공지를 통해 확인해 주세요.</p></details><details><summary>모집 시기와 지원 방법은 어디서 확인하나요?<span>+</span></summary><p>공식 인스타그램 <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer">@khu_runtime ↗</a>에서 최신 모집 안내를 확인할 수 있습니다. 현재 이 웹사이트에서는 지원서를 접수하지 않습니다.</p></details></div></section>
   </>
