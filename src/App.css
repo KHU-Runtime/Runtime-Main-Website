@@ -824,3 +824,104 @@ body{background:#fff;color:var(--ink)}
   .home-news-heading{align-items:flex-start}
   .home-news-item{grid-template-columns:85px 1fr 14px;font-size:13px}
 }
+
+/* Runtime; project tab refresh — matches the approved three-way demonstration */
+.project-records .records-filter-row {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:4px;
+  max-width:494px;
+  margin:23px 0 29px;
+  padding:5px;
+  background:#F2F4F7;
+  border:1px solid #E1E5EC;
+  border-radius:9px;
+  align-items:stretch;
+}
+.project-records .records-filter-row .record-filter {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0;
+  min-height:43px;
+  padding:10px 12px;
+  border:1px solid transparent;
+  border-radius:6px;
+  color:#3F4C65;
+  background:transparent;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.35;
+  white-space:nowrap;
+  transition:background-color .2s ease,color .2s ease,box-shadow .2s ease;
+}
+.project-records .records-filter-row .record-filter.active {
+  background:#fff;
+  border-color:#E4E7ED;
+  color:#010736;
+  box-shadow:0 1px 5px rgba(13,28,66,.09);
+}
+.project-records .records-filter-row .record-filter:not(.active):hover {
+  color:#010736;
+  background:#E6EAF0;
+}
+.project-records .records-filter-row .record-filter:focus-visible {
+  outline:2px solid #22396F;
+  outline-offset:2px;
+}
+.project-records .record-empty {
+  min-height:300px;
+  justify-content:center;
+  background:#F6F7F9;
+  border:1px solid #E5E8EF;
+  border-radius:9px;
+}
+.project-records .record-empty-icon {
+  display:block;
+  width:47px;
+  height:47px;
+  flex:none;
+  color:#22396F;
+  margin-bottom:20px;
+}
+.project-records .record-empty h3 {
+  margin:0 0 10px;
+  font-size:clamp(19px,2vw,24px);
+  font-weight:800;
+  line-height:1.5;
+}
+.project-records .record-empty p {
+  margin:0 0 18px;
+  max-width:580px;
+  font-size:15px;
+  line-height:1.8;
+}
+.project-records .record-empty button {
+  border-bottom:1px solid currentColor;
+}
+.project-records .records-demo-button {
+  background:#fff;
+  color:#0D1C42;
+}
+@media(max-width:720px) {
+  .project-records .records-filter-row {
+    max-width:100%;
+    margin:19px 0 22px;
+    padding:4px;
+    gap:1px;
+  }
+  .project-records .records-filter-row .record-filter {
+    min-height:42px;
+    padding:7px 4px;
+    font-size:12px;
+    letter-spacing:-.15px;
+  }
+  .project-records .record-empty {
+    min-height:275px;
+    padding:43px 14px;
+  }
+  .project-records .record-empty-icon { width:42px;height:42px; }
+}
+@media(prefers-reduced-motion:reduce){
+  .project-records .records-filter-row .record-filter {transition:none}
+}
