@@ -20,7 +20,7 @@ content:
     type: collection
     path: src/content/project-posts
     format: json
-    filename: "{year}-{month}-{day}-{primary}.json"
+    filename: "{year}-{month}-{day}-{hour}-{minute}-{second}.json"
     exclude: [".gitkeep"]
     view:
       primary: title
