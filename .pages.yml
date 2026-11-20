@@ -73,7 +73,7 @@ content:
         required: false
         options:
           media: documents
-          categories: [document, compressed, spreadsheet]
+          extensions: [pdf, doc, docx, ppt, pptx, zip, xlsx, csv]
           multiple:
             max: 5
           unique: true
