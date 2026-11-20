@@ -38,6 +38,14 @@ jobs:
       - name: Build website
         run: npm run build
 
+      - name: Stamp and verify the built homepage
+        run: |
+          test -s dist/index.html
+          test -d dist/assets
+          sed -i "s/navy-hero-mega-accordion-20261121/${GITHUB_SHA}/" dist/index.html
+          grep -Fq "${GITHUB_SHA}" dist/index.html
+          echo "Build contains revision ${GITHUB_SHA}"
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6
 
@@ -49,3 +57,20 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: Confirm that GitHub Pages serves this commit
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          echo "Checking published site: ${PAGE_URL}"
+          for attempt in $(seq 1 12); do
+            published="$(curl -fsSL --max-time 15 -H 'Cache-Control: no-cache' "${PAGE_URL}?revision=${GITHUB_SHA}" || true)"
+            if printf '%s' "${published}" | grep -Fq "${GITHUB_SHA}"; then
+              echo "Published site now serves commit ${GITHUB_SHA}"
+              exit 0
+            fi
+            echo "Site not yet updated (attempt ${attempt}/12)"
+            sleep 8
+          done
+          echo "::error::Published site does not contain the current commit. Check GitHub Pages settings and deployment logs."
+          exit 1
