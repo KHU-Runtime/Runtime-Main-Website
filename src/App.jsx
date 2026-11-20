@@ -378,6 +378,64 @@ function Activities() {
 }
 
 
+
+function ProjectEditorDemo({ onClose }) {
+  const [draft, setDraft] = useState({
+    title: '데이터 분석 해커톤 참가 기록',
+    category: '해커톤',
+    date: '2026-11-21',
+    team: 'Runtime; 프로젝트 팀',
+    summary: '팀 프로젝트의 문제 정의, 데이터 분석, 구현 내용을 기록합니다.',
+    body: '어떤 문제를 해결하려고 했는지, 어떤 데이터를 사용했는지, 결과물과 배운 점을 소개합니다.',
+    award: '',
+  })
+  const [files, setFiles] = useState([])
+  const setField = (key, value) => setDraft((old) => ({ ...old, [key]: value }))
+  return <section className="editor-demo" aria-label="관리자 글 작성 시연">
+    <div className="editor-demo-heading">
+      <div><span>EDITOR PREVIEW · 작성 시연</span><h3>글 등록 화면 미리보기</h3>
+        <p>아래에 입력하면 미리보기가 바뀌어요. 시연 입력은 공개되거나 저장되지 않습니다.</p></div>
+      <button type="button" onClick={onClose}>닫기 ×</button>
+    </div>
+    <div className="editor-demo-layout">
+      <div className="editor-demo-fields">
+        <label>제목<input value={draft.title} onChange={(e) => setField('title',e.target.value)} /></label>
+        <div className="editor-demo-pair">
+          <label>분류<select value={draft.category} onChange={(e) => setField('category',e.target.value)}>
+            {['해커톤','경진대회','공모전','개발 프로젝트','수상·소식'].map((item) => <option key={item}>{item}</option>)}
+          </select></label>
+          <label>날짜<input type="date" value={draft.date} onChange={(e) => setField('date',e.target.value)} /></label>
+        </div>
+        <label>팀 / 참여자<input value={draft.team} onChange={(e) => setField('team',e.target.value)} /></label>
+        <label>요약<textarea rows={2} value={draft.summary} onChange={(e) => setField('summary',e.target.value)} /></label>
+        <label>아이디어 · 진행 과정<textarea rows={5} value={draft.body} onChange={(e) => setField('body',e.target.value)} /></label>
+        <label>수상 내용 (있는 경우만)<input value={draft.award} onChange={(e) => setField('award',e.target.value)}
+          placeholder="확인된 수상 내용만 작성" /></label>
+        <label className="editor-file-picker">사진 · 파일 첨부 (시연)
+          <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.xlsx,.csv,.zip"
+            onChange={(e) => setFiles(Array.from(e.target.files||[]).map((file) => file.name))}/>
+        </label>
+        {files.length>0 && <p className="editor-demo-files">선택한 파일: {files.join(', ')}</p>}
+        <p className="editor-demo-caution">실제 파일 업로드와 게시물 저장은 관리자용 Pages CMS에서 진행합니다.</p>
+        <a href={CMS_URL} target="_blank" rel="noopener noreferrer" className="records-admin-button">실제 관리자 도구 열기 ↗</a>
+      </div>
+      <div className="editor-demo-preview">
+        <span className="editor-preview-note">LIVE PREVIEW · 실제 실적이 아닌 입력 시연</span>
+        <div className="editor-preview-image"><span>Runtime;</span><b>{draft.category==='수상·소식'?'NEWS':'PROJECT LOG'}</b></div>
+        <div className="post-meta"><span>{draft.category}</span><time>{postDate(draft.date)}</time></div>
+        <h4>{draft.title||'제목을 입력하세요'}</h4>
+        <p>{draft.summary||'요약을 입력하세요'}</p>
+        {draft.award&&<p className="post-award">★ {draft.award}</p>}
+        {draft.team&&<p className="post-team"><strong>참여 팀</strong> {draft.team}</p>}
+        <p className="post-body">{draft.body||'본문을 입력하세요'}</p>
+        {files.length>0&&<div className="post-attachments"><strong>첨부자료 (시연)</strong>
+          {files.map((name,index)=><span key={index}>📎 {name}</span>)}
+        </div>}
+      </div>
+    </div>
+  </section>
+}
+
 function Projects({ initialView = '' }) {
   const [filter, setFilter] = useState(initialView === 'awards' ? 'awards' : 'all')
   const [openId, setOpenId] = useState(null)
