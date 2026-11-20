@@ -1,71 +1,45 @@
-# Runtime; 커뮤니티 게시판 — 실제 글 저장 설정
+# Runtime; 프로젝트 게시판 — 발표용 시연 모드
 
-Runtime; 프로젝트 페이지에는 **일반 회원이 직접 로그인하고 글을 공개하는 기능**이 구현되어 있습니다. GitHub Pages만으로는 서버에 글과 파일을 저장할 수 없어서 Supabase (Postgres, Auth, Storage) 연결이 필요합니다.
+현재 프로젝트 탭은 **외부 서버나 유료 서비스가 없는 발표용 데모**입니다. Supabase와 회원가입 없이 동작합니다. GitHub Pages에서 무료로 실행됩니다.
 
-## 1. Supabase 프로젝트 생성과 데이터베이스
+## 실제로 시연 가능한 기능
 
-1. [Supabase](https://supabase.com/dashboard)에서 프로젝트를 새로 만듭니다.
-2. Supabase Dashboard → **SQL Editor**에 [supabase/community.sql](supabase/community.sql) 전체를 입력해 실행합니다.
-3. **Authentication → Providers → Email**에서 Email 가입을 사용하고 이메일 인증을 활성화합니다.
-4. **Authentication → URL Configuration**의 Site URL을 `https://khu-runtime.github.io/Runtime-Main-Website/`로 설정합니다.
-5. SQL 실행 후 `public.community_posts` 테이블과 `community-uploads` 저장소가 생성됐는지 확인합니다.
+- 로그인 없이 프로젝트 기록 작성, 수정, 삭제
+- 제목, 카테고리, 활동 날짜, 팀명, 요약, 활동 내용, 수상 내역 입력
+- 파일 최대 5개 첨부 (파일당 15MB 이하), 이미지·PDF·발표자료 등
+- 브라우저의 IndexedDB에 글과 파일 저장
+- 새로고침 후에도 같은 브라우저에서 데이터 유지
+- 전체 기록 / 프로젝트·대회 / 수상·소식 필터, 검색
+- 이미지 대표 사진 표시, 첨부파일 다운로드
+- 홈 화면의 Runtime; 소식 연동 (같은 브라우저에 저장된 수상·소식만)
+- 시연 예시 3건 불러오기 / 데이터 전체 초기화
 
-> 실명, 계정 이메일, 비밀번호 및 GitHub 개인 액세스 토큰을 공개 GitHub 저장소나 채팅에 붙여넣지 마세요.
+## 발표 순서 (3분 권장)
 
-## 2. GitHub Actions에서 공개 연결 정보 설정
+1. 홈페이지에서 **프로젝트** 탭에 진입한다.
+2. **예시 3건 불러오기**를 눌러 프로젝트·대회, 수상·소식 필터와 상세 펼치기를 보여준다.
+3. **+ 글쓰기**를 열고 제목·팀명·분류를 입력한다. 오른쪽 미리보기가 변경되는 모습을 보여준다.
+4. 샘플 사진 또는 PDF를 선택한 후 **이 브라우저에 저장**을 누른다.
+5. 작성한 카드의 **자세히 보기**를 열어 첨부파일 다운로드를 보여준다.
+6. 페이지를 새로고침하고 글이 유지되는지 확인한다.
+7. **수상·소식** 필터로 바꾸고 홈으로 이동해 Runtime; 소식 영역을 확인한다.
+8. 필요하면 **시연 데이터 초기화**로 게시판을 비운다.
 
-Supabase Dashboard의 Project URL과 **publishable key (sb_publishable_...)**를 확인합니다.
+## 데이터 보관 범위와 주의사항
 
-GitHub → Runtime-Main-Website → Settings → Secrets and variables → Actions → **Variables**에 추가합니다.
+- 작성한 글·첨부파일은 **현재 브라우저의 IndexedDB에만 저장**됩니다.
+- 서버나 GitHub 저장소로 게시되지 않으며 다른 사람의 기기에는 공유되지 않습니다.
+- 시크릿 모드 종료, 브라우저 저장 공간 삭제, 브라우저 데이터 초기화 시 사라질 수 있습니다.
+- 프라이빗 브라우징에서 저장이 제한될 수도 있습니다.
+- 용량은 브라우저 및 기기의 저장 공간 정책에 따라 다르므로 발표에는 작은 샘플 파일을 사용하세요.
+- 예시 게시물에 등장하는 프로젝트·대회 수상은 **가상의 시연 데이터**이며 Runtime;의 실제 실적이 아닙니다.
+- 실제 회원별 게시판이 필요해지면 인증·데이터베이스·파일 저장소를 별도로 연결해야 합니다.
 
-| 변수 | 값 |
-| --- | --- |
-| `VITE_SUPABASE_URL` | Supabase 프로젝트 URL |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable key |
+## 구현 파일
 
-GitHub Actions `deploy.yml`이 이 두 환경 변수를 Vite 빌드에 주입하도록 준비되어 있습니다. 둘 다 **브라우저용 공개 값**이며 권한 보호는 RLS 정책이 담당합니다. **Supabase secret key / service_role key는 절대로 GitHub Pages 프런트엔드에 넣지 마세요.**
+- `src/CommunityBoard.jsx`: 게시판 화면, 글쓰기, 카드, 필터, 편집, 시연 도구
+- `src/CommunityBoard.css`: 반응형 화면 스타일
+- `src/lib/demoPosts.js`: IndexedDB 저장·조회·삭제, 첨부파일 및 샘플 게시물
+- `src/App.jsx`: 프로젝트 페이지 라우팅 및 홈 화면 소식 연결
 
-설정 후 GitHub Actions에서 `Deploy Runtime Website` 작업을 `workflow_dispatch`로 다시 실행하거나 main에 변경을 푸시하면 됩니다.
-
-## 3. 일반 사용자 게시 동작
-
-- 회원가입: 이메일과 비밀번호 입력 → 이메일 인증 → 로그인
-- 프로젝트·해커톤·공모전·경진대회: 로그인한 사람이 **즉시 공개**로 작성·저장 가능
-- `수상·소식` 분류나 수상 내용이 들어간 글: **검토 대기**로 저장; 작성자만 자신의 대기 글을 볼 수 있음
-- 공개 글: 로그인 없이 누구나 읽을 수 있음
-- 작성자: 본인 글 삭제 가능
-- 파일: JPG/PNG/WebP/GIF/PDF/PPTX/DOCX/ZIP/CSV/XLSX 등 최대 5개, 각각 8MB
-- 업로드된 파일은 공개 저장소에 올라가므로 비공개 자료나 개인정보 포함 문서는 업로드하면 안 됩니다.
-
-**수상글 승인 예시**: 운영진이 Supabase SQL Editor에서 확인 후 아래 SQL을 실행하면 공개됩니다.
-
-```sql
-update public.community_posts
-set status = 'approved'
-where id = '게시글-UUID'
-  and (category = '수상·소식' or length(trim(award)) > 0)
-  and status = 'pending';
-```
-
-실제 게시글 UUID는 Supabase Dashboard → Table Editor에서 확인하세요. 운영진 전용 승인 화면을 원하면 추후 확장할 수 있습니다.
-
-## 4. 검증 체크리스트
-
-1. 게시판에서 이메일로 회원가입 → 인증 후 로그인
-2. 일반 프로젝트 글 등록 → 다른 브라우저에서 새로고침해도 공개 목록에 표시되는지 확인
-3. 사진/PDF 첨부 → 공개 게시글에서 열리는지 확인
-4. 수상·소식 글 등록 → 본인에게만 '검토 대기'로 보이는지 확인
-5. SQL로 승인 → 비로그인 방문자에게도 나타나는지 확인
-6. 다른 사용자 계정에서 남의 글을 삭제할 수 없는지 확인
-
-## 5. 보안과 운영 주의사항
-
-- Supabase SQL의 **RLS(Row Level Security)**가 DB의 작성자 소유권과 공개 조건을 강제합니다.
-- 파일 업로드 권한은 로그인한 사용자의 UUID 폴더로 제한됩니다.
-- 기본 가입 제한이 없는 만큼 스팸 방지를 위해 Supabase Authentication의 CAPTCHA와 이메일 전송 제한을 검토하세요.
-- 현재 파일 저장소는 공개 버킷입니다. **수상글 승인 전이라도 업로드 파일 URL을 알고 있는 사람은 파일을 볼 수 있습니다.** 비공개 자료를 다루려면 비공개 버킷과 승인 후 접근 허가 구조로 재설계해야 합니다.
-- 작성자 글 수정, 신고 접수, 운영진 대시보드, 이미지 최적화는 다음 단계로 확장 가능합니다.
-
-## 기술 참고
-
-현재 구현은 `src/lib/communityApi.js`에서 Supabase의 공개 REST/Auth/Storage API를 호출합니다. 별도의 로그인 비밀키를 프런트엔드에 저장하지 않습니다. DB를 아직 연결하지 않았다면 사이트에는 '실제 게시판 연결 준비 중' 문구가 보이고 저장 기능은 작동하지 않습니다.
+동아리 지원 버튼은 이전 요청대로 실제 지원서 제출 기능 없이 유지됩니다.
