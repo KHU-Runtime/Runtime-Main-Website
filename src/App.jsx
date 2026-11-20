@@ -9,14 +9,16 @@ const NAV = [
   { id: 'about', label: '동아리 소개', children: [
     { label: '런타임 소개', section: 'overview' },
     { label: '활동 방식', section: 'process' },
+    { label: '운영 안내', section: 'operation' },
   ] },
   { id: 'activities', label: '주요 활동', children: [
-    { label: '세미나 · 스터디', section: 'seminars' },
-    { label: '개발 · 협업 활동', section: 'collaboration' },
+    { label: '프로그래밍 세미나', section: 'seminars' },
+    { label: '자격증 스터디', section: 'certificates' },
+    { label: '개발 실습', section: 'practice' },
   ] },
   { id: 'projects', label: '프로젝트', children: [
     { label: '프로젝트 아카이브', section: 'archive' },
-    { label: '기록 안내', section: 'recording' },
+    { label: '대회 참여 및 수상', section: 'recording' },
   ] },
   { id: 'study', label: '스터디룸', children: [
     { label: '세미나 복습', section: 'notes' },
@@ -25,7 +27,7 @@ const NAV = [
   ] },
   { id: 'join', label: '지원 안내', children: [
     { label: '모집 안내', section: 'guide' },
-    { label: '자주 묻는 질문', section: 'faq' },
+    { label: '자주 묻는 질문(FAQ)', section: 'faq' },
   ] },
 ]
 
@@ -234,41 +236,80 @@ function TextLink({ to, children, white = false }) {
   return <a href={`#/${to}`} className={`text-link ${white ? 'text-link-white' : ''}`}>{children}<span aria-hidden="true">↗</span></a>
 }
 
+function ActivityIcon({ name }) {
+  return (
+    <svg className="overview-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor"
+      strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {name === 'seminar' && <><rect x="8" y="8" width="24" height="19" rx="2" /><path d="M5 32h30l-4-5H9l-4 5Z" /></>}
+      {name === 'study' && <><circle cx="20" cy="13" r="5" /><path d="M10 31v-4a10 10 0 0 1 20 0v4M7 15a4 4 0 0 0 0 8M33 15a4 4 0 0 1 0 8M2 29v-2a6 6 0 0 1 6-6M38 29v-2a6 6 0 0 0-6-6" /></>}
+      {name === 'code' && <><path d="M14 11 5 20l9 9M26 11l9 9-9 9M23 7l-6 26" /></>}
+      {name === 'trophy' && <><path d="M12 7h16v11a8 8 0 0 1-16 0V7ZM20 26v7M13 34h14M12 10H6v5a7 7 0 0 0 7 7M28 10h6v5a7 7 0 0 1-7 7" /></>}
+    </svg>
+  )
+}
+
 function Home() {
+  const highlights = [
+    { key: 'seminar', title: '세미나', sub: 'Python · R' },
+    { key: 'study', title: '스터디', sub: '자격증 · 심화 학습' },
+    { key: 'code', title: '개발 실습', sub: '실전 구현 · 협업' },
+    { key: 'trophy', title: '대회 참여', sub: '공모전 · 해커톤 · 경진대회' },
+  ]
+
   return <>
-    <section className="home-hero container">
-      <div className="hero-copy">
-        <p className="eyebrow">경희대학교 이과대학 코딩 동아리</p>
-        <h1>코드를 배우고,<br /><em>함께 만들어갑니다.</em></h1>
-        <p className="hero-description">RUNTIME은 Python과 R을 함께 공부하고, 데이터 스터디와 개발 실습을 통해 배운 것을 직접 활용하는 동아리입니다.</p>
-        <div className="hero-buttons">
-          <a href="#/activities/seminars" className="button button-primary">주요 활동 살펴보기 <span aria-hidden="true">→</span></a>
-          <a href="#/join/guide" className="button button-outline">지원 안내 <span aria-hidden="true">↗</span></a>
+    <div className="home-showcase">
+      <section className="home-hero" aria-labelledby="runtime-hero-title">
+        <div className="container hero-content">
+          <div className="hero-copy">
+            <p className="hero-kicker">KYUNG HEE UNIVERSITY</p>
+            <h1 id="runtime-hero-title">경희대학교 이과대학<br />코딩 동아리 RUNTIME</h1>
+            <p className="hero-description">Python과 R을 중심으로 함께 배우고,<br className="desktop-break" /> 아이디어를 직접 구현해보는 개발 동아리입니다.</p>
+            <div className="hero-buttons">
+              <a href="#/about/overview" className="button button-cream">동아리 알아보기 <span aria-hidden="true">→</span></a>
+              <a href="#/join/guide" className="button button-outline-light">지원 안내 <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <img className="hero-rabbit-outline" src={import.meta.env.BASE_URL + 'runtime-watermark.svg'} alt="" aria-hidden="true" />
         </div>
-        <p className="hero-keywords">PYTHON <span>·</span> R <span>·</span> DATA <span>·</span> PROJECTS</p>
-      </div>
-      <aside className="hero-brief" aria-label="런타임 주요 활동 요약">
-        <div className="brief-top"><strong>RUNTIME</strong><span>경희대학교 이과대학</span></div>
-        <div className="brief-lead"><span>WHAT WE DO</span><h2>배움에서<br />실전으로.</h2><p>세미나와 스터디에서 시작해 팀 프로젝트와 대회 참여로 경험을 넓힙니다.</p></div>
-        <div className="brief-item"><span>01</span><strong>프로그래밍 세미나</strong><small>Python · R</small></div>
-        <div className="brief-item"><span>02</span><strong>데이터 · 자격증 스터디</strong><small>함께 공부하기</small></div>
-        <div className="brief-item"><span>03</span><strong>프로젝트 · 대회 참여</strong><small>직접 구현하기</small></div>
-      </aside>
-    </section>
-    <section className="container home-pillars">
-      <div className="pillars-heading"><SectionLabel number="01">주요 활동</SectionLabel><h2>런타임에서는 무엇을 하나요?</h2></div>
-      <div className="pillars-grid">
-        <div><span className="pillar-index">01</span><h3>프로그래밍 세미나</h3><p>Python과 R의 기초 개념을 배우고 직접 코드를 작성합니다.</p></div>
-        <div><span className="pillar-index">02</span><h3>스터디와 실습</h3><p>데이터 관련 자격증을 공부하고 배운 내용으로 실습합니다.</p></div>
-        <div><span className="pillar-index">03</span><h3>팀 프로젝트</h3><p>공모전과 해커톤에 팀을 이루어 도전하고 경험을 공유합니다.</p></div>
-      </div>
-      <TextLink to="activities">전체 활동 보기</TextLink>
-    </section>
+      </section>
+      <section className="home-overview" aria-labelledby="runtime-overview-title">
+        <div className="container overview-layout">
+          <div className="overview-intro">
+            <h2 id="runtime-overview-title">런타임에서는 무엇을 하나요?</h2>
+            <p>세미나, 스터디, 실습, 프로젝트까지<br className="desktop-break" /> 함께 배우고 성장하는 다양한 활동을 진행합니다.</p>
+          </div>
+          <div className="overview-highlights">
+            {highlights.map((item) => (
+              <a className="overview-highlight" key={item.key}
+                href={item.key === 'trophy' ? '#/projects/archive' : '#/activities/seminars'}>
+                <ActivityIcon name={item.key} />
+                <strong>{item.title}</strong>
+                <span>{item.sub}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
     <section className="container home-directory">
-      <div className="directory-item"><div><SectionLabel number="02">프로젝트</SectionLabel><h2>팀이 함께 만든 결과물</h2><p>아이디어, 사용한 기술, 구현 과정과 대회 참여 기록을 차곡차곡 모읍니다.</p></div><TextLink to="projects">프로젝트 보기</TextLink></div>
-      <div className="directory-item"><div><SectionLabel number="03">스터디룸</SectionLabel><h2>세미나 복습과 미니 퀴즈</h2><p>배운 내용을 다시 읽고, 간단한 문제를 풀고, 공식 자료를 찾아볼 수 있습니다.</p></div><TextLink to="study">스터디룸 들어가기</TextLink></div>
+      <div className="directory-item">
+        <div><SectionLabel number="01">프로젝트</SectionLabel><h2>팀이 함께 만든 결과물</h2>
+          <p>아이디어, 사용한 기술, 구현 과정과 대회 참여 기록을 차곡차곡 모읍니다.</p></div>
+        <TextLink to="projects">프로젝트 보기</TextLink>
+      </div>
+      <div className="directory-item">
+        <div><SectionLabel number="02">스터디룸</SectionLabel><h2>세미나 복습과 미니 퀴즈</h2>
+          <p>배운 내용을 다시 읽고, 간단한 문제를 풀고, 공식 자료를 찾아볼 수 있습니다.</p></div>
+        <TextLink to="study">스터디룸 들어가기</TextLink>
+      </div>
     </section>
-    <section className="home-cta"><div className="container home-cta-inner"><div><SectionLabel number="04">지원 안내</SectionLabel><h2>런타임의 활동이 궁금하다면?</h2><p>모집 일정과 자세한 안내는 공식 인스타그램에서 확인할 수 있습니다.</p></div><TextLink to="join">지원 안내 보기</TextLink></div></section>
+    <section className="home-cta">
+      <div className="container home-cta-inner">
+        <div><SectionLabel number="03">지원 안내</SectionLabel><h2>런타임의 활동이 궁금하다면?</h2>
+          <p>모집 일정과 자세한 안내는 공식 인스타그램에서 확인할 수 있습니다.</p></div>
+        <TextLink to="join">지원 안내 보기</TextLink>
+      </div>
+    </section>
   </>
 }
 
@@ -281,6 +322,11 @@ function About() {
     <PageHeading number="02" eyebrow="동아리 소개" title={<>런타임을<br /><em>소개합니다.</em></>} description="런타임은 프로그래밍 언어를 공부하는 데서 멈추지 않고, 학습한 기술을 실제 결과물로 연결하는 코딩 동아리입니다." />
     <section id="overview" className="container about-overview"><div className="about-aside">RUNTIME<br /><span>CODING CLUB.</span></div><div className="about-content"><h2>함께 배우고, 직접 만들어 봅니다.</h2><p>런타임은 Python과 R 등의 프로그래밍 언어를 세미나와 스터디로 공부합니다. 배운 내용을 직접 실습하고, 관심사가 맞는 부원들과 팀을 꾸려 공모전이나 해커톤에도 참여합니다.</p><div className="about-tags"><span>PROGRAMMING</span><span>DATA</span><span>COLLABORATION</span></div></div></section>
     <section id="process" className="about-steps"><div className="container"><SectionLabel number="02.1">HOW WE GROW</SectionLabel><h2>런타임의 활동 방식</h2><div className="step-grid"><div><span>01</span><h3>세미나</h3><p>프로그래밍 기초를 함께 공부하기</p></div><div><span>02</span><h3>실습</h3><p>배운 내용으로 코드를 작성해 보기</p></div><div><span>03</span><h3>프로젝트</h3><p>팀을 꾸려 아이디어를 구체화하기</p></div><div><span>04</span><h3>공유</h3><p>결과와 배운 내용을 함께 나누기</p></div></div></div></section>
+    <section id="operation" className="container about-operation">
+      <h2>운영 안내</h2>
+      <p>런타임의 활동 일정과 모집 관련 공지는 공식 인스타그램에서 확인할 수 있습니다.</p>
+      <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer">공식 인스타그램 확인하기 ↗</a>
+    </section>
     <section className="container about-cta"><h2>런타임이 어떤 활동을 하는지<br />조금 더 궁금해졌나요?</h2><TextLink to="activities">활동 확인하기</TextLink></section>
   </>
 }
@@ -289,7 +335,7 @@ function Activities() {
   return <>
     <PageHeading number="03" eyebrow="주요 활동" title={<>세미나부터 프로젝트까지,<br /><em>런타임의 활동</em></>} description="세미나와 스터디로 익힌 지식을 실제 개발과 팀 활동에 적용해 봅니다." />
     <section id="seminars" className="container activity-list" aria-label="런타임 주요 활동">
-      {ACTIVITY_LIST.map((activity) => <article className="activity-row" key={activity.n}><div className="activity-no">{activity.n} <span>↗</span></div><div><span className="activity-tag">{activity.tag}</span><h2>{activity.title}</h2></div><div className="activity-body"><p>{activity.description}</p><small>{activity.detail}</small></div></article>)}
+      {ACTIVITY_LIST.map((activity) => <article id={activity.n === '02' ? 'certificates' : activity.n === '03' ? 'practice' : activity.n === '04' ? 'competition' : undefined} className="activity-row" key={activity.n}><div className="activity-no">{activity.n} <span>↗</span></div><div><span className="activity-tag">{activity.tag}</span><h2>{activity.title}</h2></div><div className="activity-body"><p>{activity.description}</p><small>{activity.detail}</small></div></article>)}
     </section>
     <section id="collaboration" className="container activity-bottom"><div><SectionLabel number="03.1">AFTER LEARNING</SectionLabel><h2>배운 내용을 활용하는<br />프로젝트와 대회 참여</h2></div><div><p>같은 관심사를 가진 부원들과 팀을 이루고, 각자의 아이디어를 실제 프로젝트로 발전시킬 수 있습니다.</p><TextLink to="projects">프로젝트 살펴보기</TextLink></div></section>
   </>
