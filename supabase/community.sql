@@ -19,17 +19,16 @@ create table if not exists public.community_posts (
   ),
   status text not null default 'pending' check (status in ('pending','approved','rejected')),
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  constraint award_review_required check (
-    status <> 'approved' or (category <> '수상·소식' and char_length(btrim(award)) = 0)
-    or (category = '수상·소식' and char_length(btrim(award)) >= 0)
-  )
+  updated_at timestamptz not null default now()
 );
 
 -- The immutable identity fields are not editable from the browser.
 create or replace function public.community_posts_guard()
 returns trigger language plpgsql security definer set search_path = '' as $$
 begin
+  if tg_op = 'INSERT' then
+    new.created_at := now();
+  end if;
   if tg_op = 'UPDATE' then
     if new.author_id is distinct from old.author_id then
       raise exception 'Changing author_id is not allowed';
