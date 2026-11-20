@@ -4,6 +4,59 @@ import './App.css'
 const INSTAGRAM = 'https://www.instagram.com/khu_runtime/'
 const GITHUB = 'https://github.com/KHU-Runtime/Runtime-Main-Website'
 
+
+const CMS_URL = 'https://app.pagescms.org/'
+const projectPostFiles = import.meta.glob('./content/project-posts/*.json', { eager: true, import: 'default' })
+const PROJECT_POSTS = Object.entries(projectPostFiles)
+  .map(([path, data]) => ({
+    ...(data || {}),
+    id: path.split('/').pop().replace(/\.json$/, ''),
+    attachments: Array.isArray(data?.attachments) ? data.attachments.filter((file) => typeof file === 'string') : [],
+  }))
+  .filter((post) => post.published === true && typeof post.title === 'string' && post.title.trim())
+  .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')))
+
+function postMediaUrl(path) {
+  if (typeof path !== 'string') return ''
+  if (/^https:\/\//i.test(path)) return path
+  if (/^\/?uploads\//.test(path)) return import.meta.env.BASE_URL + path.replace(/^\//, '')
+  return ''
+}
+
+function postDate(value) {
+  const match = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})/)
+  return match ? match[1] + '.' + match[2] + '.' + match[3] : ''
+}
+
+function PostCard({ post, open, onToggle }) {
+  const cover = postMediaUrl(post.cover)
+  return <article className="runtime-post">
+    <div className="post-cover">
+      {cover ? <img src={cover} alt={post.title + ' 사진'} loading="lazy" /> :
+        <div className="post-cover-empty"><span>Runtime;</span><strong>{post.category === '수상·소식' ? 'NEWS' : 'PROJECT'}</strong></div>}
+    </div>
+    <div className="post-content">
+      <div className="post-meta"><span>{post.category || '활동 기록'}</span><time>{postDate(post.date)}</time></div>
+      <h3>{post.title}</h3>
+      <p className="post-summary">{post.summary}</p>
+      {post.award && <p className="post-award">★ {post.award}</p>}
+      <button type="button" className="post-open" aria-expanded={open} onClick={onToggle}>{open ? '접기 −' : '내용 자세히 보기 ↗'}</button>
+      {open && <div className="post-expanded">
+        {post.team && <p><strong>참여 팀</strong> {post.team}</p>}
+        {post.body && <p className="post-body">{post.body}</p>}
+        {post.attachments.length > 0 && <div className="post-attachments">
+          <strong>첨부자료</strong>
+          {post.attachments.map((file, i) => {
+            const url = postMediaUrl(file)
+            return url ? <a key={file + i} href={url} target="_blank" rel="noopener noreferrer">
+              ↓ {file.split('/').pop()}</a> : null
+          })}
+        </div>}
+      </div>}
+    </div>
+  </article>
+}
+
 const NAV = [
   { id: 'home', label: '홈' },
   { id: 'about', label: '동아리 소개', children: [
@@ -17,8 +70,9 @@ const NAV = [
     { label: '개발 실습', section: 'practice' },
   ] },
   { id: 'projects', label: '프로젝트', children: [
-    { label: '프로젝트 아카이브', section: 'archive' },
-    { label: '대회 참여 및 수상', section: 'recording' },
+    { label: '활동 기록', section: 'archive' },
+    { label: '수상·소식', section: 'awards' },
+    { label: '관리자 글쓰기', section: 'manage' },
   ] },
   { id: 'study', label: '스터디룸', children: [
     { label: '세미나 복습', section: 'notes' },
@@ -257,6 +311,13 @@ function Home() {
         </div>
       </section>
     </div>
+    {PROJECT_POSTS.some((post) => post.category === '수상·소식') && <section className="container home-latest-news">
+      <div className="home-news-heading"><h2>Runtime; 소식</h2><a href="#/projects/awards">모든 소식 보기 ↗</a></div>
+      {PROJECT_POSTS.filter((post) => post.category === '수상·소식').slice(0,3).map((post) =>
+        <a className="home-news-item" key={post.id} href="#/projects/awards">
+          <time>{postDate(post.date)}</time><span>{post.title}</span><span aria-hidden="true">↗</span>
+        </a>)}
+    </section>}
     <section className="container home-directory">
       <div className="directory-item">
         <div><SectionLabel number="01">프로젝트</SectionLabel><h2>팀이 함께 만든 결과물</h2>
@@ -316,22 +377,56 @@ function Activities() {
   </>
 }
 
-function Projects() {
+
+function Projects({ initialView = '' }) {
+  const [filter, setFilter] = useState(initialView === 'awards' ? 'awards' : 'all')
+  const [openId, setOpenId] = useState(null)
+  const [demoOpen, setDemoOpen] = useState(initialView === 'manage')
+  useEffect(() => {
+    if (initialView === 'awards') setFilter('awards')
+    else if (initialView === 'archive') setFilter('all')
+    if (initialView === 'manage') setDemoOpen(true)
+  }, [initialView])
+  const visible = PROJECT_POSTS.filter((post) =>
+    filter === 'all' || (filter === 'awards' ? post.category === '수상·소식' : post.category !== '수상·소식'))
   return <>
-    <PageHeading number="04" eyebrow="프로젝트" title={<>프로젝트와<br /><em>대회 참여 기록</em></>} description="팀을 이루어 참여한 공모전, 경진대회, 해커톤의 아이디어와 구현 과정을 기록하는 공간입니다." />
-    <section id="archive" className="container project-section">
-      <div className="project-topline"><div><SectionLabel number="04.1">프로젝트 아카이브</SectionLabel><h2>Runtime;의 활동 기록</h2></div></div>
-      <div className="archive-placeholder">
-        <span className="archive-status">프로젝트 기록 준비 중</span>
-        <h3>이곳에 실제 프로젝트가 소개됩니다.</h3>
-        <p>현재 공개된 프로젝트·수상 자료가 없어 가상의 실적을 대신 게시하지 않았습니다. 동아리에서 확인한 활동 자료부터 차례로 채워갈 예정입니다.</p>
+    <PageHeading number="04" eyebrow="PROJECT ARCHIVE" title={<>함께 도전한 기록,<br /><em>함께 만든 결과.</em></>}
+      description="해커톤·공모전·경진대회 참가 기록과 수상 소식을 한곳에서 확인하세요." />
+    <section className="container project-records" id="archive">
+      <div className="records-title">
+        <div><SectionLabel number="04.1">Runtime; 기록 보관소</SectionLabel>
+          <h2>프로젝트 & 소식</h2>
+          <p>수상 여부만큼 아이디어를 구현하는 과정도 소중하게 기록합니다.</p>
+        </div>
+        <div className="records-actions" id="manage">
+          <button type="button" className="records-demo-button" aria-expanded={demoOpen} onClick={() => setDemoOpen(!demoOpen)}>
+            {demoOpen ? '작성 시연 닫기' : '작성 화면 시연'}
+          </button>
+          <a className="records-admin-button" href={CMS_URL} target="_blank" rel="noopener noreferrer">관리자 글쓰기 ↗</a>
+        </div>
       </div>
-      <div className="archive-guideline" id="recording">
-        <h3>앞으로 기록할 내용</h3>
-        <div><span>01</span><p>대회 및 프로젝트 이름 · 참여 시기</p></div>
-        <div><span>02</span><p>팀의 아이디어와 해결하려는 문제</p></div>
-        <div><span>03</span><p>사용 기술과 구현 결과</p></div>
-        <div><span>04</span><p>수상 내역 또는 참가 후기 (확인된 경우)</p></div>
+      <div className="records-filter-row" role="group" id="awards" aria-label="게시물 유형">
+        {[['all','전체 기록'],['projects','프로젝트·대회'],['awards','수상·소식']].map(([value, label]) =>
+          <button key={value} type="button" aria-pressed={filter===value}
+            className={filter===value?'record-filter active':'record-filter'}
+            onClick={() => {setFilter(value);setOpenId(null)}}>{label}</button>)}
+      </div>
+      {demoOpen && <ProjectEditorDemo onClose={() => setDemoOpen(false)} />}
+      {visible.length > 0 ?
+        <div className="record-grid">{visible.map((post) => <PostCard key={post.id} post={post}
+          open={openId===post.id} onToggle={() => setOpenId(openId===post.id?null:post.id)} />)}</div> :
+        <div className="record-empty">
+          <span aria-hidden="true">{filter==='awards'?'✳':'{ }'}</span>
+          <h3>{filter==='awards'?'새로운 수상·소식을 기다리고 있어요.':'첫 번째 활동 기록을 준비 중입니다.'}</h3>
+          <p>{filter==='awards'?'수상 및 대회 소식이 올라오면 이곳에 모아 보여줍니다.':
+            '관리자가 실제 프로젝트를 올리면 팀 소개, 아이디어, 사진과 첨부파일이 나타납니다.'}</p>
+          <button type="button" onClick={() => setDemoOpen(true)}>작성 화면 체험하기 →</button>
+        </div>}
+      <div className="records-help">
+        <h3>기록을 올리고 싶나요?</h3>
+        <p>관리자는 GitHub에 연결된 Pages CMS에서 글과 사진·PDF 등을 등록할 수 있어요.
+          게시를 위해 최초 한 번 GitHub 앱 승인과 저장소 접근 권한이 필요합니다.</p>
+        <a href={CMS_URL} target="_blank" rel="noopener noreferrer">관리자 게시 도구 열기 ↗</a>
       </div>
     </section>
   </>
@@ -424,7 +519,7 @@ function App() {
       {location.page === 'home' && <Home />}
       {location.page === 'about' && <About />}
       {location.page === 'activities' && <Activities />}
-      {location.page === 'projects' && <Projects />}
+      {location.page === 'projects' && <Projects initialView={location.section} />}
       {location.page === 'study' && <StudyRoom initialTab={location.section} />}
       {location.page === 'join' && <Join />}
     </main>
