@@ -116,116 +116,81 @@ function Brand({ onNavigate }) {
 
 function Header({ page }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [expanded, setExpanded] = useState(null)
+  const [expanded, setExpanded] = useState('about')
   const [megaOpen, setMegaOpen] = useState(false)
 
-  const closeMenus = () => {
-    setMegaOpen(false)
-    setMenuOpen(false)
-    setExpanded(null)
+  const closeMenus = () => { setMenuOpen(false); setMegaOpen(false) }
+  useEffect(() => { setMenuOpen(false); setMegaOpen(false); setExpanded('about') }, [page])
+  useEffect(() => {
+    const escape = (e) => { if (e.key === 'Escape') closeMenus() }
+    const clickOutside = (e) => { if (!e.target.closest('.site-header')) setMegaOpen(false) }
+    window.addEventListener('keydown', escape)
+    window.addEventListener('pointerdown', clickOutside)
+    return () => { window.removeEventListener('keydown', escape); window.removeEventListener('pointerdown', clickOutside) }
+  }, [])
+  const toggleMobile = () => {
+    const opening = !menuOpen
+    setMenuOpen(opening)
+    if (opening) { setExpanded('about'); setMegaOpen(false) }
   }
 
-  useEffect(() => {
-    setMegaOpen(false)
-    setMenuOpen(false)
-    setExpanded(null)
-  }, [page])
-
-  useEffect(() => {
-    const onEscape = (event) => {
-      if (event.key === 'Escape') {
-        setMegaOpen(false)
-        setMenuOpen(false)
-        setExpanded(null)
-      }
-    }
-    const onPointerDown = (event) => {
-      if (!event.target.closest('.site-header')) setMegaOpen(false)
-    }
-    window.addEventListener('keydown', onEscape)
-    window.addEventListener('pointerdown', onPointerDown)
-    return () => {
-      window.removeEventListener('keydown', onEscape)
-      window.removeEventListener('pointerdown', onPointerDown)
-    }
-  }, [])
-
-  return (
-    <header className="site-header"
-      onMouseLeave={() => setMegaOpen(false)}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setMegaOpen(false)
-      }}>
-      <div className="header-inner container">
-        <Brand onNavigate={closeMenus} />
-        <nav className="desktop-nav" aria-label="주요 메뉴" onMouseEnter={() => setMegaOpen(true)}>
-          {NAV.map((item) => (
-            <div key={item.id} className={'nav-item ' + (page === item.id ? 'is-current' : '')}>
-              <a className="nav-link" href={'#/' + item.id}
-                aria-current={page === item.id ? 'page' : undefined}
-                onFocus={() => setMegaOpen(true)}
-                onClick={closeMenus}>{item.label}</a>
-              {item.children && <button className="nav-chevron" type="button"
-                aria-label={item.label + ' 전체 메뉴 펼치기'}
-                aria-controls="mega-navigation" aria-expanded={megaOpen}
-                onFocus={() => setMegaOpen(true)}
-                onClick={() => setMegaOpen(!megaOpen)}>⌄</button>}
-            </div>
-          ))}
-        </nav>
-        <a className="header-social" href={INSTAGRAM} target="_blank" rel="noopener noreferrer"
-          onMouseEnter={() => setMegaOpen(false)}>Instagram ↗</a>
-        <button type="button" className={menuOpen ? 'menu-toggle is-open' : 'menu-toggle'}
-          aria-controls="mobile-navigation" aria-expanded={menuOpen}
-          aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
-          onClick={() => setMenuOpen(!menuOpen)}>
-          <span /><span /><span />
-        </button>
-      </div>
-      <nav className="mega-menu" id="mega-navigation" aria-label="전체 하위 메뉴" hidden={!megaOpen}>
-        <div className="container mega-menu-grid">
-          {NAV.filter((item) => item.children).map((item) => (
-            <section className="mega-menu-column" key={item.id}>
-              <a className="mega-menu-heading" href={'#/' + item.id} onClick={closeMenus}>{item.label}</a>
-              <div className="mega-menu-links">
-                {item.children.map((child) => (
-                  <a key={child.section} href={'#/' + item.id + '/' + child.section}
-                    onClick={closeMenus}>{child.label}</a>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
+  return <header className="site-header" onMouseLeave={() => setMegaOpen(false)}
+    onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setMegaOpen(false) }}>
+    <div className="header-inner container">
+      <Brand onNavigate={closeMenus} />
+      <nav className="desktop-nav" aria-label="주요 메뉴" onMouseEnter={() => setMegaOpen(true)}>
+        {NAV.map(item => <div className={'nav-item ' + (page === item.id ? 'is-current' : '')} key={item.id}>
+          <a className="nav-link" href={'#/' + item.id}
+            aria-current={page === item.id ? 'page' : undefined}
+            onFocus={() => setMegaOpen(true)} onClick={closeMenus}>{item.label}</a>
+          {item.children && <button className="nav-chevron" type="button"
+            aria-label="전체 하위 메뉴 열기" aria-expanded={megaOpen}
+            aria-controls="mega-navigation" onFocus={() => setMegaOpen(true)}
+            onClick={() => setMegaOpen(!megaOpen)}><span aria-hidden="true">⌄</span></button>}
+        </div>)}
       </nav>
-      {menuOpen && (
-        <nav className="mobile-nav" id="mobile-navigation" aria-label="모바일 주요 메뉴">
-          {NAV.map((item) => (
-            <div className="mobile-nav-group" key={item.id}>
-              <div className="mobile-nav-row">
-                <a href={'#/' + item.id} onClick={closeMenus}
-                  aria-current={page === item.id ? 'page' : undefined}>{item.label}</a>
-                {item.children && <button type="button" aria-expanded={expanded === item.id}
-                  aria-controls={'mobile-sub-' + item.id}
-                  onClick={() => setExpanded(expanded === item.id ? null : item.id)}
-                  aria-label={item.label + ' 하위 메뉴'}>{expanded === item.id ? '−' : '+'}</button>}
-              </div>
-              {item.children && expanded === item.id && (
-                <div className="mobile-nav-sub" id={'mobile-sub-' + item.id}>
-                  {item.children.map((child) => (
-                    <a href={'#/' + item.id + '/' + child.section} key={child.section}
-                      onClick={closeMenus}>{child.label}</a>
-                  ))}
-                </div>
-              )}
+      <a className="header-social" href={INSTAGRAM} target="_blank" rel="noopener noreferrer"
+        onMouseEnter={() => setMegaOpen(false)}>Instagram ↗</a>
+      <button type="button" className={menuOpen ? 'menu-toggle is-open' : 'menu-toggle'}
+        aria-controls="mobile-navigation" aria-expanded={menuOpen}
+        aria-label={menuOpen ? '전체 메뉴 닫기' : '전체 메뉴 열기'}
+        onClick={toggleMobile}><span /><span /><span /></button>
+    </div>
+
+    <nav className="mega-menu" id="mega-navigation" aria-label="전체 하위 메뉴"
+      data-open={megaOpen ? 'true' : 'false'} aria-hidden={!megaOpen} inert={!megaOpen}>
+      <div className="container mega-menu-grid">
+        {NAV.filter(item => item.children).map(item => <section className="mega-menu-column" key={item.id}>
+          <a className="mega-menu-heading" href={'#/' + item.id} onClick={closeMenus}>{item.label}</a>
+          <div className="mega-menu-links">
+            {item.children.map(child => <a key={child.section}
+              href={'#/' + item.id + '/' + child.section} onClick={closeMenus}>{child.label}</a>)}
+          </div>
+        </section>)}
+      </div>
+    </nav>
+
+    {menuOpen && <nav className="mobile-nav" id="mobile-navigation" aria-label="모바일 주요 메뉴">
+      {NAV.map(item => <div className="mobile-nav-group" key={item.id}>
+        {item.children ? <>
+          <button type="button" className="mobile-accordion-toggle"
+            aria-expanded={expanded === item.id} aria-controls={'mobile-sub-' + item.id}
+            onClick={() => setExpanded(expanded === item.id ? null : item.id)}>
+            <span>{item.label}</span><span className="mobile-chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div className={'mobile-nav-sub ' + (expanded === item.id ? 'is-expanded' : '')}
+            id={'mobile-sub-' + item.id} aria-hidden={expanded !== item.id} inert={expanded !== item.id}>
+            <div className="mobile-nav-sub-inner">
+              {item.children.map(child => <a key={child.section}
+                href={'#/' + item.id + '/' + child.section} onClick={closeMenus}>{child.label}</a>)}
+              <a className="mobile-category-link" href={'#/' + item.id} onClick={closeMenus}>{item.label} 전체 보기 →</a>
             </div>
-          ))}
-          <a className="mobile-instagram" href={INSTAGRAM} target="_blank" rel="noopener noreferrer">
-            공식 인스타그램 ↗
-          </a>
-        </nav>
-      )}
-    </header>
-  )
+          </div>
+        </> : <a className="mobile-home-link" href={'#/' + item.id} onClick={closeMenus}>{item.label}</a>}
+      </div>)}
+      <a className="mobile-instagram" href={INSTAGRAM} target="_blank" rel="noopener noreferrer">공식 인스타그램 ↗</a>
+    </nav>}
+  </header>
 }
 
 function SectionLabel({ number, children }) {
