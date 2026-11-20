@@ -228,7 +228,7 @@ export default function CommunityBoard({initialView=''}) {
     try{await communityRemovePost(post);setNotice('글을 삭제했습니다.');load()}
     catch(e){setError(e.message)}
   }
-  const openComposer=()=>{setNotice(''); if(session?.user)setEditor(true);else setAuthOpen(true)}
+  const openComposer=()=>{setNotice(''); if(!communityReady)return; if(session?.user)setEditor(true);else setAuthOpen(true)}
   const visible=posts.filter((post)=>{
     if(filter==='awards'&&post.category!=='수상·소식')return false
     if(filter==='projects'&&post.category==='수상·소식')return false
@@ -246,7 +246,7 @@ export default function CommunityBoard({initialView=''}) {
           <p>글을 직접 작성하고, 사진과 발표자료도 첨부할 수 있어요.</p></div>
         <div className="cb-top-actions">
           {session?.user?<button className="cb-account" type="button" onClick={signOut}>로그아웃</button>:null}
-          <button className="cb-primary" type="button" onClick={openComposer}>+ 글쓰기</button>
+          <button className="cb-primary" type="button" disabled={!communityReady} onClick={openComposer}>+ 글쓰기</button>
         </div>
       </div>
       {!communityReady&&<div className="cb-setup" role="status">
