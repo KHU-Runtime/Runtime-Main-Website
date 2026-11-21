@@ -93,7 +93,7 @@ jobs:
 
       - name: Confirm live JavaScript contains the latest Activities content
         env:
-          PAGE_URL: \${{ steps.deployment.outputs.page_url }}
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           python - <<'PY'
           import os
