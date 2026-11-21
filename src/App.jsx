@@ -12,7 +12,7 @@ const NAV = [
   { id: 'home', label: '홈' },
   { id: 'about', label: '동아리 소개', children: [
     { label: 'Runtime; 소개', section: 'overview' },
-    { label: '활동 방식', section: 'process' },
+    { label: '임원진 소개', section: 'team' },
     { label: '운영 안내', section: 'operation' },
   ] },
   { id: 'activities', label: '주요 활동', children: [
@@ -307,11 +307,30 @@ function PageHeading({ number, eyebrow, title, description }) {
 
 
 function About() {
-  const steps = [
-    { number: '01', en: 'LEARN', title: '함께 배우기', text: 'Python·R 프로그래밍 세미나와 데이터 관련 자격증 스터디로 기초를 다집니다.' },
-    { number: '02', en: 'PRACTICE', title: '직접 구현하기', text: '배운 문법과 개념을 코드로 옮기고, 웹사이트와 작은 프로그램을 만들어봅니다.' },
-    { number: '03', en: 'CHALLENGE', title: '팀으로 도전하기', text: '관심사가 맞는 부원들과 아이디어를 발전시키고, 프로젝트·공모전·해커톤에 도전합니다.' },
-    { number: '04', en: 'SHARE', title: '경험 나누기', text: '실습 과정과 결과물을 서로 공유하며 시행착오까지 다음 배움으로 연결합니다.' },
+  const executives = [
+    {
+      role: '회장', en: 'PRESIDENT', name: '임승희', major: '생물학과 · 23학번',
+      history: [
+        { date: '2025.03 ~', text: 'Runtime; 동아리 활동' },
+        { date: '2026.03 – 08', text: 'Runtime; 3기 회장' },
+        { date: '2026.09 ~', text: 'Runtime; 4기 회장' },
+      ],
+    },
+    {
+      role: '부회장', en: 'VICE PRESIDENT', name: '남효상', major: '미래정보디스플레이학부 · 25학번',
+      history: [
+        { date: '2026.03 ~', text: 'Runtime; 동아리 활동' },
+        { date: '2026.06 ~', text: 'Runtime; 4기 부회장' },
+      ],
+    },
+    {
+      role: '총무', en: 'GENERAL AFFAIRS', name: '김민준', major: '화학과 · 25학번',
+      history: [
+        { date: '2026.03 ~', text: 'Runtime; 동아리 활동' },
+        { date: '2026.03 – 05', text: 'Runtime; 부회장' },
+        { date: '2026.06 ~', text: 'Runtime; 4기 총무' },
+      ],
+    },
   ]
 
   return <div className="about-page">
@@ -329,37 +348,28 @@ function About() {
       </div>
     </section>
 
-    <section id="process" className="about-steps">
-      <div className="container">
-        <div className="about-process-heading">
-          <div><SectionLabel number="02.1">HOW WE GROW</SectionLabel><h2>함께 배우고, 직접 만들어갑니다.</h2></div>
-          <p>세미나에서 익힌 내용을 실습에 적용하고, 관심사를 나누는 사람들과 새로운 시도에 도전합니다.</p>
-        </div>
-        <div className="step-grid">
-          {steps.map(step=><article className="step-card" key={step.number}>
-            <div className="step-meta"><span className="step-number">{step.number}</span><span className="step-en">{step.en}</span></div>
-            <h3>{step.title}</h3>
-            <p>{step.text}</p>
-          </article>)}
-        </div>
-      </div>
-    </section>
-
-    <section className="container about-team" aria-labelledby="about-team-heading">
+    <section id="team" className="container about-team" aria-labelledby="about-team-heading">
       <div className="about-team-heading">
-        <div><span className="about-team-kicker">PEOPLE OF RUNTIME;</span><h2 id="about-team-heading">동아리를 함께 꾸려가는 운영진</h2>
-          <p>모임을 준비하고 학습과 활동을 연결하는 운영 역할을 소개합니다.</p></div>
-        <span className="about-team-note">운영 역할 예시 · 인물 정보 추후 등록</span>
+        <div>
+          <span className="about-team-kicker">PEOPLE OF RUNTIME; / 4TH EXECUTIVES</span>
+          <h2 id="about-team-heading">4기 임원진 소개</h2>
+          <p>Runtime;을 함께 운영하는 회장, 부회장, 총무를 소개합니다.</p>
+        </div>
       </div>
       <div className="about-team-grid">
-        {[
-          {en:'PRESIDENT',role:'회장',desc:'동아리 활동과 운영 방향 조율'},
-          {en:'SEMINAR & STUDY',role:'학습 운영',desc:'세미나와 스터디 일정 및 자료 정리'},
-          {en:'PROJECT & EVENTS',role:'활동 운영',desc:'실습·프로젝트와 대회 활동 지원'},
-        ].map(item=><article className="about-team-person" key={item.en}>
-          <span className="about-team-role">{item.en}</span>
-          <h3>{item.role}</h3>
-          <p>{item.desc}</p>
+        {executives.map((member,index)=><article className="about-team-person" key={member.role}>
+          <div className="about-executive-photo">
+            <img src={import.meta.env.BASE_URL + 'images/executive-lion.svg'} alt="붉은 사자 문양" loading="lazy" />
+            <span className="about-executive-index">{String(index+1).padStart(2,'0')} / 03</span>
+          </div>
+          <div className="about-executive-body">
+            <span className="about-team-role">{member.en}</span>
+            <div className="about-executive-name"><h3>{member.name}</h3><strong>{member.role}</strong></div>
+            <p className="about-executive-major">{member.major}</p>
+            <ul className="about-executive-history">
+              {member.history.map(item=><li key={item.date+item.text}><time>{item.date}</time><span>{item.text}</span></li>)}
+            </ul>
+          </div>
         </article>)}
       </div>
     </section>
