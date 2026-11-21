@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './App.css'
 import CommunityBoard from './CommunityBoard'
 import { PROJECT_EXAMPLES } from './data/projectExamples'
+import { SEMINAR_WEEKS } from './data/seminarWeeks'
 
 const INSTAGRAM = 'https://www.instagram.com/khu_runtime/'
 const GITHUB = 'https://github.com/KHU-Runtime/Runtime-Main-Website'
@@ -54,50 +55,6 @@ const ACTIVITY_LIST = [
     n: '04', tag: 'CHALLENGE', title: '대회와 공모전',
     description: '팀을 이루어 공모전, 경진대회, 해커톤에 참여하며 아이디어를 구체화합니다.',
     detail: '문제 정의 · 팀 프로젝트 · 결과 공유',
-  },
-]
-
-const NOTES = [
-  {
-    title: 'Python · 반복문 복습', label: 'PYTHON / SAMPLE',
-    summary: 'for 문은 시퀀스의 요소를 순회하고, range()는 정수 범위를 만듭니다.',
-    code: `for i in range(3):\n    print(i)\n\n# 0, 1, 2가 차례로 출력됩니다.`,
-    takeaway: 'range(3)은 0, 1, 2를 생성하며 끝값 3은 포함하지 않습니다.',
-  },
-  {
-    title: 'R · 데이터 프레임 복습', label: 'R / SAMPLE',
-    summary: 'data.frame()으로 열 단위 데이터를 구성하고, $로 특정 열을 참조할 수 있습니다.',
-    code: `scores <- data.frame(\n  name = c("A", "B", "C"),\n  score = c(90, 85, 95)\n)\nmean(scores$score)`,
-    takeaway: 'mean(scores$score)은 score 열의 산술평균 90을 반환합니다.',
-  },
-  {
-    title: '데이터 · 결측치 확인하기', label: 'DATA / SAMPLE',
-    summary: '데이터 분석을 시작할 때 결측치를 확인하면 전처리 방향을 결정하는 데 도움이 됩니다.',
-    code: `import pandas as pd\n\ndf = pd.DataFrame({"value": [1, None, 3]})\nprint(df.isna().sum())`,
-    takeaway: 'isna().sum()을 이용하면 열별 결측치 개수를 확인할 수 있습니다.',
-  },
-]
-
-const QUESTIONS = [
-  {
-    tag: 'PYTHON · 기초', question: '다음 코드의 출력 결과는 무엇일까요?', code: 'print(len([10, 20, 30]))',
-    choices: ['2', '3', '30', '오류 발생'], answer: 1,
-    explanation: 'len()은 리스트에 담긴 요소의 개수를 반환하므로 정답은 3입니다.',
-  },
-  {
-    tag: 'PYTHON · 반복문', question: 'range(4)를 순회했을 때 마지막 값은 무엇일까요?', code: 'for i in range(4):\n    print(i)',
-    choices: ['2', '3', '4', '5'], answer: 1,
-    explanation: 'range(4)는 0부터 3까지의 정수를 생성합니다. 끝값 4는 포함되지 않습니다.',
-  },
-  {
-    tag: 'R · 데이터 분석', question: 'R에서 수치형 벡터의 평균을 구하는 함수는?', code: 'x <- c(2, 4, 6)',
-    choices: ['avg(x)', 'sum(x)', 'mean(x)', 'length(x)'], answer: 2,
-    explanation: 'R에서는 mean(x) 함수를 사용해 수치형 벡터의 평균을 구합니다.',
-  },
-  {
-    tag: 'DATA · 전처리', question: 'pandas에서 결측치 여부를 확인하는 메서드는?', code: 'df = pd.DataFrame({"a": [1, None]})',
-    choices: ['df.sort_values()', 'df.isna()', 'df.head()', 'df.drop_duplicates()'], answer: 1,
-    explanation: 'isna()는 각 데이터가 결측치인지 여부를 불리언 값으로 반환합니다.',
   },
 ]
 
@@ -362,6 +319,24 @@ function About() {
       </div>
     </section>
     <section id="process" className="about-steps"><div className="container"><SectionLabel number="02.1">HOW WE GROW</SectionLabel><h2>Runtime;의 활동 방식</h2><div className="step-grid"><div><span>01</span><h3>세미나</h3><p>프로그래밍 기초를 함께 공부하기</p></div><div><span>02</span><h3>실습</h3><p>배운 내용으로 코드를 작성해 보기</p></div><div><span>03</span><h3>프로젝트</h3><p>팀을 꾸려 아이디어를 구체화하기</p></div><div><span>04</span><h3>공유</h3><p>결과와 배운 내용을 함께 나누기</p></div></div></div></section>
+    <section className="container about-team" aria-labelledby="about-team-heading">
+      <div className="about-team-heading">
+        <div><span className="about-team-kicker">PEOPLE OF RUNTIME;</span><h2 id="about-team-heading">동아리를 함께 꾸려가는 운영진</h2>
+          <p>모임을 준비하고 학습과 활동을 연결하는 운영 역할을 소개합니다.</p></div>
+        <span className="about-team-note">운영 역할 예시 · 인물 정보 추후 등록</span>
+      </div>
+      <div className="about-team-grid">
+        {[
+          {en:'PRESIDENT',role:'회장',desc:'동아리 활동과 운영 방향 조율'},
+          {en:'SEMINAR & STUDY',role:'학습 운영',desc:'세미나와 스터디 일정 및 자료 정리'},
+          {en:'PROJECT & EVENTS',role:'활동 운영',desc:'실습·프로젝트와 대회 활동 지원'},
+        ].map(item=><article className="about-team-person" key={item.en}>
+          <span className="about-team-role">{item.en}</span>
+          <h3>{item.role}</h3>
+          <p>{item.desc}</p>
+        </article>)}
+      </div>
+    </section>
     <section id="operation" className="container about-operation">
       <h2>운영 안내</h2>
       <p>Runtime;의 활동 일정과 모집 관련 공지는 공식 인스타그램에서 확인할 수 있습니다.</p>
@@ -384,47 +359,122 @@ function Activities() {
 
 
 function Quiz() {
-  const [idx, setIdx] = useState(0)
-  const [selected, setSelected] = useState(null)
-  const [submitted, setSubmitted] = useState(false)
-  const [score, setScore] = useState(0)
-  const [complete, setComplete] = useState(false)
-  const q = QUESTIONS[idx]
-  const isRight = selected === q.answer
-
-  const next = () => {
-    if (idx + 1 >= QUESTIONS.length) { setComplete(true); return }
-    setIdx(idx + 1); setSelected(null); setSubmitted(false)
+  const [weekIndex,setWeekIndex] = useState(0)
+  const [idx,setIdx] = useState(0)
+  const [selected,setSelected] = useState(null)
+  const [submitted,setSubmitted] = useState(false)
+  const [score,setScore] = useState(0)
+  const [complete,setComplete] = useState(false)
+  const activeWeek=SEMINAR_WEEKS[weekIndex]
+  const questions=activeWeek.questions
+  const q=questions[idx]
+  const isRight=selected===q.answer
+  const reset=()=>{setIdx(0);setSelected(null);setSubmitted(false);setScore(0);setComplete(false)}
+  const changeWeek=(value)=>{setWeekIndex(value);reset()}
+  const next=()=>{
+    if(idx+1===questions.length){setComplete(true);return}
+    setIdx(idx+1);setSelected(null);setSubmitted(false)
   }
-  const restart = () => { setIdx(0); setSelected(null); setSubmitted(false); setScore(0); setComplete(false) }
 
-  if (complete) {
-    return <div className="quiz-complete"><span className="quiz-kicker">QUIZ COMPLETE</span><span className="quiz-score">{score}<small> / {QUESTIONS.length}</small></span><h3>복습 완료!</h3><p>샘플 퀴즈를 모두 풀었습니다. 이해가 부족했던 부분은 세미나 노트에서 다시 확인해 보세요.</p><button className="button button-primary" type="button" onClick={restart}>다시 풀기 <span aria-hidden="true">↻</span></button></div>
-  }
-
-  return <div className="quiz-layout"><div className="quiz-sidebar"><span className="quiz-kicker">MINI QUIZ</span><h3>직접 풀어보는<br />4문제 복습</h3><p>Python · R · 데이터 기초</p><div className="quiz-progress-dots" aria-label={`${idx + 1}번째 문제, 총 ${QUESTIONS.length}개`}>{QUESTIONS.map((_, i) => <span className={i < idx ? 'finished' : i === idx ? 'current' : ''} key={i} />)}</div><span className="quiz-count">{String(idx + 1).padStart(2, '0')} <span>/ {String(QUESTIONS.length).padStart(2, '0')}</span></span></div><div className="quiz-main"><span className="quiz-topic">{q.tag}</span><h3>{q.question}</h3><pre className="quiz-code"><code>{q.code}</code></pre><div className="quiz-choices" role="group" aria-label="정답 선택">{q.choices.map((choice, i) => <button key={i} type="button" disabled={submitted} aria-pressed={selected === i} className={`quiz-choice ${selected === i ? 'selected' : ''} ${submitted && i === q.answer ? 'correct' : ''} ${submitted && selected === i && i !== q.answer ? 'incorrect' : ''}`} onClick={() => setSelected(i)}><span>{String.fromCharCode(65 + i)}</span>{choice}</button>)}</div>{submitted && <div className={`quiz-explanation ${isRight ? 'right' : 'wrong'}`} role="status"><strong>{isRight ? '정답입니다.' : '다시 확인해 보세요.'}</strong><p>{q.explanation}</p></div>}<div className="quiz-action">{!submitted ? <button className="button button-primary" type="button" disabled={selected === null} onClick={() => { setSubmitted(true); if (isRight) setScore(s => s + 1) }}>정답 확인 <span aria-hidden="true">→</span></button> : <button className="button button-primary" type="button" onClick={next}>{idx === QUESTIONS.length - 1 ? '결과 보기' : '다음 문제'} <span aria-hidden="true">→</span></button>}</div></div></div>
+  return <div className="weekly-quiz">
+    <div className="study-subheading"><span className="quiz-kicker">WEEKLY QUIZ</span>
+      <h3>이번 주에 배운 만큼, 직접 풀어보기.</h3>
+      <p>첨부된 Python 세미나 교안에 맞춰 주차별 5문제를 준비했습니다. 정답을 선택하면 해설을 확인할 수 있어요.</p>
+    </div>
+    <div className="seminar-week-tabs" role="tablist" aria-label="퀴즈 주차 선택">
+      {SEMINAR_WEEKS.map((week,i)=><button type="button" role="tab" key={week.week}
+        aria-selected={weekIndex===i} className={weekIndex===i?'active':''}
+        onClick={()=>changeWeek(i)}><strong>{week.week}주차</strong><small>{week.title}</small></button>)}
+    </div>
+    {complete ? <div className="quiz-complete weekly-quiz-complete">
+      <span className="quiz-kicker">WEEK {activeWeek.week} · QUIZ COMPLETE</span>
+      <span className="quiz-score">{score}<small> / {questions.length}</small></span>
+      <h3>{activeWeek.week}주차 복습 완료!</h3>
+      <p>틀린 문제는 {activeWeek.week}주차 세미나 PDF에서 다시 확인해 보세요.</p>
+      <button className="button button-primary" type="button" onClick={reset}>이 주차 다시 풀기 <span aria-hidden="true">↻</span></button>
+    </div> : <div className="quiz-layout">
+      <div className="quiz-sidebar">
+        <span className="quiz-kicker">WEEK {String(activeWeek.week).padStart(2,'0')} · PYTHON</span>
+        <h3>{activeWeek.title}<br />5문제 복습</h3>
+        <p>{activeWeek.topics.join(' · ')}</p>
+        <div className="quiz-progress-dots" aria-label={`${idx+1}번째 문제, 총 ${questions.length}개`}>
+          {questions.map((_,i)=><span className={i<idx?'finished':i===idx?'current':''} key={i}/>)}
+        </div>
+        <span className="quiz-count">{String(idx+1).padStart(2,'0')} <span>/ {String(questions.length).padStart(2,'0')}</span></span>
+      </div>
+      <div className="quiz-main">
+        <span className="quiz-topic">{q.tag}</span><h3>{q.question}</h3>
+        {q.code && <pre className="quiz-code"><code>{q.code}</code></pre>}
+        <div className="quiz-choices" role="group" aria-label="정답 선택">
+          {q.choices.map((choice,i)=><button key={i} type="button" disabled={submitted}
+            aria-pressed={selected===i} className={`quiz-choice ${selected===i?'selected':''} ${submitted&&i===q.answer?'correct':''} ${submitted&&selected===i&&i!==q.answer?'incorrect':''}`}
+            onClick={()=>setSelected(i)}><span>{String.fromCharCode(65+i)}</span>{choice}</button>)}
+        </div>
+        {submitted && <div className={`quiz-explanation ${isRight?'right':'wrong'}`} role="status">
+          <strong>{isRight?'정답입니다.':'정답과 해설을 확인해 보세요.'}</strong><p>{q.explanation}</p>
+        </div>}
+        <div className="quiz-action">
+          {!submitted
+            ? <button className="button button-primary" type="button" disabled={selected===null}
+                onClick={()=>{setSubmitted(true);if(isRight)setScore(previous=>previous+1)}}>정답 확인 <span aria-hidden="true">→</span></button>
+            : <button className="button button-primary" type="button" onClick={next}>{idx===questions.length-1?'결과 보기':'다음 문제'} <span aria-hidden="true">→</span></button>}
+        </div>
+      </div>
+    </div>}
+  </div>
 }
 
 function Notes() {
-  const [open, setOpen] = useState(0)
-  const [copied, setCopied] = useState(null)
-  const copyCode = async (code, index) => {
-    try { await navigator.clipboard.writeText(code); setCopied(index); window.setTimeout(() => setCopied(null), 1600) }
-    catch { setCopied(null) }
-  }
-  return <div className="notes-layout"><div className="notes-intro"><span className="quiz-kicker">REVIEW NOTES</span><h3>핵심만 다시,<br />직접 확인하기.</h3><p>세미나 노트 기능을 미리 체험할 수 있도록 만든 학습용 예시 콘텐츠입니다.</p><span className="demo-chip">SAMPLE NOTES</span></div><div className="notes-list">{NOTES.map((note, i) => <div className={`note-item ${open === i ? 'open' : ''}`} key={note.title}><button type="button" className="note-toggle" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)}><span className="note-number">0{i + 1}</span><span>{note.title}</span><span className="note-icon" aria-hidden="true">{open === i ? '−' : '+'}</span></button>{open === i && <div className="note-content"><p>{note.summary}</p><div className="note-code-bar"><span>{note.label}</span><button type="button" onClick={() => copyCode(note.code, i)}>{copied === i ? '복사 완료 ✓' : '코드 복사 ↗'}</button></div><pre><code>{note.code}</code></pre><p className="note-takeaway"><strong>KEY POINT</strong>{note.takeaway}</p></div>}</div>)}</div></div>
+  const [selectedWeek,setSelectedWeek]=useState(1)
+  const [showPreview,setShowPreview]=useState(true)
+  const week=SEMINAR_WEEKS.find(item=>item.week===selectedWeek)||SEMINAR_WEEKS[0]
+  const pdfUrl=import.meta.env.BASE_URL+'seminars/week-'+week.week+'.pdf'
+  return <div className="seminar-archive">
+    <div className="study-subheading"><span className="quiz-kicker">SEMINAR ARCHIVE</span>
+      <h3>세미나 자료, 주차별로 모아보기.</h3>
+      <p>Runtime;에서 사용한 Python 세미나 교안 4개입니다. 목록에서 주차를 선택하면 자료를 열어보거나 다운로드할 수 있어요.</p>
+    </div>
+    <div className="seminar-archive-layout">
+      <div className="seminar-archive-list" aria-label="세미나 주차 선택">
+        {SEMINAR_WEEKS.map(item=><button type="button" key={item.week} aria-pressed={selectedWeek===item.week}
+          className={selectedWeek===item.week?'active':''}
+          onClick={()=>{setSelectedWeek(item.week);setShowPreview(true)}}>
+          <span className="seminar-week-index">{String(item.week).padStart(2,'0')} / WEEK</span>
+          <strong>{item.title}</strong>
+          <small>{item.pages}페이지 · PDF</small><span className="seminar-week-arrow" aria-hidden="true">↗</span>
+        </button>)}
+      </div>
+      <div className="seminar-archive-detail">
+        <div className="seminar-detail-header">
+          <span className="quiz-kicker">PYTHON CONCEPT · WEEK {String(week.week).padStart(2,'0')}</span>
+          <h4>{week.week}주차 · {week.title}</h4>
+          <p>{week.summary}</p>
+          <div className="seminar-topic-tags">{week.topics.map(topic=><span key={topic}>{topic}</span>)}</div>
+          <div className="seminar-actions">
+            <button type="button" className="seminar-action-btn" onClick={()=>setShowPreview(current=>!current)}
+              aria-expanded={showPreview}>{showPreview?'미리보기 접기':'PDF 미리보기'}</button>
+            <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="seminar-action-btn">새 탭에서 열기 ↗</a>
+            <a href={pdfUrl} download={`Runtime_${week.week}주차_세미나.pdf`} className="seminar-action-btn seminar-download">PDF 다운로드 ↓</a>
+          </div>
+        </div>
+        {showPreview&&<div className="seminar-pdf-preview">
+          <iframe key={week.week} src={pdfUrl+'#toolbar=1&navpanes=0'} title={`Runtime; ${week.week}주차 세미나 PDF 미리보기`} loading="lazy"/>
+          <p>브라우저에서 미리보기가 지원되지 않으면 ‘새 탭에서 열기’를 사용해 주세요.</p>
+        </div>}
+      </div>
+    </div>
+  </div>
 }
 
 function Resources() {
-  const saveCsv = () => {
-    const rows = 'name,score,category\nAlpha,85,A\nBeta,92,B\nGamma,78,A\n'
-    const blob = new Blob(['\uFEFF', rows], { type: 'text/csv;charset=utf-8;' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url; a.download = 'runtime-practice-sample.csv'; document.body.appendChild(a); a.click(); a.remove()
-    URL.revokeObjectURL(url)
-  }
-  return <div className="resources"><div className="resource-intro"><span className="quiz-kicker">RESOURCE LIBRARY</span><h3>코딩 공부에 필요한<br />자료를 한곳에서.</h3><p>공식 학습 문서와 다운로드 가능한 예제 데이터를 제공합니다. 실제 세미나 자료는 추후 추가할 수 있습니다.</p></div><div className="resource-list"><a href="https://docs.python.org/ko/3/tutorial/" target="_blank" rel="noopener noreferrer"><div><span>01 / DOCUMENTATION</span><h4>Python 공식 튜토리얼</h4><p>문법과 기본 개념을 공부하는 공식 문서</p></div><b aria-hidden="true">↗</b></a><a href="https://cran.r-project.org/manuals.html" target="_blank" rel="noopener noreferrer"><div><span>02 / DOCUMENTATION</span><h4>R 공식 매뉴얼</h4><p>R 언어와 데이터 분석 환경에 관한 문서</p></div><b aria-hidden="true">↗</b></a><a href="https://docs.github.com/ko" target="_blank" rel="noopener noreferrer"><div><span>03 / DOCUMENTATION</span><h4>GitHub 공식 문서</h4><p>버전 관리와 협업 기본기 익히기</p></div><b aria-hidden="true">↗</b></a><button type="button" onClick={saveCsv}><div><span>04 / PRACTICE DATA</span><h4>연습용 CSV 데이터 다운로드</h4><p>간단한 표 형태의 샘플 데이터를 직접 활용하기</p></div><b aria-hidden="true">↓</b></button></div></div>
+  return <div className="resources"><div className="resource-intro">
+    <span className="quiz-kicker">RESOURCE LIBRARY</span><h3>코딩 공부에 필요한<br />자료를 한곳에서.</h3>
+    <p>공식 학습 문서들을 소개합니다. 주차별 실제 세미나 PDF는 ‘세미나 복습’ 탭에서 볼 수 있어요.</p>
+  </div><div className="resource-list">
+    <a href="https://docs.python.org/ko/3/tutorial/" target="_blank" rel="noopener noreferrer"><div><span>01 / DOCUMENTATION</span><h4>Python 공식 튜토리얼</h4><p>문법과 기본 개념을 공부하는 공식 문서</p></div><b aria-hidden="true">↗</b></a>
+    <a href="https://cran.r-project.org/manuals.html" target="_blank" rel="noopener noreferrer"><div><span>02 / DOCUMENTATION</span><h4>R 공식 매뉴얼</h4><p>R 언어와 데이터 분석 환경에 관한 문서</p></div><b aria-hidden="true">↗</b></a>
+    <a href="https://docs.github.com/ko" target="_blank" rel="noopener noreferrer"><div><span>03 / DOCUMENTATION</span><h4>GitHub 공식 문서</h4><p>버전 관리와 협업 기본기 익히기</p></div><b aria-hidden="true">↗</b></a>
+  </div></div>
 }
 
 function StudyRoom({ initialTab = 'notes' }) {
