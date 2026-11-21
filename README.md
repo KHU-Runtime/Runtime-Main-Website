@@ -24,10 +24,10 @@ React + Vite + GitHub Pages 기반 반응형 웹사이트입니다.
 
 ## 스터디룸 자료 접근 범위
 
-스터디룸은 기초반 Python 1주차 공개 예시와 심화반 W2 HTML·CSS·바이브코딩 실습 교안을 기준으로 구성되었습니다. 두 과정의 체험 퀴즈는 각각 5문항입니다. 심화반 교안 정보와 퀴즈는 첨부 자료에 맞게 수정됐으며, **PDF 원본 파일은 아직 GitHub 저장소에 직접 업로드해야 합니다.**
+스터디룸은 기초반 Python 1주차 공개 예시와 심화반 W2 HTML·CSS·바이브코딩 실습 교안을 기준으로 구성되었습니다. 두 과정의 체험 퀴즈는 각각 5문항입니다. 심화반 교안과 5문항 퀴즈는 실제 업로드된 「Runtime; 심화반 W2」(30페이지) 자료에 맞게 구성했습니다.
 
-- `public/seminars/week-2.pdf`, `week-3.pdf`는 공개 배포 폴더에서 제거했습니다.
-- 심화반 교안은 `public/seminars/Runtime_심화반_W2.pdf` 경로를 사용합니다. 해당 파일이 업로드되기 전에는 심화반 미리보기에서 연결 준비 중 안내가 보이고, 업로드되면 PDF 미리보기로 전환됩니다.
+- 기존 2·3·4주차 Python PDF는 공개 배포 폴더에서 제거했습니다. 현재 체험 공개 PDF는 기초반 1개, 심화반 1개입니다.
+- 심화반 원본 PDF의 Base64 보관본은 `assets/Runtime_advanced_W2.pdf.base64`에 있습니다. 빌드 전에 `scripts/restore-advanced-pdf.mjs`가 SHA-256을 검증한 뒤 `public/seminars/Runtime_심화반_W2.pdf`로 원본 바이트를 복원합니다. `npm run dev`, `npm run build`에서 자동 실행됩니다.
 - 공개 PDF의 전용 다운로드 버튼과 새 탭 열기 링크는 제공하지 않습니다. 하지만 **PDF URL 자체가 공개되므로 브라우저 저장·다운로드까지 기술적으로 차단할 수는 없습니다.**
 - 부원 전용 자료실은 현재 연결 안내만 표시하는 버튼이며, 실제 Google Drive 폴더 URL은 `src/App.jsx`의 `MEMBER_DRIVE_URL`에 추후 설정할 수 있습니다.
 - 비회원 접근을 실제로 차단하려면 공개 GitHub 저장소/Pages 폴더에 해당 파일을 두지 않고, 접근 권한이 제한된 스토리지나 Google Drive 폴더로 옮겨야 합니다. 공개 Git 이력에도 이전 PDF가 남아 있을 수 있습니다.
