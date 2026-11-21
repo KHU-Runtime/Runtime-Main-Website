@@ -193,3 +193,20 @@
   .cb-demo-controls>div:last-child{justify-content:stretch}
   .cb-demo-controls .cb-secondary{flex:1;min-width:120px;padding:10px}
 }
+
+/* Runtime; shared static project records in demo board | 2026-11-21 */
+.cb-post-subtitle{
+  margin:0 0 12px;
+  color:#55637b;
+  font-size:13px;
+  line-height:1.65;
+  font-weight:500;
+  word-break:keep-all;
+}
+.cb-post-card:has(.cb-demo-tag){
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+.cb-post-card:hover{border-color:#c1ccdf;box-shadow:0 6px 20px rgba(1,7,54,.065)}
+.cb-post-card .cb-post-detail .cb-description{white-space:pre-line}
+.cb-card-grid .cb-post-card .cb-post-cover img{object-fit:cover}
+@media(prefers-reduced-motion:reduce){.cb-post-card{transition:none}}
