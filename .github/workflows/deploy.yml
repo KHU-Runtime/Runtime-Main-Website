@@ -90,3 +90,30 @@ jobs:
           done
           echo "::error::Published site does not contain the current commit. Check GitHub Pages settings and deployment logs."
           exit 1
+
+      - name: Confirm live JavaScript contains the latest Activities content
+        env:
+          PAGE_URL: \${{ steps.deployment.outputs.page_url }}
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          import urllib.parse
+          import urllib.request
+
+          url = os.environ["PAGE_URL"] + "?revision=" + os.environ["GITHUB_SHA"]
+          with urllib.request.urlopen(url, timeout=20) as response:
+              html = response.read().decode("utf-8")
+          match = re.search(r'<script\b[^>]*\bsrc="([^"]+\.js)"', html)
+          if not match:
+              raise SystemExit("Could not locate the public JavaScript entrypoint.")
+          js_url = urllib.parse.urljoin(url, match.group(1))
+          request = urllib.request.Request(js_url, headers={"Cache-Control": "no-cache"})
+          with urllib.request.urlopen(request, timeout=20) as response:
+              javascript = response.read().decode("utf-8")
+          required = ("기초부터 탄탄히.", "18:00–18:50", "19:00–19:50", "배움을 실제 경험으로.")
+          missing = [text for text in required if text not in javascript]
+          if missing:
+              raise SystemExit(f"Public JS asset is missing Activities changes: {missing}. URL: {js_url}")
+          print(f"Verified published Activities copy and timetable in {js_url}")
+          PY
