@@ -1705,7 +1705,7 @@ body{background:#fff;color:var(--ink)}
   }
 }
 
-/* 2026–2 Runtime activity overview: three learning programs, two community programs */
+/* Evergreen Runtime activity overview: weekly seminar and applied learning */
 .activities-page .page-heading{padding-top:59px;padding-bottom:44px}
 .activities-page .page-heading h1{margin:16px 0 17px}
 .activities-page .page-heading>p{max-width:840px}
@@ -1893,4 +1893,129 @@ body{background:#fff;color:var(--ink)}
   .seminar-sample-disclaimer{font-size:11px}
   .weekly-quiz .seminar-week-tabs{gap:8px}
   .weekly-quiz .seminar-week-tabs button{padding:12px 10px;min-height:86px}
+}
+
+
+/* Activities: evergreen Tuesday timetable and project-oriented extensions */
+.activities-page .activities-timetable-wrap{
+  border:1px solid #dce4f1;background:#fff;overflow:hidden
+}
+.activities-page .activities-timetable-day{
+  display:flex;align-items:center;gap:20px;justify-content:space-between;
+  padding:18px 27px;background:#010736;color:#e7edfa
+}
+.activities-page .activities-timetable-day>span{
+  font:650 11px 'DM Sans',sans-serif;letter-spacing:1px
+}
+.activities-page .activities-timetable-day strong{
+  font-size:21px;font-weight:800;color:#fff
+}
+.activities-page .activities-timetable{
+  width:100%;border-collapse:collapse;table-layout:fixed
+}
+.activities-page .activities-timetable caption{
+  position:absolute;width:1px;height:1px;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap
+}
+.activities-page .activities-timetable th{
+  padding:17px 24px;background:#f0f3f9;border-bottom:1px solid #dce4f1;
+  color:#516484;text-align:left;font-size:12px;font-weight:800
+}
+.activities-page .activities-timetable th:nth-child(1){width:23%}
+.activities-page .activities-timetable th:nth-child(2){width:25%}
+.activities-page .activities-timetable td{
+  padding:28px 24px;vertical-align:top;border-bottom:1px solid #e0e6f0
+}
+.activities-page .activities-timetable tbody tr:last-child td{border-bottom:0}
+.activities-page .activities-time strong{
+  display:block;color:#22396f;font:750 clamp(19px,2vw,26px)/1.3 'DM Sans',sans-serif;
+  letter-spacing:-.6px;white-space:nowrap
+}
+.activities-page .activities-time>span{
+  display:block;margin-top:8px;font-size:13px;color:#7a869d
+}
+.activities-page .activities-track h3{
+  margin:9px 0 5px;font-size:28px;letter-spacing:-1px;color:#010736
+}
+.activities-page .activities-track>span:last-child{
+  font-size:13px;color:#60708a;line-height:1.65
+}
+.activities-page .activities-description p{
+  margin:0 0 15px;font-size:15px;line-height:1.85;color:#4d5a71;word-break:keep-all
+}
+.activities-page .activities-description ul{
+  display:flex;flex-wrap:wrap;gap:7px;list-style:none;margin:0;padding:0
+}
+.activities-page .activities-description li{
+  padding:7px 10px;border:1px solid #e2e8f2;background:#f5f7fb;
+  font-size:12px;color:#3a547f;font-weight:650;line-height:1.5
+}
+.activities-page .activities-extras{
+  padding:54px 0 58px;background:#f7f8fb;scroll-margin-top:100px
+}
+.activities-page .activities-extras-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px
+}
+.activities-page .activities-extra-card{
+  scroll-margin-top:110px;display:flex;flex-direction:column;min-width:0;
+  padding:27px 29px 30px;min-height:244px;
+  background:#fff;border:1px solid #e1e6f0
+}
+.activities-page .activities-extra-top{
+  display:flex;justify-content:space-between;align-items:start;
+  font:700 11px 'DM Sans',sans-serif;letter-spacing:1.2px;color:#59709c
+}
+.activities-page .activities-extra-top>span:last-child{font-size:18px}
+.activities-page .activities-extra-card h3{
+  font-size:26px;letter-spacing:-.9px;margin:16px 0 10px;color:#010736
+}
+.activities-page .activities-extra-card>p{
+  font-size:15px;line-height:1.85;color:#546177;word-break:keep-all;margin:0 0 18px
+}
+.activities-page .activities-extra-caption{
+  display:inline-block;align-self:flex-start;margin-top:auto;
+  font-size:12px;font-weight:700;color:#28487a
+}
+@media(max-width:900px){
+  .activities-page .activities-timetable-day{padding:16px 22px}
+  .activities-page .activities-timetable th,
+  .activities-page .activities-timetable td{padding-left:17px;padding-right:17px}
+  .activities-page .activities-timetable th:nth-child(1){width:25%}
+  .activities-page .activities-timetable th:nth-child(2){width:26%}
+}
+@media(max-width:720px){
+  .activities-page .activities-timetable-day{gap:8px;flex-wrap:wrap}
+  .activities-page .activities-timetable-day strong{font-size:19px}
+  .activities-page .activities-timetable-day>span{font-size:10px}
+  .activities-page .activities-timetable thead{display:none}
+  .activities-page .activities-timetable,
+  .activities-page .activities-timetable tbody{display:block;width:100%}
+  .activities-page .activities-timetable tbody tr{
+    display:grid;grid-template-columns:minmax(124px,.65fr) minmax(0,1fr);
+    column-gap:16px;padding:23px 20px;border-bottom:1px solid #e0e6f0
+  }
+  .activities-page .activities-timetable tbody tr:last-child{border-bottom:0}
+  .activities-page .activities-timetable td{display:block;padding:0;border:0}
+  .activities-page .activities-description{
+    grid-column:1/-1;margin-top:19px;padding-top:16px!important;
+    border-top:1px solid #e9edf3!important
+  }
+  .activities-page .activities-track h3{font-size:24px}
+  .activities-page .activities-description p{font-size:14px}
+  .activities-page .activities-extras{padding:35px 0 38px}
+  .activities-page .activities-extras-grid{grid-template-columns:1fr;gap:11px}
+  .activities-page .activities-extra-card{min-height:0;padding:21px 22px 23px}
+  .activities-page .activities-extra-card h3{font-size:23px;margin:11px 0 7px}
+  .activities-page .activities-extra-card>p{font-size:14px;line-height:1.75;margin-bottom:14px}
+}
+@media(max-width:420px){
+  .activities-page .activities-timetable-day{padding:14px 16px}
+  .activities-page .activities-timetable-day>span:first-child{width:100%}
+  .activities-page .activities-timetable tbody tr{
+    grid-template-columns:minmax(0,1fr);gap:13px;padding:21px 17px
+  }
+  .activities-page .activities-time>span{display:none}
+  .activities-page .activities-time strong{font-size:22px}
+  .activities-page .activities-track h3{margin:4px 0}
+  .activities-page .activities-description{margin-top:1px;padding-top:15px!important}
 }
