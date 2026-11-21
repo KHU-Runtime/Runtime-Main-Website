@@ -34,6 +34,7 @@ const NAV = [
   ] },
   { id: 'join', label: '지원 안내', children: [
     { label: '모집 안내', section: 'guide' },
+    { label: '함께하는 순간', section: 'community' },
     { label: '자주 묻는 질문(FAQ)', section: 'faq' },
   ] },
 ]
@@ -57,12 +58,16 @@ const EXTRA_ACTIVITIES = [
   {
     id: 'certificates', n: '01', tag: 'CERTIFICATION',
     title: '자격증 스터디',
+    image: 'runtime-cert-study.webp',
+    imageAlt: '온라인으로 함께 학습하는 화상 스터디 화면',
     description: 'SQLD, ADsP 등 데이터 관련 자격증에 관심 있는 부원들이 함께 학습 목표를 세우고 문제를 풀며 시험을 준비합니다.',
     caption: '함께 계획하고 준비하는 자율 스터디',
   },
   {
     id: 'competitions', n: '02', tag: 'TEAM PROJECT',
     title: '공모전 · 팀 프로젝트',
+    image: 'runtime-team-project.webp',
+    imageAlt: '한 테이블에서 자료를 살펴보고 의견을 나누는 팀원들',
     description: '공모전, 해커톤, 데이터 분석 및 개발 프로젝트 등에 팀으로 참여하며 배운 기술을 실제 문제 해결에 적용합니다.',
     caption: '아이디어에서 결과물까지, 팀으로 도전',
   },
@@ -445,6 +450,7 @@ function Activities() {
         <div className="activities-extras-grid">
           {EXTRA_ACTIVITIES.map(item=><article className="activities-extra-card" key={item.id} id={item.id}>
             <div className="activities-extra-top"><span>{item.n} / {item.tag}</span><span aria-hidden="true">↗</span></div>
+            <div className="activities-extra-media"><img src={import.meta.env.BASE_URL + 'images/' + item.image} alt={item.imageAlt} loading="lazy" decoding="async" /></div>
             <h3>{item.title}</h3>
             <p>{item.description}</p>
             <span className="activities-extra-caption">{item.caption}</span>
@@ -620,12 +626,119 @@ function StudyRoom({ initialTab = 'notes' }) {
   </>
 }
 
+const JOIN_FAQ = [
+  {
+    question: 'Runtime;에서는 어떤 활동을 하나요?',
+    answer: '매주 화요일 기초반·심화반 정기 세미나에서 Python, R 등 프로그래밍을 배우고, 응용 실습과 바이브코딩으로 직접 구현하는 경험을 쌓습니다. 이외에도 데이터 관련 자격증 스터디, 공모전, 해커톤 및 팀 프로젝트 등에 참여하며 배움을 확장합니다.',
+  },
+  {
+    question: '코딩을 처음 배우는 사람도 지원할 수 있나요?',
+    answer: '기초 문법과 핵심 개념부터 학습하는 기초반이 마련되어 있어 프로그래밍을 처음 접하는 학생도 활동 내용을 살펴볼 수 있습니다. 다만 실제 모집 대상과 선수 지식 요건은 모집 시기마다 달라질 수 있으므로 공식 모집 공지의 지원 자격을 우선 확인해 주세요.',
+  },
+  {
+    question: '기초반과 심화반은 무엇이 다른가요?',
+    answer: '기초반은 프로그래밍 언어의 문법과 기본 개념을 익히고 간단한 코드를 작성하는 과정입니다. 심화반은 배운 개념을 웹 개발, 응용 프로그래밍, 바이브코딩 등 실습 중심의 주제에 적용합니다. 각 세미나의 실제 주제와 난이도는 운영 상황에 따라 조정될 수 있습니다.',
+  },
+  {
+    question: '정기 활동은 언제 진행되나요?',
+    answer: '정기 세미나는 매주 화요일에 진행됩니다. 기초반은 18:00–18:50, 심화반은 19:00–19:50입니다. 세부 운영 일정과 장소, 휴강 여부는 동아리 공지를 통해 확인해 주세요.',
+  },
+  {
+    question: '자격증 스터디와 팀 프로젝트는 어떻게 참여하나요?',
+    answer: 'SQLD·ADsP 등 자격증 스터디와 공모전·해커톤·팀 프로젝트는 정기 세미나 외에 진행하는 확장 활동입니다. 관심 분야와 활동 상황에 맞춰 참여 기회를 살펴볼 수 있으며, 모집 방식·팀 구성·필수 참여 여부 등은 각 활동 공지를 기준으로 안내합니다.',
+  },
+  {
+    question: '전공이나 학년 제한이 있나요?',
+    answer: 'Runtime;은 경희대학교 이과대학 코딩 동아리입니다. 학과·학년·전공 관련 지원 자격을 포함한 최종 모집 조건은 해당 모집 공고를 확인해 주세요. 웹사이트는 개별 모집 차수의 지원 자격을 확정해 안내하지 않습니다.',
+  },
+  {
+    question: '세미나 자료는 어디에서 확인하나요?',
+    answer: '웹사이트 스터디룸에서는 기초반과 심화반의 공개 예시 교안 및 체험 퀴즈를 확인할 수 있습니다. 전체 학습 자료는 부원 전용 공간을 통해 제공할 예정이며, 전용 Google Drive 연결은 현재 준비 중입니다.',
+  },
+  {
+    question: '동아리에서는 공부 외에 교류할 기회도 있나요?',
+    answer: '세미나와 팀 활동을 함께하며 자연스럽게 교류할 수 있습니다. 부원들끼리 식사하거나 모임에 참여하는 등 친목 활동도 동아리 생활의 한 부분이 될 수 있습니다. 구체적인 행사 및 MT 개최 여부와 일정은 공식 공지로 확인해 주세요.',
+  },
+  {
+    question: '모집 일정과 지원 방법은 어디서 확인하나요?',
+    answer: '모집 시기, 지원 자격, 선발 절차, 실제 지원 링크는 공식 인스타그램 @khu_runtime의 최신 모집 공지를 확인해 주세요. 현재 웹사이트의 지원하기 버튼은 연결 전인 안내용 버튼이며 웹사이트 자체에서는 지원서를 접수하지 않습니다.',
+  },
+]
+
 function Join() {
-  return <>
-    <PageHeading number="06" eyebrow="지원 안내" title={<>Runtime;과<br /><em>함께하고 싶다면.</em></>} description="Runtime;의 활동과 모집 안내를 확인하고, 함께할 기회를 살펴보세요. 자세한 모집 일정은 공식 인스타그램을 통해 안내합니다." />
-    <section id="guide" className="container join-grid"><div className="join-panel"><SectionLabel number="06.1">GET STARTED</SectionLabel><h2>궁금하다면,<br />먼저 알아보세요.</h2><p>모집 일정과 지원 방법은 공식 인스타그램 공지를 통해 확인해 주세요. 아래 지원 버튼은 디자인 시연용이며 실제 지원서는 연결되어 있지 않습니다.</p><div className="join-actions"><button type="button" className="button button-primary application-placeholder" disabled title="지원서 연결 전입니다">지원하기 <span aria-hidden="true">↗</span></button><a className="button button-light" href={INSTAGRAM} target="_blank" rel="noopener noreferrer">모집 공지 확인 <span aria-hidden="true">↗</span></a></div><span className="join-note">* 지원하기 버튼은 의도적으로 비활성화되어 있습니다.</span></div><div className="join-side"><span>Runtime; / KHU</span><div className="join-side-art" aria-hidden="true">R<span>↗</span></div><p>LEARN TO CODE.<br />CODE TO CREATE.</p></div></section>
-    <section id="faq" className="container faq-section"><div className="faq-heading"><SectionLabel number="06.2">FREQUENTLY ASKED</SectionLabel><h2>자주 궁금해할 질문</h2></div><div className="faq-list"><details><summary>Runtime;에서는 주로 어떤 활동을 하나요?<span>+</span></summary><p>Python과 R 등 프로그래밍 언어를 공부하는 세미나·스터디를 진행하고, 실습이나 자격증 공부, 공모전 및 해커톤 등에 함께 참여합니다.</p></details><details><summary>코딩을 처음 배우는 사람도 지원할 수 있나요?<span>+</span></summary><p>활동에는 세미나와 스터디가 포함되어 있습니다. 다만 지원 자격과 요구되는 선수 지식은 해당 학기 공식 모집 공지를 통해 확인해 주세요.</p></details><details><summary>모집 시기와 지원 방법은 어디서 확인하나요?<span>+</span></summary><p>공식 인스타그램 <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer">@khu_runtime ↗</a>에서 최신 모집 안내를 확인할 수 있습니다. 현재 이 웹사이트에서는 지원서를 접수하지 않습니다.</p></details></div></section>
-  </>
+  const base = import.meta.env.BASE_URL
+  return <div className="join-page">
+    <PageHeading number="06" eyebrow="지원 안내" title={<>Runtime;과<br /><em>함께하고 싶다면.</em></>}
+      description="처음 시작하는 코드부터 함께 만드는 프로젝트까지. Runtime;의 활동과 분위기를 알아보고, 모집 공지에서 지원 방법을 확인해 보세요." />
+
+    <section id="guide" className="container join-grid">
+      <div className="join-panel">
+        <SectionLabel number="06.1">GET STARTED</SectionLabel>
+        <h2>새로운 배움을,<br />함께 시작하세요.</h2>
+        <p>Runtime;의 정기 세미나와 프로젝트에 관심이 있다면 공식 인스타그램을 통해 모집 일정과 지원 방법을 확인해 주세요. 지원 자격과 선발 방식은 모집 공지에 따라 안내됩니다.</p>
+        <div className="join-actions">
+          <button type="button" className="button button-primary application-placeholder" disabled title="지원서 연결 전입니다">지원하기 <span aria-hidden="true">↗</span></button>
+          <a className="button button-light" href={INSTAGRAM} target="_blank" rel="noopener noreferrer">모집 공지 확인 <span aria-hidden="true">↗</span></a>
+        </div>
+        <span className="join-note">* 현재 웹사이트에서 직접 지원서를 접수하지 않습니다. 지원 버튼은 연결 준비 중입니다.</span>
+      </div>
+      <div className="join-side">
+        <span className="join-side-kicker">KYUNG HEE UNIVERSITY · RUNTIME;</span>
+        <div className="join-side-logo">
+          <img src={base + 'runtime-mark.svg'} alt="Runtime; 동아리 공식 로고" />
+        </div>
+        <p>LEARN TO CODE.<br />BUILD WITH PEOPLE.</p>
+      </div>
+    </section>
+
+    <section id="community" className="join-community" aria-labelledby="join-community-title">
+      <div className="container">
+        <div className="join-community-head">
+          <div>
+            <span className="join-community-eyebrow">PEOPLE & MOMENTS</span>
+            <h2 id="join-community-title">함께 배우고,<br />함께 가까워지는 시간.</h2>
+          </div>
+          <p>세미나와 프로젝트로 시작된 인연은 일상 속 대화와 모임으로도 이어집니다. 함께하는 Runtime;의 분위기를 만나보세요.</p>
+        </div>
+        <div className="join-community-grid">
+          <figure className="join-community-photo join-community-photo-wide">
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1100&q=85" alt="친구들이 야외에서 함께 시간을 보내는 모습" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+            <figcaption><strong>함께하는 모임</strong><span>ACTIVITIES & FRIENDSHIP</span></figcaption>
+          </figure>
+          <figure className="join-community-photo">
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=850&q=85" alt="음식을 함께 나누는 식사 자리의 분위기" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+            <figcaption><strong>함께 나누는 식사</strong><span>MEALS & CONVERSATIONS</span></figcaption>
+          </figure>
+          <figure className="join-community-photo">
+            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=850&q=85" alt="함께 여행을 떠나는 분위기를 표현한 여행 사진" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+            <figcaption><strong>여행과 MT의 추억</strong><span>TRIPS & MEMORIES</span></figcaption>
+          </figure>
+        </div>
+        <p className="join-community-disclaimer">* 위 이미지는 친목 활동 분위기를 전달하기 위한 Unsplash 참고 사진이며, Runtime;의 실제 행사 사진은 아닙니다. MT 및 모임 운영 여부는 공식 공지를 확인해 주세요.</p>
+      </div>
+    </section>
+
+    <section id="faq" className="container faq-section join-faq-section">
+      <div className="faq-heading">
+        <SectionLabel number="06.2">FREQUENTLY ASKED</SectionLabel>
+        <h2>궁금한 점을<br />확인해 보세요.</h2>
+        <p>지원 전 알아두면 좋은 활동 내용과 안내를 모았습니다.</p>
+      </div>
+      <div className="faq-list">
+        {JOIN_FAQ.map((item, index)=>
+          <details key={item.question}>
+            <summary><span className="join-faq-number">{String(index+1).padStart(2,'0')}</span><span className="join-faq-question">{item.question}</span><span className="join-faq-toggle" aria-hidden="true">+</span></summary>
+            <p>{item.answer}</p>
+          </details>
+        )}
+        <div className="join-faq-footer">
+          <strong>더 궁금한 내용이 있나요?</strong>
+          <p>모집과 활동에 관한 최신 내용은 공식 인스타그램 공지를 확인해 주세요.</p>
+          <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer">Runtime; 공식 인스타그램 <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </div>
 }
 
 function Footer() {
