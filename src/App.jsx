@@ -217,6 +217,37 @@ function ActivityIcon({ name }) {
 }
 
 function Home() {
+  useEffect(() => {
+    // Only reveal when JavaScript and IntersectionObserver are both ready.
+    // Without these features, content stays visible rather than disappearing.
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) return undefined
+
+    const elements = document.querySelectorAll(
+      '.home-project-section .home-section-heading, ' +
+      '.home-project-section .home-project-card, ' +
+      '.home-study-section .home-study-inner, ' +
+      '.home-join-section .home-join-inner'
+    )
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' })
+
+    elements.forEach((element) => {
+      element.classList.add('home-scroll-reveal')
+      observer.observe(element)
+    })
+    return () => {
+      observer.disconnect()
+      elements.forEach((element) => element.classList.remove('home-scroll-reveal', 'is-visible'))
+    }
+  }, [])
+
   const highlights = [
     { key: 'seminar', title: '세미나', sub: 'Python · R', to: '#/activities/seminars' },
     { key: 'code', title: '심화 실습', sub: 'HTML · CSS · JavaScript · 바이브코딩', to: '#/activities/practice' },
