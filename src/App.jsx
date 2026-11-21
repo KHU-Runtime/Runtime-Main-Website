@@ -60,19 +60,22 @@ const PROJECT_HOME_EXAMPLES = [
   {
     id: 'home-example-math',
     category: '참가 리포트',
-    title: '수식 하나로 해답을 찾다 : <응용수학 알고리즘 챌린지> 참가 리포트',
+    title: '수식 하나로 해답을 찾다',
+    subtitle: '응용수학 알고리즘 챌린지 · 참가 리포트',
     cover: import.meta.env.BASE_URL + 'images/project-math.webp',
   },
   {
     id: 'home-example-ai',
     category: '우수상 수상',
-    title: '아이디어가 서비스로 : <2026 K-AI 오픈 이노베이션 해커톤> 우수상 수상',
+    title: '아이디어를 서비스로',
+    subtitle: '2026 K-AI 오픈 이노베이션 해커톤 · 우수상',
     cover: import.meta.env.BASE_URL + 'images/project-ai.webp',
   },
   {
     id: 'home-example-chemistry',
     category: '본선 진출 및 수상',
-    title: '실험실 바깥의 세상을 설계하다 : <2026 차세대 친환경 화학 탐구대회> 본선 진출 및 수상',
+    title: '실험실 밖으로 나간 화학',
+    subtitle: '2026 차세대 친환경 화학 탐구대회 · 본선 진출 및 수상',
     cover: import.meta.env.BASE_URL + 'images/project-chemistry.webp',
   },
 ]
@@ -243,7 +246,7 @@ function Home() {
     { key: 'study', title: '스터디', sub: 'ADsP · SQLD', to: '#/activities/certificates' },
     { key: 'trophy', title: '대회 참여', sub: '공모전 · 해커톤 · 경진대회', to: '#/projects/archive' },
   ]
-  const seminarImage = import.meta.env.BASE_URL + 'images/seminar-runtime-actual.webp'
+  const seminarImage = import.meta.env.BASE_URL + 'images/seminar-edited-presenter.webp'
 
   return <>
     <div className="home-showcase">
@@ -300,6 +303,7 @@ function Home() {
               <div className="home-project-body">
                 <span className="home-project-label">시연용 예시 <span aria-hidden="true">·</span> {project.category}</span>
                 <h3>{project.title}</h3>
+                <p className="home-project-subtitle">{project.subtitle}</p>
               </div>
             </article>
           ))}
@@ -316,7 +320,7 @@ function Home() {
         <p>세미나 복습, 미니 퀴즈, 학습자료까지.<br />Runtime;의 공부를 이어가는 공간입니다.</p>
         <a className="home-more-link home-more-light" href="#/study/notes">자세히 알아보기 <span aria-hidden="true">↗</span></a>
       </div>
-      
+      <span className="home-study-image-note">AI 편집 이미지</span>
     </section>
 
     <section className="home-join-section" aria-labelledby="home-join-title">
