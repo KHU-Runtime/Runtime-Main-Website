@@ -441,14 +441,14 @@ function Notes() {
           onClick={()=>{setSelectedWeek(item.week);setShowPreview(true)}}>
           <span className="seminar-week-index">{String(item.week).padStart(2,'0')} / WEEK</span>
           <strong>{item.title}</strong>
-          <small>{item.pages}페이지 · PDF</small><span className="seminar-week-arrow" aria-hidden="true">↗</span>
+          <small>Key word : {item.topics.join(' · ')}</small><span className="seminar-week-arrow" aria-hidden="true">↗</span>
         </button>)}
       </div>
       <div className="seminar-archive-detail">
         <div className="seminar-detail-header">
           <span className="quiz-kicker">PYTHON CONCEPT · WEEK {String(week.week).padStart(2,'0')}</span>
           <h4>{week.week}주차 · {week.title}</h4>
-          <p>{week.summary}</p>
+          <p>Key word : {week.topics.join(' · ')}</p>
           <div className="seminar-topic-tags">{week.topics.map(topic=><span key={topic}>{topic}</span>)}</div>
           <div className="seminar-actions">
             <button type="button" className="seminar-action-btn" onClick={()=>setShowPreview(current=>!current)}
