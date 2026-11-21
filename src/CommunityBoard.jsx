@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './CommunityBoard.css'
+import { PROJECT_EXAMPLES } from './data/projectExamples'
 import {
   DEMO_POSTS_EVENT, getDemoPosts, saveDemoPost, deleteDemoPost,
-  resetDemoPosts, loadSamplePosts, validateDemoFiles,
+  resetDemoPosts, validateDemoFiles,
 } from './lib/demoPosts'
 
 const CATEGORIES = ['해커톤', '경진대회', '공모전', '개발 프로젝트', '수상·소식']
@@ -143,16 +144,19 @@ function DemoPostCard({post,onEdit,onDelete}) {
     return ()=>entries.forEach((item)=>URL.revokeObjectURL(item.url))
   },[post])
   const cover = links.find((entry)=>entry.type.startsWith('image/'))
+  const imageUrl = cover?.url || post.cover || ''
   return <article className="cb-post-card">
     <div className="cb-post-cover">
-      {cover
-        ? <img src={cover.url} loading="lazy" alt={post.title+' 사진'} />
+      {imageUrl
+        ? <img src={imageUrl} loading="lazy" alt={post.title+' 관련 이미지'} />
         : <div><span>Runtime;</span><b>{post.category==='수상·소식'?'NEWS':'PROJECT'}</b></div>}
     </div>
     <div className="cb-post-body">
-      <div className="cb-meta"><span>{post.category}</span><time>{prettyDate(post.event_date)}</time></div>
-      <span className="cb-demo-tag">{post.sample?'샘플 콘텐츠':'이 브라우저에 저장된 글'}</span>
+      <div className="cb-meta"><span>{post.fixedExample ? post.label : post.category}</span>
+        {post.event_date && <time>{prettyDate(post.event_date)}</time>}</div>
+      <span className="cb-demo-tag">{post.fixedExample ? '시연용 예시 기록' : post.sample ? '샘플 콘텐츠' : '이 브라우저에 저장된 글'}</span>
       <h3>{post.title}</h3>
+      {post.subtitle && <p className="cb-post-subtitle">{post.subtitle}</p>}
       <p className="cb-post-summary">{post.summary}</p>
       {post.award && <p className="cb-award">★ {post.award}</p>}
       <button className="cb-text-action" type="button" aria-expanded={expanded}
@@ -166,10 +170,10 @@ function DemoPostCard({post,onEdit,onDelete}) {
             <a key={entry.id} href={entry.url} download={entry.name}>↓ {entry.name} ({(entry.size/1024/1024).toFixed(2)}MB)</a>)}
         </div>}
       </div>}
-      <div className="cb-post-actions">
+      {!post.fixedExample && <div className="cb-post-actions">
         <button type="button" onClick={()=>onEdit(post)}>수정</button>
         <button type="button" onClick={()=>onDelete(post.id)}>삭제</button>
-      </div>
+      </div>}
     </div>
   </article>
 }
@@ -281,15 +285,6 @@ export default function CommunityBoard({initialView=''}) {
       refresh()
     }catch(e){setActionError(e.message)}
   }
-  const insertSamples = async () => {
-    try {
-      setWorking(true)
-      await loadSamplePosts()
-      await refresh()
-      setNotice('시연용 가상 게시물 3개를 불러왔어요. 실제 동아리 실적이 아닙니다.')
-    }catch(e){setActionError(e.message)}
-    finally{setWorking(false)}
-  }
   const clearAll = async () => {
     if(!window.confirm('이 브라우저에 저장된 시연용 글과 첨부파일을 모두 삭제할까요?'))return
     try{
@@ -301,11 +296,11 @@ export default function CommunityBoard({initialView=''}) {
     }catch(e){setActionError(e.message)}
     finally{setWorking(false)}
   }
-  const visible = posts.filter((post)=>{
+  const visible = [...posts, ...PROJECT_EXAMPLES].filter((post)=>{
     if(filter==='awards'&&post.category!=='수상·소식')return false
     if(filter==='projects'&&post.category==='수상·소식')return false
-    return !search || [post.title,post.summary,post.team,post.category]
-      .join(' ').toLowerCase().includes(search.toLowerCase())
+    return !search || [post.title,post.subtitle,post.summary,post.team,post.category]
+      .filter(Boolean).join(' ').toLowerCase().includes(search.toLowerCase())
   })
   return <>
     <section className="page-heading container">
@@ -318,7 +313,7 @@ export default function CommunityBoard({initialView=''}) {
         <div>
           <span className="cb-eyebrow">Runtime; COMMUNITY ARCHIVE</span>
           <h2>프로젝트 & 소식</h2>
-          <p>동아리 부원들의 활동 기록을 모아보는 게시판입니다.</p>
+          <p>활동 기록 예시를 살펴보고, 발표용 게시판에서 직접 글도 작성해 보세요.</p>
         </div>
         <div className="cb-top-actions">
           <button type="button" className="cb-primary" onClick={()=>openEditor()}>+ 글쓰기</button>
@@ -326,7 +321,7 @@ export default function CommunityBoard({initialView=''}) {
       </div>
       <div className="cb-demo-notice" role="note">
         <strong>발표용 데모</strong>
-        <span>로그인·서버·비용 없이 작동해요. 글과 첨부파일은 현재 브라우저에만 저장되며 다른 사람에게 공유되지 않습니다.</span>
+        <span>기본으로 표시된 3개 프로젝트는 가상의 시연용 예시입니다. 직접 작성한 글과 첨부파일은 현재 브라우저에만 저장됩니다.</span>
       </div>
       {notice && <p className="cb-notice" role="status">{notice}</p>}
       <ErrorMessage message={error || actionError}/>
@@ -353,10 +348,10 @@ export default function CommunityBoard({initialView=''}) {
           <button type="button" onClick={()=>openEditor()}>첫 글 작성하기 →</button>
         </div>}
       <div className="cb-demo-controls">
-        <div><b>시연 도구</b><p>발표할 때 샘플 게시물을 넣거나 초기화할 수 있어요.</p></div>
+        <div><b>시연 데이터 관리</b><p>내가 작성한 글만 초기화됩니다. 기본 프로젝트 예시 3개는 계속 표시돼요.</p></div>
         <div>
-          <button className="cb-secondary" type="button" disabled={working} onClick={insertSamples}>예시 3건 불러오기</button>
-          <button className="cb-secondary cb-reset" type="button" disabled={working} onClick={clearAll}>시연 데이터 초기화</button>
+          
+          <button className="cb-secondary cb-reset" type="button" disabled={working} onClick={clearAll}>내가 작성한 글 초기화</button>
         </div>
       </div>
       <div className="cb-board-footnote"><b>참고</b>
