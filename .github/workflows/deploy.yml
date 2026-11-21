@@ -111,9 +111,45 @@ jobs:
           request = urllib.request.Request(js_url, headers={"Cache-Control": "no-cache"})
           with urllib.request.urlopen(request, timeout=20) as response:
               javascript = response.read().decode("utf-8")
-          required = ("기초부터 탄탄히.", "18:00–18:50", "19:00–19:50", "배움을 실제 경험으로.")
+          required = ("기초부터 탄탄히.", "18:00–18:50", "19:00–19:50", "배움을 실제 경험으로.", "runtime-team-project-hq.webp", "runtime-cert-study-hq.webp")
           missing = [text for text in required if text not in javascript]
           if missing:
               raise SystemExit(f"Public JS asset is missing Activities changes: {missing}. URL: {js_url}")
           print(f"Verified published Activities copy and timetable in {js_url}")
+          PY
+
+      - name: Verify full-resolution activity photos are published
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import os
+          import time
+          from urllib.request import Request, urlopen
+
+          photos = [
+              ('runtime-team-project-hq.webp', (626, 416), '61e198f3c6b7585fed850fd62a237e152f2b8b5b'),
+              ('runtime-cert-study-hq.webp', (600, 375), 'b9d9e8131288fff85cd370c337434a7009a7aa12'),
+          ]
+          for filename, expected_size, expected_hash in photos:
+              url = os.environ['PAGE_URL'].rstrip('/') + '/images/' + filename
+              for attempt in range(1, 9):
+                  try:
+                      request = Request(url + '?revision=' + os.environ['GITHUB_SHA'], headers={'Cache-Control': 'no-cache'})
+                      with urlopen(request, timeout=20) as response:
+                          data = response.read()
+                      digest = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+                      assert digest == expected_hash, f'Unexpected file bytes ({digest})'
+                      assert data[:4] == b'RIFF' and data[8:16] == b'WEBPVP8 ', 'Not a VP8 WebP'
+                      width = int.from_bytes(data[26:28], 'little') & 16383
+                      height = int.from_bytes(data[28:30], 'little') & 16383
+                      assert (width, height) == expected_size, f'Unexpected dimensions: {width}x{height}'
+                      print(f'Published {filename}: {width}x{height} pixels, {len(data)} bytes, Git blob {digest}')
+                      break
+                  except Exception as error:
+                      if attempt == 8:
+                          raise
+                      print(f'Image not yet current ({filename}, attempt {attempt}): {error}')
+                      time.sleep(3)
           PY
