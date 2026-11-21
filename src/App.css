@@ -1611,3 +1611,74 @@ body{background:#fff;color:var(--ink)}
   .about-page .about-operation{padding:23px 0 25px}
   .about-page .about-cta{padding-block:28px 35px;gap:15px}
 }
+
+
+/* 4th Runtime executive profiles — the supplied red lion artwork is a shared portrait visual. */
+.about-page .about-name-story{padding-bottom:37px}
+.about-page .about-team{padding:42px 0 45px;border-bottom:1px solid #e1e5ed;scroll-margin-top:110px}
+.about-page .about-team-heading{margin-bottom:24px}
+.about-page .about-team-heading h2{font-size:clamp(26px,3vw,34px);margin:8px 0 6px}
+.about-page .about-team-heading p{font-size:15px;color:#5d6a7f}
+.about-page .about-team-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.about-page .about-team-person{
+  min-width:0;display:flex;flex-direction:column;overflow:hidden;
+  padding:0;background:#fff;border:1px solid #e1e6ef;border-radius:9px;
+}
+.about-page .about-executive-photo{
+  position:relative;display:flex;justify-content:center;align-items:center;
+  height:190px;background:linear-gradient(125deg,#f9f4f1 0%,#f4f3f6 53%,#ebeff9 100%);
+  border-bottom:1px solid #e7e7ef;
+}
+.about-page .about-executive-photo img{
+  width:auto;height:132px;max-width:63%;object-fit:contain;display:block;
+}
+.about-page .about-executive-index{
+  position:absolute;right:18px;bottom:14px;
+  font:600 11px 'DM Mono',monospace;color:#818c9d;letter-spacing:.6px;
+}
+.about-page .about-executive-body{padding:21px 23px 23px;flex:1}
+.about-page .about-team-role{
+  display:block;font:750 11px 'DM Sans',sans-serif;letter-spacing:1.25px;color:#22396f;
+}
+.about-page .about-executive-name{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:8px 0 4px}
+.about-page .about-executive-name h3{font-size:25px;letter-spacing:-.9px;margin:0;line-height:1.45;color:#010736}
+.about-page .about-executive-name strong{
+  font-size:13px;font-weight:700;color:#384a75;white-space:nowrap;
+}
+.about-page .about-executive-major{margin:0 0 16px;font-size:13px;line-height:1.65;color:#6d7a90;word-break:keep-all}
+.about-page .about-executive-history{
+  list-style:none;margin:0;padding:15px 0 0;border-top:1px solid #e8ebf1;
+}
+.about-page .about-executive-history li{
+  display:grid;grid-template-columns:90px minmax(0,1fr);gap:10px;align-items:baseline;
+  font-size:12px;line-height:1.7;color:#455269;word-break:keep-all;
+}
+.about-page .about-executive-history li+li{margin-top:6px}
+.about-page .about-executive-history time{
+  font:600 11px/1.7 'DM Mono',monospace;color:#8290a4;white-space:nowrap;
+}
+@media(max-width:980px){
+  .about-page .about-team-grid{grid-template-columns:1fr;gap:13px}
+  .about-page .about-team-person{display:grid;grid-template-columns:minmax(150px,32%) minmax(0,1fr)}
+  .about-page .about-executive-photo{height:auto;min-height:220px;border-bottom:0;border-right:1px solid #e7e7ef}
+  .about-page .about-executive-photo img{height:127px;max-width:68%}
+  .about-page .about-executive-body{padding:20px 23px}
+  .about-page .about-executive-history li{grid-template-columns:102px minmax(0,1fr)}
+}
+@media(max-width:600px){
+  .about-page .about-name-story{padding-bottom:28px}
+  .about-page .about-team{padding:31px 0 29px}
+  .about-page .about-team-heading{margin-bottom:17px}
+  .about-page .about-team-heading h2{font-size:26px}
+  .about-page .about-team-heading p{font-size:13px}
+  .about-page .about-team-grid{gap:12px}
+  .about-page .about-team-person{display:flex}
+  .about-page .about-executive-photo{height:137px;min-height:137px;border-right:0;border-bottom:1px solid #e7e7ef}
+  .about-page .about-executive-photo img{height:105px;max-width:65%}
+  .about-page .about-executive-body{padding:16px 18px 18px}
+  .about-page .about-executive-name{margin-top:6px}
+  .about-page .about-executive-name h3{font-size:22px}
+  .about-page .about-executive-major{margin-bottom:12px}
+  .about-page .about-executive-history{padding-top:12px}
+  .about-page .about-executive-history li{grid-template-columns:99px minmax(0,1fr);font-size:12px;gap:7px}
+}
