@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import CommunityBoard, { CommunityNews } from './CommunityBoard'
+import CommunityBoard, { CommunityProjectsPreview } from './CommunityBoard'
 
 const INSTAGRAM = 'https://www.instagram.com/khu_runtime/'
 const GITHUB = 'https://github.com/KHU-Runtime/Runtime-Main-Website'
@@ -20,7 +20,6 @@ const NAV = [
   ] },
   { id: 'projects', label: '프로젝트', children: [
     { label: '활동 기록', section: 'archive' },
-    { label: '수상·소식', section: 'awards' },
     { label: '글쓰기', section: 'manage' },
   ] },
   { id: 'study', label: '스터디룸', children: [
@@ -54,6 +53,27 @@ const ACTIVITY_LIST = [
     n: '04', tag: 'CHALLENGE', title: '대회와 공모전',
     description: '팀을 이루어 공모전, 경진대회, 해커톤에 참여하며 아이디어를 구체화합니다.',
     detail: '문제 정의 · 팀 프로젝트 · 결과 공유',
+  },
+]
+
+const PROJECT_HOME_EXAMPLES = [
+  {
+    id: 'home-example-math',
+    category: '참가 리포트',
+    title: '수식 하나로 해답을 찾다 : <응용수학 알고리즘 챌린지> 참가 리포트',
+    cover: import.meta.env.BASE_URL + 'images/project-math.webp',
+  },
+  {
+    id: 'home-example-ai',
+    category: '우수상 수상',
+    title: '아이디어가 서비스로 : <2026 K-AI 오픈 이노베이션 해커톤> 우수상 수상',
+    cover: import.meta.env.BASE_URL + 'images/project-ai.webp',
+  },
+  {
+    id: 'home-example-chemistry',
+    category: '본선 진출 및 수상',
+    title: '실험실 바깥의 세상을 설계하다 : <2026 차세대 친환경 화학 탐구대회> 본선 진출 및 수상',
+    cover: import.meta.env.BASE_URL + 'images/project-chemistry.webp',
   },
 ]
 
@@ -218,11 +238,12 @@ function ActivityIcon({ name }) {
 
 function Home() {
   const highlights = [
-    { key: 'seminar', title: '세미나', sub: 'Python · R' },
-    { key: 'study', title: '스터디', sub: '자격증 · 심화 학습' },
-    { key: 'code', title: '개발 실습', sub: '실전 구현 · 협업' },
-    { key: 'trophy', title: '대회 참여', sub: '공모전 · 해커톤 · 경진대회' },
+    { key: 'seminar', title: '세미나', sub: 'Python · R', to: '#/activities/seminars' },
+    { key: 'code', title: '심화 실습', sub: 'HTML · CSS · JavaScript · 바이브코딩', to: '#/activities/practice' },
+    { key: 'study', title: '스터디', sub: 'ADsP · SQLD', to: '#/activities/certificates' },
+    { key: 'trophy', title: '대회 참여', sub: '공모전 · 해커톤 · 경진대회', to: '#/projects/archive' },
   ]
+  const seminarImage = import.meta.env.BASE_URL + 'images/seminar-study.webp'
 
   return <>
     <div className="home-showcase">
@@ -245,12 +266,11 @@ function Home() {
         <div className="container overview-layout">
           <div className="overview-intro">
             <h2 id="runtime-overview-title">Runtime;에서는 무엇을 하나요?</h2>
-            <p>세미나, 스터디, 실습, 프로젝트까지<br className="desktop-break" /> 함께 배우고 성장하는 다양한 활동을 진행합니다.</p>
+            <p>세미나, 스터디, 실습, 프로젝트까지<br className="desktop-break" /> 함께 배우고 성장하는 <strong>learn-time !</strong></p>
           </div>
           <div className="overview-highlights">
             {highlights.map((item) => (
-              <a className="overview-highlight" key={item.key}
-                href={item.key === 'trophy' ? '#/projects/archive' : item.key === 'study' ? '#/activities/certificates' : item.key === 'code' ? '#/activities/practice' : '#/activities/seminars'}>
+              <a className="overview-highlight" key={item.key} href={item.to}>
                 <ActivityIcon name={item.key} />
                 <strong>{item.title}</strong>
                 <span>{item.sub}</span>
@@ -260,24 +280,40 @@ function Home() {
         </div>
       </section>
     </div>
-    <CommunityNews />
-    <section className="container home-directory">
-      <div className="directory-item">
-        <div><SectionLabel number="01">프로젝트</SectionLabel><h2>팀이 함께 만든 결과물</h2>
-          <p>아이디어, 사용한 기술, 구현 과정과 대회 참여 기록을 차곡차곡 모읍니다.</p></div>
-        <TextLink to="projects">프로젝트 보기</TextLink>
-      </div>
-      <div className="directory-item">
-        <div><SectionLabel number="02">스터디룸</SectionLabel><h2>세미나 복습과 미니 퀴즈</h2>
-          <p>배운 내용을 다시 읽고, 간단한 문제를 풀고, 공식 자료를 찾아볼 수 있습니다.</p></div>
-        <TextLink to="study">스터디룸 들어가기</TextLink>
+
+    <section className="home-project-section" aria-labelledby="home-project-title">
+      <div className="container">
+        <div className="home-section-heading">
+          <div>
+            <p className="home-section-eyebrow">01 / PROJECTS</p>
+            <h2 id="home-project-title">프로젝트, 기록으로 남기다.</h2>
+            <p>해커톤과 경진대회에서 나눈 아이디어부터 그 결과까지.</p>
+          </div>
+          <a className="home-more-link" href="#/projects/archive">자세히 알아보기 <span aria-hidden="true">↗</span></a>
+        </div>
+        <CommunityProjectsPreview examples={PROJECT_HOME_EXAMPLES} />
       </div>
     </section>
-    <section className="home-cta">
-      <div className="container home-cta-inner">
-        <div><SectionLabel number="03">지원 안내</SectionLabel><h2>Runtime;의 활동이 궁금하다면?</h2>
-          <p>모집 일정과 자세한 안내는 공식 인스타그램에서 확인할 수 있습니다.</p></div>
-        <TextLink to="join">지원 안내 보기</TextLink>
+
+    <section className="home-study-section" aria-labelledby="home-study-title"
+      style={{ backgroundImage: 'linear-gradient(90deg, rgba(1,7,54,.9) 0%, rgba(13,28,66,.72) 55%, rgba(1,7,54,.47) 100%), url(' + seminarImage + ')' }}>
+      <div className="container home-study-inner">
+        <p className="home-section-eyebrow">02 / STUDY ROOM</p>
+        <h2 id="home-study-title">배운 내용은 다시 꺼내볼 수 있게.</h2>
+        <p>세미나 복습, 미니 퀴즈, 학습자료까지.<br />Runtime;의 공부를 이어가는 공간입니다.</p>
+        <a className="home-more-link home-more-light" href="#/study/notes">자세히 알아보기 <span aria-hidden="true">↗</span></a>
+      </div>
+      <span className="home-study-image-note">시연용 세미나 이미지</span>
+    </section>
+
+    <section className="home-join-section" aria-labelledby="home-join-title">
+      <div className="container home-join-inner">
+        <div>
+          <p className="home-section-eyebrow">03 / JOIN US</p>
+          <h2 id="home-join-title">다음 learn-time을 함께할 사람을 기다립니다.</h2>
+          <p>모집 안내와 자주 묻는 질문을 확인해 보세요.</p>
+        </div>
+        <a className="home-more-link" href="#/join/guide">자세히 알아보기 <span aria-hidden="true">↗</span></a>
       </div>
     </section>
   </>
