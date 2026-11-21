@@ -58,7 +58,7 @@ const EXTRA_ACTIVITIES = [
   {
     id: 'certificates', n: '01', tag: 'CERTIFICATION',
     title: '자격증 스터디',
-    image: 'runtime-cert-study.webp',
+    image: 'runtime-cert-study-hq.webp', imageWidth: 600, imageHeight: 375,
     imageAlt: '온라인으로 함께 학습하는 화상 스터디 화면',
     description: 'SQLD, ADsP 등 데이터 관련 자격증에 관심 있는 부원들이 함께 학습 목표를 세우고 문제를 풀며 시험을 준비합니다.',
     caption: '함께 계획하고 준비하는 자율 스터디',
@@ -66,7 +66,7 @@ const EXTRA_ACTIVITIES = [
   {
     id: 'competitions', n: '02', tag: 'TEAM PROJECT',
     title: '공모전 · 팀 프로젝트',
-    image: 'runtime-team-project.webp',
+    image: 'runtime-team-project-hq.webp', imageWidth: 626, imageHeight: 416,
     imageAlt: '한 테이블에서 자료를 살펴보고 의견을 나누는 팀원들',
     description: '공모전, 해커톤, 데이터 분석 및 개발 프로젝트 등에 팀으로 참여하며 배운 기술을 실제 문제 해결에 적용합니다.',
     caption: '아이디어에서 결과물까지, 팀으로 도전',
@@ -450,7 +450,7 @@ function Activities() {
         <div className="activities-extras-grid">
           {EXTRA_ACTIVITIES.map(item=><article className="activities-extra-card" key={item.id} id={item.id}>
             <div className="activities-extra-top"><span>{item.n} / {item.tag}</span><span aria-hidden="true">↗</span></div>
-            <div className="activities-extra-media"><img src={import.meta.env.BASE_URL + 'images/' + item.image} alt={item.imageAlt} loading="lazy" decoding="async" /></div>
+            <div className="activities-extra-media"><img src={import.meta.env.BASE_URL + 'images/' + item.image} alt={item.imageAlt} width={item.imageWidth} height={item.imageHeight} loading="lazy" decoding="async" /></div>
             <h3>{item.title}</h3>
             <p>{item.description}</p>
             <span className="activities-extra-caption">{item.caption}</span>
