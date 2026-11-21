@@ -5,8 +5,6 @@
 
 경희대학교 이과대학 코딩 동아리 **Runtime;** 공식 홈페이지 프로젝트
 
-사이트: https://khu-runtime.github.io/Runtime-Main-Website/
-
 React + Vite + GitHub Pages 기반 반응형 웹사이트입니다.
 
 ## 시연 기능
