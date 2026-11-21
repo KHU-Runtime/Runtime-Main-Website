@@ -305,20 +305,46 @@ function PageHeading({ number, eyebrow, title, description }) {
   return <div className="page-heading container"><SectionLabel number={number}>{eyebrow}</SectionLabel><h1>{title}</h1><p>{description}</p></div>
 }
 
+
 function About() {
-  return <>
-    <PageHeading number="02" eyebrow="동아리 소개" title={<>Runtime;을<br /><em>소개합니다.</em></>} description="Runtime;은 프로그래밍 언어를 공부하는 데서 멈추지 않고, 학습한 기술을 실제 결과물로 연결하는 코딩 동아리입니다." />
-    <section id="overview" className="container about-overview"><div className="about-aside">Runtime;<br /><span>CODING CLUB.</span></div><div className="about-content"><h2>함께 배우고, 직접 만들어 봅니다.</h2><p>Runtime;은 Python과 R 등의 프로그래밍 언어를 세미나와 스터디로 공부합니다. 배운 내용을 직접 실습하고, 관심사가 맞는 부원들과 팀을 꾸려 공모전이나 해커톤에도 참여합니다.</p><div className="about-tags"><span>PROGRAMMING</span><span>DATA</span><span>COLLABORATION</span></div></div></section>
-    <section className="container about-name-story" aria-labelledby="runtime-name-meaning">
-      <div className="name-story-symbol" aria-hidden="true"><span>Runtime;</span><small>RUN + LEARN</small></div>
+  const steps = [
+    { number: '01', en: 'LEARN', title: '함께 배우기', text: 'Python·R 프로그래밍 세미나와 데이터 관련 자격증 스터디로 기초를 다집니다.' },
+    { number: '02', en: 'PRACTICE', title: '직접 구현하기', text: '배운 문법과 개념을 코드로 옮기고, 웹사이트와 작은 프로그램을 만들어봅니다.' },
+    { number: '03', en: 'CHALLENGE', title: '팀으로 도전하기', text: '관심사가 맞는 부원들과 아이디어를 발전시키고, 프로젝트·공모전·해커톤에 도전합니다.' },
+    { number: '04', en: 'SHARE', title: '경험 나누기', text: '실습 과정과 결과물을 서로 공유하며 시행착오까지 다음 배움으로 연결합니다.' },
+  ]
+
+  return <div className="about-page">
+    <PageHeading number="02" eyebrow="동아리 소개" title={<>Runtime;을<br /><em>소개합니다.</em></>} description="프로그래밍 언어를 공부하는 데서 멈추지 않고, 학습한 기술을 실제 결과물로 연결하는 코딩 동아리" />
+
+    <section id="overview" className="container about-name-story" aria-label="Runtime; 로고와 이름에 담긴 의미">
+      <div className="name-story-symbol">
+        <img className="name-story-mark" src={import.meta.env.BASE_URL + 'runtime-mark.svg'} alt="Runtime; 동아리 로고" />
+        <strong className="name-story-wordmark">Runtime;</strong>
+      </div>
       <div className="name-story-copy">
-        <span className="name-story-label">OUR NAME</span>
-        <h2 id="runtime-name-meaning">Runtime;이라는 이름의 의미</h2>
-        <p>컴퓨터 프로그램이 실행되는 동안의 동작을 의미하는 <strong>Runtime</strong>과 프로그래밍 언어에서 구문이 끝날 때 붙이는 기호인 <strong>;</strong>을 결합했습니다.</p>
-        <p>코드의 실행부터 종결까지 함께 배우는 <strong>learn time</strong> 동아리라는 의미를 담고 있습니다.</p>
+        <p className="name-story-lead">배움을 실행하고,<br />함께 결과를 만들어가는 시간.</p>
+        <p>컴퓨터 프로그램이 실행되는 시간을 뜻하는 <strong>Runtime</strong>과 여러 프로그래밍 언어에서 명령문의 끝을 나타내는 <strong>세미콜론(;)</strong>을 결합한 이름입니다.</p>
+        <p>코드를 배우는 시간을 실제 실행과 결과물로 이어가자는 마음을 <strong>Runtime;</strong>에 담았습니다.</p>
       </div>
     </section>
-    <section id="process" className="about-steps"><div className="container"><SectionLabel number="02.1">HOW WE GROW</SectionLabel><h2>Runtime;의 활동 방식</h2><div className="step-grid"><div><span>01</span><h3>세미나</h3><p>프로그래밍 기초를 함께 공부하기</p></div><div><span>02</span><h3>실습</h3><p>배운 내용으로 코드를 작성해 보기</p></div><div><span>03</span><h3>프로젝트</h3><p>팀을 꾸려 아이디어를 구체화하기</p></div><div><span>04</span><h3>공유</h3><p>결과와 배운 내용을 함께 나누기</p></div></div></div></section>
+
+    <section id="process" className="about-steps">
+      <div className="container">
+        <div className="about-process-heading">
+          <div><SectionLabel number="02.1">HOW WE GROW</SectionLabel><h2>함께 배우고, 직접 만들어갑니다.</h2></div>
+          <p>세미나에서 익힌 내용을 실습에 적용하고, 관심사를 나누는 사람들과 새로운 시도에 도전합니다.</p>
+        </div>
+        <div className="step-grid">
+          {steps.map(step=><article className="step-card" key={step.number}>
+            <div className="step-meta"><span className="step-number">{step.number}</span><span className="step-en">{step.en}</span></div>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </article>)}
+        </div>
+      </div>
+    </section>
+
     <section className="container about-team" aria-labelledby="about-team-heading">
       <div className="about-team-heading">
         <div><span className="about-team-kicker">PEOPLE OF RUNTIME;</span><h2 id="about-team-heading">동아리를 함께 꾸려가는 운영진</h2>
@@ -343,7 +369,7 @@ function About() {
       <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer">공식 인스타그램 확인하기 ↗</a>
     </section>
     <section className="container about-cta"><h2>Runtime;이 어떤 활동을 하는지<br />조금 더 궁금해졌나요?</h2><TextLink to="activities">활동 확인하기</TextLink></section>
-  </>
+  </div>
 }
 
 function Activities() {
@@ -441,14 +467,13 @@ function Notes() {
           onClick={()=>{setSelectedWeek(item.week);setShowPreview(true)}}>
           <span className="seminar-week-index">{String(item.week).padStart(2,'0')} / WEEK</span>
           <strong>{item.title}</strong>
-          <small>Key word : {item.topics.join(' · ')}</small><span className="seminar-week-arrow" aria-hidden="true">↗</span>
+          <small>{item.pages}페이지 · PDF</small><span className="seminar-week-arrow" aria-hidden="true">↗</span>
         </button>)}
       </div>
       <div className="seminar-archive-detail">
         <div className="seminar-detail-header">
           <span className="quiz-kicker">PYTHON CONCEPT · WEEK {String(week.week).padStart(2,'0')}</span>
           <h4>{week.week}주차 · {week.title}</h4>
-          <p>Key word : {week.topics.join(' · ')}</p>
           <div className="seminar-topic-tags">{week.topics.map(topic=><span key={topic}>{topic}</span>)}</div>
           <div className="seminar-actions">
             <button type="button" className="seminar-action-btn" onClick={()=>setShowPreview(current=>!current)}
