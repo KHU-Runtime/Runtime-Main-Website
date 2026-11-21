@@ -6,6 +6,8 @@ import { SEMINAR_WEEKS } from './data/seminarWeeks'
 
 const INSTAGRAM = 'https://www.instagram.com/khu_runtime/'
 const GITHUB = 'https://github.com/KHU-Runtime/Runtime-Main-Website'
+// Add the members-only, access-restricted Drive folder URL when ready.
+const MEMBER_DRIVE_URL = ''
 
 
 const NAV = [
@@ -26,9 +28,9 @@ const NAV = [
     { label: '글쓰기', section: 'manage' },
   ] },
   { id: 'study', label: '스터디룸', children: [
-    { label: '세미나 복습', section: 'notes' },
-    { label: '미니 퀴즈', section: 'quiz' },
-    { label: '학습자료', section: 'resources' },
+    { label: '세미나 미리보기', section: 'notes' },
+    { label: '체험 퀴즈', section: 'quiz' },
+    { label: '부원 전용 자료실', section: 'drive' },
   ] },
   { id: 'join', label: '지원 안내', children: [
     { label: '모집 안내', section: 'guide' },
@@ -468,24 +470,27 @@ function Quiz() {
   }
 
   return <div className="weekly-quiz">
-    <div className="study-subheading"><span className="quiz-kicker">WEEKLY QUIZ</span>
-      <h3>이번 주에 배운 만큼, 직접 풀어보기.</h3>
-      <p>첨부된 Python 세미나 교안에 맞춰 주차별 5문제를 준비했습니다. 정답을 선택하면 해설을 확인할 수 있어요.</p>
+    <div className="study-subheading">
+      <span className="quiz-kicker">TRY A QUIZ · PREVIEW</span>
+      <h3>기초반과 심화반, 한 세트씩 풀어보기.</h3>
+      <p>공개 예시 교안에 맞춰 두 개의 체험 퀴즈를 준비했어요. 각각 5문제를 풀고 해설을 확인할 수 있습니다.</p>
     </div>
-    <div className="seminar-week-tabs" role="tablist" aria-label="퀴즈 주차 선택">
-      {SEMINAR_WEEKS.map((week,i)=><button type="button" role="tab" key={week.week}
+    <div className="seminar-week-tabs" role="tablist" aria-label="체험 퀴즈 과정 선택">
+      {SEMINAR_WEEKS.map((week,i)=><button type="button" role="tab" key={week.track}
         aria-selected={weekIndex===i} className={weekIndex===i?'active':''}
-        onClick={()=>changeWeek(i)}><strong>{week.week}주차</strong><small>{week.title}</small></button>)}
+        onClick={()=>changeWeek(i)}>
+        <strong>{week.trackName}</strong><small>{week.title}</small>
+      </button>)}
     </div>
     {complete ? <div className="quiz-complete weekly-quiz-complete">
-      <span className="quiz-kicker">WEEK {activeWeek.week} · QUIZ COMPLETE</span>
+      <span className="quiz-kicker">{activeWeek.trackName} · QUIZ COMPLETE</span>
       <span className="quiz-score">{score}<small> / {questions.length}</small></span>
-      <h3>{activeWeek.week}주차 복습 완료!</h3>
-      <p>틀린 문제는 {activeWeek.week}주차 세미나 PDF에서 다시 확인해 보세요.</p>
-      <button className="button button-primary" type="button" onClick={reset}>이 주차 다시 풀기 <span aria-hidden="true">↻</span></button>
+      <h3>{activeWeek.trackName} 체험 퀴즈 완료!</h3>
+      <p>궁금한 문제는 위의 {activeWeek.trackName} 공개 예시 교안에서 다시 살펴보세요.</p>
+      <button className="button button-primary" type="button" onClick={reset}>이 퀴즈 다시 풀기 <span aria-hidden="true">↻</span></button>
     </div> : <div className="quiz-layout">
       <div className="quiz-sidebar">
-        <span className="quiz-kicker">WEEK {String(activeWeek.week).padStart(2,'0')} · PYTHON</span>
+        <span className="quiz-kicker">{activeWeek.trackName.toUpperCase()} · PYTHON SAMPLE</span>
         <h3>{activeWeek.title}<br />5문제 복습</h3>
         <p>{activeWeek.topics.join(' · ')}</p>
         <div className="quiz-progress-dots" aria-label={`${idx+1}번째 문제, 총 ${questions.length}개`}>
@@ -516,63 +521,82 @@ function Quiz() {
 }
 
 function Notes() {
-  const [selectedWeek,setSelectedWeek]=useState(1)
+  const [selectedTrack,setSelectedTrack]=useState('basic')
   const [showPreview,setShowPreview]=useState(true)
-  const week=SEMINAR_WEEKS.find(item=>item.week===selectedWeek)||SEMINAR_WEEKS[0]
+  const week=SEMINAR_WEEKS.find(item=>item.track===selectedTrack)||SEMINAR_WEEKS[0]
   const pdfUrl=import.meta.env.BASE_URL+'seminars/week-'+week.week+'.pdf'
   return <div className="seminar-archive">
-    <div className="study-subheading"><span className="quiz-kicker">SEMINAR ARCHIVE</span>
-      <h3>세미나 자료, 주차별로 모아보기.</h3>
-      <p>Runtime;에서 사용한 Python 세미나 교안 4개입니다. 목록에서 주차를 선택하면 자료를 열어보거나 다운로드할 수 있어요.</p>
+    <div className="study-subheading">
+      <span className="quiz-kicker">SEMINAR PREVIEW · OPEN TO ALL</span>
+      <h3>기초반부터 심화반까지, 미리 만나보세요.</h3>
+      <p>각 과정에서 한 편씩 공개한 Python 세미나 예시 자료입니다. 전체 교안은 부원 전용 자료실에서 제공할 예정입니다.</p>
     </div>
     <div className="seminar-archive-layout">
-      <div className="seminar-archive-list" aria-label="세미나 주차 선택">
-        {SEMINAR_WEEKS.map(item=><button type="button" key={item.week} aria-pressed={selectedWeek===item.week}
-          className={selectedWeek===item.week?'active':''}
-          onClick={()=>{setSelectedWeek(item.week);setShowPreview(true)}}>
-          <span className="seminar-week-index">{String(item.week).padStart(2,'0')} / WEEK</span>
-          <strong>{item.title}</strong>
-          <small>{item.pages}페이지 · PDF</small><span className="seminar-week-arrow" aria-hidden="true">↗</span>
+      <div className="seminar-archive-list" aria-label="세미나 체험 자료 과정 선택">
+        {SEMINAR_WEEKS.map(item=><button type="button" key={item.track} aria-pressed={selectedTrack===item.track}
+          className={selectedTrack===item.track?'active':''}
+          onClick={()=>{setSelectedTrack(item.track);setShowPreview(true)}}>
+          <span className="seminar-week-index">{item.track==='basic'?'01 / BASIC':'02 / ADVANCED'}</span>
+          <strong>{item.trackName}</strong>
+          <small>{item.title}</small>
+          <small>{item.pages}페이지 · 미리보기</small>
+          <span className="seminar-week-arrow" aria-hidden="true">↗</span>
         </button>)}
       </div>
       <div className="seminar-archive-detail">
         <div className="seminar-detail-header">
-          <span className="quiz-kicker">PYTHON CONCEPT · WEEK {String(week.week).padStart(2,'0')}</span>
-          <h4>{week.week}주차 · {week.title}</h4>
+          <span className="quiz-kicker">{week.trackName} · PYTHON SAMPLE</span>
+          <h4>{week.title}</h4>
           <div className="seminar-topic-tags">{week.topics.map(topic=><span key={topic}>{topic}</span>)}</div>
           <div className="seminar-actions">
             <button type="button" className="seminar-action-btn" onClick={()=>setShowPreview(current=>!current)}
-              aria-expanded={showPreview}>{showPreview?'미리보기 접기':'PDF 미리보기'}</button>
-            <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="seminar-action-btn">새 탭에서 열기 ↗</a>
-            <a href={pdfUrl} download={`Runtime_${week.week}주차_세미나.pdf`} className="seminar-action-btn seminar-download">PDF 다운로드 ↓</a>
+              aria-expanded={showPreview}>{showPreview?'미리보기 접기':'PDF 미리보기 열기'}</button>
           </div>
         </div>
         {showPreview&&<div className="seminar-pdf-preview">
-          <iframe key={week.week} src={pdfUrl+'#toolbar=1&navpanes=0'} title={`Runtime; ${week.week}주차 세미나 PDF 미리보기`} loading="lazy"/>
-          <p>브라우저에서 미리보기가 지원되지 않으면 ‘새 탭에서 열기’를 사용해 주세요.</p>
+          <iframe key={week.track} src={pdfUrl+'#toolbar=0&navpanes=0'} title={`Runtime; ${week.trackName} 공개 세미나 교안 미리보기`} loading="lazy"/>
+          <p>브라우저에 따라 PDF 표시 방식이 다를 수 있습니다. 별도의 다운로드 버튼은 제공하지 않습니다.</p>
         </div>}
       </div>
     </div>
+    <p className="seminar-sample-disclaimer">※ 기존 Python 세미나 1·4주차 교안을 공개 예시로 사용했습니다. 2026-2학기 R 기초반·바이브코딩 심화반의 전용 교안과는 별개입니다.</p>
   </div>
 }
 
-function Resources() {
-  return <div className="resources"><div className="resource-intro">
-    <span className="quiz-kicker">RESOURCE LIBRARY</span><h3>코딩 공부에 필요한<br />자료를 한곳에서.</h3>
-    <p>공식 학습 문서들을 소개합니다. 주차별 실제 세미나 PDF는 ‘세미나 복습’ 탭에서 볼 수 있어요.</p>
-  </div><div className="resource-list">
-    <a href="https://docs.python.org/ko/3/tutorial/" target="_blank" rel="noopener noreferrer"><div><span>01 / DOCUMENTATION</span><h4>Python 공식 튜토리얼</h4><p>문법과 기본 개념을 공부하는 공식 문서</p></div><b aria-hidden="true">↗</b></a>
-    <a href="https://cran.r-project.org/manuals.html" target="_blank" rel="noopener noreferrer"><div><span>02 / DOCUMENTATION</span><h4>R 공식 매뉴얼</h4><p>R 언어와 데이터 분석 환경에 관한 문서</p></div><b aria-hidden="true">↗</b></a>
-    <a href="https://docs.github.com/ko" target="_blank" rel="noopener noreferrer"><div><span>03 / DOCUMENTATION</span><h4>GitHub 공식 문서</h4><p>버전 관리와 협업 기본기 익히기</p></div><b aria-hidden="true">↗</b></a>
-  </div></div>
-}
-
 function StudyRoom({ initialTab = 'notes' }) {
-  const [tab, setTab] = useState(['notes', 'quiz', 'resources'].includes(initialTab) ? initialTab : 'notes')
-  useEffect(() => { if (['notes', 'quiz', 'resources'].includes(initialTab)) setTab(initialTab) }, [initialTab])
+  const [tab,setTab] = useState(['notes','quiz'].includes(initialTab)?initialTab:'notes')
+  const [driveMessage,setDriveMessage] = useState(false)
+  useEffect(()=>{if(['notes','quiz'].includes(initialTab))setTab(initialTab)},[initialTab])
   return <>
-    <PageHeading number="05" eyebrow="스터디룸" title={<>복습하고, 풀어보고,<br /><em>다시 익히는 공간.</em></>} description="세미나 내용 복습부터 간단한 퀴즈, 코딩 자료까지. 부담 없이 다시 찾아볼 수 있는 학습 도구를 모았습니다." />
-    <section className="container study-section"><div className="study-switch" role="tablist" aria-label="스터디룸 기능">{[{ id: 'notes', label: '세미나 복습', en: 'REVIEW' }, { id: 'quiz', label: '미니 퀴즈', en: 'QUIZ' }, { id: 'resources', label: '자료실', en: 'LIBRARY' }].map((item) => <button role="tab" aria-selected={tab === item.id} type="button" key={item.id} className={tab === item.id ? 'selected' : ''} onClick={() => setTab(item.id)}><small>{item.en}</small><span>{item.label}</span></button>)}</div><div className="study-content" role="tabpanel">{tab === 'notes' && <Notes />}{tab === 'quiz' && <Quiz />}{tab === 'resources' && <Resources />}</div></section>
+    <PageHeading number="05" eyebrow="스터디룸" title={<>먼저 경험해 보는,<br /><em>Runtime;의 배움.</em></>}
+      description="세미나 자료와 미니 퀴즈를 기초반·심화반별로 한 번씩 체험해 보세요. 전체 학습자료는 부원에게 제공됩니다." />
+    <section className="container study-section">
+      <div className="study-switch" role="tablist" aria-label="스터디룸 기능">
+        {[{id:'notes',label:'세미나 미리보기',en:'SEMINAR'},{id:'quiz',label:'체험 퀴즈',en:'QUIZ'}].map(item=>
+          <button type="button" role="tab" aria-selected={tab===item.id} key={item.id}
+            className={tab===item.id?'selected':''} onClick={()=>setTab(item.id)}>
+            <small>{item.en}</small><span>{item.label}</span>
+          </button>)}
+      </div>
+      <div className="study-content" role="tabpanel">
+        {tab==='notes'&&<Notes/>}
+        {tab==='quiz'&&<Quiz/>}
+      </div>
+    </section>
+    <section id="drive" className="container study-drive-section" aria-labelledby="study-drive-title">
+      <div className="study-drive-copy">
+        <span className="quiz-kicker">FOR RUNTIME; MEMBERS</span>
+        <h2 id="study-drive-title">더 깊이 배우고 싶다면,<br/>부원 전용 자료실에서.</h2>
+        <p>전체 세미나 교안과 실습 자료는 부원 전용 Google Drive에서 확인할 수 있도록 준비하고 있습니다.</p>
+      </div>
+      <div className="study-drive-action">
+        {MEMBER_DRIVE_URL
+          ? <a className="study-drive-button" href={MEMBER_DRIVE_URL} target="_blank" rel="noopener noreferrer">부원 전용 Google Drive 열기 <span aria-hidden="true">↗</span></a>
+          : <button type="button" className="study-drive-button" onClick={()=>setDriveMessage(true)}>부원 전용 Google Drive <span aria-hidden="true">↗</span></button>}
+        <small>부원 인증 후 열람할 수 있는 자료실로 연결할 예정입니다.</small>
+        {driveMessage&&!MEMBER_DRIVE_URL&&<p className="study-drive-notice" role="status">Google Drive 연결을 준비 중입니다. 현재는 체험용 버튼입니다.</p>}
+      </div>
+    </section>
   </>
 }
 
