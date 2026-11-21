@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import CommunityBoard, { CommunityProjectsPreview } from './CommunityBoard'
+import CommunityBoard from './CommunityBoard'
 
 const INSTAGRAM = 'https://www.instagram.com/khu_runtime/'
 const GITHUB = 'https://github.com/KHU-Runtime/Runtime-Main-Website'
@@ -243,7 +243,7 @@ function Home() {
     { key: 'study', title: '스터디', sub: 'ADsP · SQLD', to: '#/activities/certificates' },
     { key: 'trophy', title: '대회 참여', sub: '공모전 · 해커톤 · 경진대회', to: '#/projects/archive' },
   ]
-  const seminarImage = import.meta.env.BASE_URL + 'images/seminar-study.webp'
+  const seminarImage = import.meta.env.BASE_URL + 'images/seminar-runtime-actual.webp'
 
   return <>
     <div className="home-showcase">
@@ -266,7 +266,7 @@ function Home() {
         <div className="container overview-layout">
           <div className="overview-intro">
             <h2 id="runtime-overview-title">Runtime;에서는 무엇을 하나요?</h2>
-            <p>세미나, 스터디, 실습, 프로젝트까지<br className="desktop-break" /> 함께 배우고 성장하는 <strong>learn-time !</strong></p>
+            <p className="overview-slogan"><span>세미나, 스터디, 실습, 프로젝트까지</span><span>함께 배우고 성장하는 <strong>learn-time !</strong></span></p>
           </div>
           <div className="overview-highlights">
             {highlights.map((item) => (
@@ -291,19 +291,32 @@ function Home() {
           </div>
           <a className="home-more-link" href="#/projects/archive">자세히 알아보기 <span aria-hidden="true">↗</span></a>
         </div>
-        <CommunityProjectsPreview examples={PROJECT_HOME_EXAMPLES} />
+        <div className="home-project-grid">
+          {PROJECT_HOME_EXAMPLES.map((project) => (
+            <article className="home-project-card home-project-card-static" key={project.id}>
+              <div className="home-project-image">
+                <img src={project.cover} alt="" loading="lazy" />
+              </div>
+              <div className="home-project-body">
+                <span className="home-project-label">시연용 예시 <span aria-hidden="true">·</span> {project.category}</span>
+                <h3>{project.title}</h3>
+              </div>
+            </article>
+          ))}
+        </div>
+        <p className="home-project-disclaimer">※ 홈페이지 구성 시연을 위한 예시 게시물이며, 실제 동아리 참가·수상 실적을 나타내지 않습니다.</p>
       </div>
     </section>
 
     <section className="home-study-section" aria-labelledby="home-study-title"
-      style={{ backgroundImage: 'linear-gradient(90deg, rgba(1,7,54,.9) 0%, rgba(13,28,66,.72) 55%, rgba(1,7,54,.47) 100%), url(' + seminarImage + ')' }}>
+      style={{ backgroundImage: 'linear-gradient(90deg, rgba(1,7,54,.88) 0%, rgba(13,28,66,.60) 53%, rgba(1,7,54,.28) 100%), url(' + seminarImage + ')' }}>
       <div className="container home-study-inner">
         <p className="home-section-eyebrow">02 / STUDY ROOM</p>
         <h2 id="home-study-title">배운 내용은 다시 꺼내볼 수 있게.</h2>
         <p>세미나 복습, 미니 퀴즈, 학습자료까지.<br />Runtime;의 공부를 이어가는 공간입니다.</p>
         <a className="home-more-link home-more-light" href="#/study/notes">자세히 알아보기 <span aria-hidden="true">↗</span></a>
       </div>
-      <span className="home-study-image-note">시연용 세미나 이미지</span>
+      
     </section>
 
     <section className="home-join-section" aria-labelledby="home-join-title">
