@@ -1492,3 +1492,122 @@ body{background:#fff;color:var(--ink)}
 @media(prefers-reduced-motion:reduce){
   .seminar-action-btn,.seminar-archive-list button,.seminar-week-tabs button{transition:none}
 }
+
+
+/* ABOUT / editorial identity section and compact learning flow */
+.about-page .page-heading{padding-top:55px;padding-bottom:30px}
+.about-page .page-heading h1{margin:14px 0 14px}
+.about-page .page-heading>p{max-width:900px;line-height:1.75}
+.about-page .about-name-story{
+  display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:clamp(30px,4.8vw,68px);align-items:center;
+  border-top:1px solid #dfe4ec;padding-top:26px;padding-bottom:47px;
+}
+.about-page .name-story-symbol{
+  min-height:242px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  gap:7px;padding:27px;background:#f1f3f7;border:1px solid #e4e8f0;
+  color:#010736;
+}
+.about-page .name-story-mark{
+  display:block;width:min(170px,65%);height:106px;object-fit:contain;
+}
+.about-page .name-story-wordmark{
+  display:block;font-family:'DM Sans','Noto Sans KR',sans-serif;
+  font-size:clamp(40px,4.4vw,60px);font-weight:800;letter-spacing:-2.7px;
+  line-height:1.1;overflow-wrap:normal;
+}
+.about-page .name-story-copy{min-width:0}
+.about-page .name-story-copy .name-story-lead{
+  margin:0 0 21px;font-size:clamp(22px,2.45vw,31px);
+  font-weight:800;letter-spacing:-1.2px;line-height:1.48;color:#010736;
+}
+.about-page .name-story-copy p{
+  margin:0 0 11px;line-height:1.8;font-size:15px;color:#49576e;word-break:keep-all;
+}
+.about-page .name-story-copy p:last-child{margin-bottom:0}
+.about-page .name-story-copy strong{color:#182b59;font-weight:800}
+.about-page .about-steps{background:#f7f8fb;padding:43px 0 47px}
+.about-page .about-process-heading{
+  display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:25px;
+}
+.about-page .about-steps h2{
+  font-size:clamp(24px,2.6vw,31px);letter-spacing:-1px;line-height:1.4;
+  margin:14px 0 0;word-break:keep-all;
+}
+.about-page .about-process-heading>p{
+  margin:0 0 2px;max-width:355px;font-size:14px;line-height:1.7;
+  color:#627089;word-break:keep-all;
+}
+.about-page .step-grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:0;border-top:1px solid #c9d2e2;
+}
+.about-page .step-card{min-width:0;padding:19px 19px 0 0}
+.about-page .step-card+.step-card{border-left:1px solid #d9e0ea;padding-left:19px}
+.about-page .step-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.about-page .step-meta .step-number{
+  font:700 13px 'DM Mono',monospace;color:#22396f;
+}
+.about-page .step-meta .step-en{
+  font:700 10px 'DM Sans',sans-serif;color:#8b99ae;letter-spacing:1px;
+}
+.about-page .step-grid h3{
+  margin:19px 0 10px;font-size:21px;font-weight:800;
+  letter-spacing:-.75px;line-height:1.4;word-break:keep-all;
+}
+.about-page .step-grid p{
+  margin:0;font-size:14px;line-height:1.75;color:#57657c;word-break:keep-all;
+}
+.about-page .about-team{padding:37px 0 34px}
+.about-page .about-team-heading{margin-bottom:18px}
+.about-page .about-team-person{padding:18px 18px 17px}
+.about-page .about-team-person h3{margin:13px 0 5px;font-size:19px}
+.about-page .about-operation{padding:25px 0 30px;border-top:0}
+.about-page .about-operation h2{margin-bottom:8px;font-size:22px}
+.about-page .about-operation p{margin:0 0 8px;font-size:15px}
+.about-page .about-cta{
+  padding-block:33px 47px;border-top:1px solid #e1e5ed;
+}
+.about-page .about-cta h2{font-size:clamp(22px,2.7vw,28px);line-height:1.45}
+@media(max-width:900px){
+  .about-page .page-heading{padding-top:44px;padding-bottom:25px}
+  .about-page .about-name-story{grid-template-columns:1fr;gap:23px;padding-top:22px;padding-bottom:35px}
+  .about-page .name-story-symbol{min-height:148px;flex-direction:row;gap:18px;padding:20px}
+  .about-page .name-story-mark{width:128px;height:87px}
+  .about-page .name-story-wordmark{font-size:clamp(36px,6.2vw,50px)}
+  .about-page .name-story-copy .name-story-lead{margin-bottom:13px}
+  .about-page .about-process-heading{align-items:start;flex-direction:column;gap:10px}
+  .about-page .about-process-heading>p{max-width:560px}
+  .about-page .step-grid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:19px}
+  .about-page .step-card,.about-page .step-card+.step-card{
+    border-left:0;padding:16px 16px 0 0;
+  }
+  .about-page .step-card:nth-child(2n){border-left:1px solid #d9e0ea;padding-left:17px}
+  .about-page .step-card:nth-child(n+3){border-top:1px solid #d9e0ea;padding-top:17px}
+}
+@media(max-width:600px){
+  .about-page .page-heading{padding-top:37px;padding-bottom:21px}
+  .about-page .page-heading h1{margin:12px 0 12px}
+  .about-page .page-heading>p{font-size:15px;line-height:1.7}
+  .about-page .about-name-story{gap:18px;padding-top:18px;padding-bottom:30px}
+  .about-page .name-story-symbol{min-height:126px;padding:16px 12px;gap:11px}
+  .about-page .name-story-mark{width:98px;height:70px}
+  .about-page .name-story-wordmark{font-size:clamp(31px,9vw,42px);letter-spacing:-1.7px}
+  .about-page .name-story-copy .name-story-lead{font-size:23px}
+  .about-page .name-story-copy p{font-size:14px;line-height:1.75}
+  .about-page .about-steps{padding:33px 0 36px}
+  .about-page .about-process-heading{margin-bottom:18px}
+  .about-page .about-steps h2{font-size:24px}
+  .about-page .about-process-heading>p{font-size:13px}
+  .about-page .step-grid{grid-template-columns:1fr;row-gap:0}
+  .about-page .step-card,.about-page .step-card+.step-card,
+  .about-page .step-card:nth-child(2n),.about-page .step-card:nth-child(n+3){
+    border-left:0;padding:15px 0 17px;
+  }
+  .about-page .step-card+.step-card{border-top:1px solid #d9e0ea}
+  .about-page .step-grid h3{margin:8px 0 5px;font-size:19px}
+  .about-page .step-grid p{font-size:13px;line-height:1.65}
+  .about-page .about-team{padding:30px 0 28px}
+  .about-page .about-operation{padding:23px 0 25px}
+  .about-page .about-cta{padding-block:28px 35px;gap:15px}
+}
