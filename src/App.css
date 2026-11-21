@@ -1329,3 +1329,47 @@ body{background:#fff;color:var(--ink)}
 @media(prefers-reduced-motion:reduce){
   .home-project-card-link,.home-project-card-link .home-project-image img{transition:none}
 }
+
+/* Runtime; subtle motion: scroll reveal and CTA arrow shift | 2026-11-21 */
+/* An independent translate property lets the existing card hover transform keep working. */
+@media (prefers-reduced-motion: no-preference) {
+  .home-scroll-reveal {
+    opacity:0;
+    translate:0 14px;
+    transition:
+      opacity 470ms cubic-bezier(.22,.61,.36,1),
+      translate 470ms cubic-bezier(.22,.61,.36,1);
+    transition-delay:var(--reveal-delay,0ms);
+  }
+  .home-scroll-reveal.is-visible {
+    opacity:1;
+    translate:0 0;
+  }
+  .home-project-grid .home-project-card:nth-child(2) { --reveal-delay:75ms; }
+  .home-project-grid .home-project-card:nth-child(3) { --reveal-delay:150ms; }
+  .home-more-link > span[aria-hidden="true"],
+  .home-hero .hero-buttons .button > span[aria-hidden="true"] {
+    display:inline-block;
+    transition:transform 230ms cubic-bezier(.22,.61,.36,1);
+    will-change:transform;
+  }
+  .home-more-link:hover > span[aria-hidden="true"],
+  .home-more-link:focus-visible > span[aria-hidden="true"],
+  .home-hero .hero-buttons .button:hover > span[aria-hidden="true"],
+  .home-hero .hero-buttons .button:focus-visible > span[aria-hidden="true"] {
+    transform:translateX(4px);
+  }
+}
+/* Reduced-motion users see everything immediately, with no sliding or fading. */
+@media (prefers-reduced-motion: reduce) {
+  .home-scroll-reveal {
+    opacity:1 !important;
+    translate:none !important;
+    transition:none !important;
+  }
+  .home-more-link > span[aria-hidden="true"],
+  .home-hero .hero-buttons .button > span[aria-hidden="true"] {
+    transition:none !important;
+    transform:none !important;
+  }
+}
