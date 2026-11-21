@@ -1,5 +1,8 @@
 # Runtime;
 
+### 결과물 링크
+[Runtime; 공식 홈페이지](https://khu-runtime.github.io/Runtime-Main-Website/)
+
 경희대학교 이과대학 코딩 동아리 **Runtime;** 공식 홈페이지 프로젝트
 
 사이트: https://khu-runtime.github.io/Runtime-Main-Website/
