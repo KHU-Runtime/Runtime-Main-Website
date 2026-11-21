@@ -196,6 +196,40 @@ function useDemoPostList() {
   return {posts,loading,error,refresh}
 }
 
+function HomeProjectCard({ post, example = false }) {
+  const [cover, setCover] = useState(example ? post.cover : '')
+  useEffect(() => {
+    if (example) { setCover(post.cover); return }
+    const picture = post.attachments?.find((entry) => entry?.blob && typeof entry.type === 'string' && entry.type.startsWith('image/'))
+    if (!picture) { setCover(''); return }
+    const url = URL.createObjectURL(picture.blob)
+    setCover(url)
+    return () => URL.revokeObjectURL(url)
+  }, [post, example])
+  return <a className="home-project-card" href="#/projects/archive" aria-label={post.title + ' 프로젝트 페이지로 이동'}>
+    <div className="home-project-image">
+      {cover ? <img src={cover} alt="" loading="lazy" /> : <div className="home-project-image-empty"><span>Runtime;</span><strong>PROJECT LOG</strong></div>}
+    </div>
+    <div className="home-project-body">
+      <span className="home-project-label">{example ? '시연용 예시' : '활동 기록'} <span aria-hidden="true">·</span> {post.category || post.label || '프로젝트'}</span>
+      <h3>{post.title}</h3>
+      <span className="home-project-arrow" aria-hidden="true">↗</span>
+    </div>
+  </a>
+}
+
+export function CommunityProjectsPreview({ examples = [] }) {
+  const { posts } = useDemoPostList()
+  const actual = [
+    ...posts.filter((post) => post.category !== '수상·소식'),
+    ...posts.filter((post) => post.category === '수상·소식'),
+  ].slice(0, 3)
+  const entries = actual.length ? actual : examples
+  return <div className="home-project-grid">
+    {entries.map((post) => <HomeProjectCard key={post.id} post={post} example={!actual.length} />)}
+  </div>
+}
+
 export function CommunityNews() {
   const {posts} = useDemoPostList()
   const news = posts.filter((post)=>post.category==='수상·소식').slice(0,3)
