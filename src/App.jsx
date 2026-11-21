@@ -34,7 +34,6 @@ const NAV = [
   ] },
   { id: 'join', label: '지원 안내', children: [
     { label: '모집 안내', section: 'guide' },
-    { label: '함께하는 순간', section: 'community' },
     { label: '자주 묻는 질문(FAQ)', section: 'faq' },
   ] },
 ]
@@ -668,8 +667,10 @@ const JOIN_FAQ = [
 function Join() {
   const base = import.meta.env.BASE_URL
   return <div className="join-page">
-    <PageHeading number="06" eyebrow="지원 안내" title={<>Runtime;과<br /><em>함께하고 싶다면.</em></>}
-      description="처음 시작하는 코드부터 함께 만드는 프로젝트까지. Runtime;의 활동과 분위기를 알아보고, 모집 공지에서 지원 방법을 확인해 보세요." />
+    <div className="join-hero" style={{ backgroundImage: 'linear-gradient(90deg, rgba(1,7,54,.77) 0%, rgba(1,7,54,.53) 54%, rgba(1,7,54,.43) 100%), url("' + base + 'images/runtime-join-banner.webp")' }}>
+      <PageHeading number="06" eyebrow="지원 안내" title={<>Runtime;과<br /><em>함께하고 싶다면.</em></>}
+        description="처음 시작하는 코드부터 함께 만드는 프로젝트까지. Runtime;의 활동과 분위기를 알아보고, 모집 공지에서 지원 방법을 확인해 보세요." />
+    </div>
 
     <section id="guide" className="container join-grid">
       <div className="join-panel">
@@ -688,33 +689,6 @@ function Join() {
           <img src={base + 'runtime-mark.svg'} alt="Runtime; 동아리 공식 로고" />
         </div>
         <p>LEARN TO CODE.<br />BUILD WITH PEOPLE.</p>
-      </div>
-    </section>
-
-    <section id="community" className="join-community" aria-labelledby="join-community-title">
-      <div className="container">
-        <div className="join-community-head">
-          <div>
-            <span className="join-community-eyebrow">PEOPLE & MOMENTS</span>
-            <h2 id="join-community-title">함께 배우고,<br />함께 가까워지는 시간.</h2>
-          </div>
-          <p>세미나와 프로젝트로 시작된 인연은 일상 속 대화와 모임으로도 이어집니다. 함께하는 Runtime;의 분위기를 만나보세요.</p>
-        </div>
-        <div className="join-community-grid">
-          <figure className="join-community-photo join-community-photo-wide">
-            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1100&q=85" alt="친구들이 야외에서 함께 시간을 보내는 모습" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
-            <figcaption><strong>함께하는 모임</strong><span>ACTIVITIES & FRIENDSHIP</span></figcaption>
-          </figure>
-          <figure className="join-community-photo">
-            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=850&q=85" alt="음식을 함께 나누는 식사 자리의 분위기" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
-            <figcaption><strong>함께 나누는 식사</strong><span>MEALS & CONVERSATIONS</span></figcaption>
-          </figure>
-          <figure className="join-community-photo">
-            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=850&q=85" alt="함께 여행을 떠나는 분위기를 표현한 여행 사진" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
-            <figcaption><strong>여행과 MT의 추억</strong><span>TRIPS & MEMORIES</span></figcaption>
-          </figure>
-        </div>
-        <p className="join-community-disclaimer">* 위 이미지는 친목 활동 분위기를 전달하기 위한 Unsplash 참고 사진이며, Runtime;의 실제 행사 사진은 아닙니다. MT 및 모임 운영 여부는 공식 공지를 확인해 주세요.</p>
       </div>
     </section>
 
