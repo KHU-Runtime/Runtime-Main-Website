@@ -1310,3 +1310,22 @@ body{background:#fff;color:var(--ink)}
   .home-study-section{background-position:60% center}
   .home-study-section .home-study-image-note{right:10px;bottom:8px;font-size:10px}
 }
+
+/* Runtime; subtle linked-project hover and final seminar image | 2026-11-21 */
+.home-project-card-link{color:inherit;text-decoration:none;cursor:pointer}
+.home-project-card-link:hover,
+.home-project-card-link:focus-visible {
+  transform:translateY(-3px);
+  border-color:#BECADF;
+  box-shadow:0 12px 26px rgba(1,7,54,.1);
+}
+.home-project-card-link:hover .home-project-image img,
+.home-project-card-link:focus-visible .home-project-image img {
+  transform:scale(1.025);
+}
+.home-project-card-link:focus-visible{outline:2px solid #22396F;outline-offset:3px}
+.home-study-section{background-position:center 45%}
+@media(max-width:720px){.home-study-section{background-position:58% 50%}}
+@media(prefers-reduced-motion:reduce){
+  .home-project-card-link,.home-project-card-link .home-project-image img{transition:none}
+}
