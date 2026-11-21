@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import CommunityBoard from './CommunityBoard'
+import { PROJECT_EXAMPLES } from './data/projectExamples'
 
 const INSTAGRAM = 'https://www.instagram.com/khu_runtime/'
 const GITHUB = 'https://github.com/KHU-Runtime/Runtime-Main-Website'
@@ -53,30 +54,6 @@ const ACTIVITY_LIST = [
     n: '04', tag: 'CHALLENGE', title: '대회와 공모전',
     description: '팀을 이루어 공모전, 경진대회, 해커톤에 참여하며 아이디어를 구체화합니다.',
     detail: '문제 정의 · 팀 프로젝트 · 결과 공유',
-  },
-]
-
-const PROJECT_HOME_EXAMPLES = [
-  {
-    id: 'home-example-math',
-    category: '참가 리포트',
-    title: '수식 하나로 해답을 찾다',
-    subtitle: '응용수학 알고리즘 챌린지 · 참가 리포트',
-    cover: import.meta.env.BASE_URL + 'images/project-math.webp',
-  },
-  {
-    id: 'home-example-ai',
-    category: '우수상 수상',
-    title: '아이디어를 서비스로',
-    subtitle: '2026 K-AI 오픈 이노베이션 해커톤 · 우수상',
-    cover: import.meta.env.BASE_URL + 'images/project-ai.webp',
-  },
-  {
-    id: 'home-example-chemistry',
-    category: '본선 진출 및 수상',
-    title: '실험실 밖으로 나간 화학',
-    subtitle: '2026 차세대 친환경 화학 탐구대회 · 본선 진출 및 수상',
-    cover: import.meta.env.BASE_URL + 'images/project-chemistry.webp',
   },
 ]
 
@@ -246,7 +223,7 @@ function Home() {
     { key: 'study', title: '스터디', sub: 'ADsP · SQLD', to: '#/activities/certificates' },
     { key: 'trophy', title: '대회 참여', sub: '공모전 · 해커톤 · 경진대회', to: '#/projects/archive' },
   ]
-  const seminarImage = import.meta.env.BASE_URL + 'images/seminar-edited-presenter.webp'
+  const seminarImage = import.meta.env.BASE_URL + 'images/seminar-students-casual.webp'
 
   return <>
     <div className="home-showcase">
@@ -295,17 +272,17 @@ function Home() {
           <a className="home-more-link" href="#/projects/archive">자세히 알아보기 <span aria-hidden="true">↗</span></a>
         </div>
         <div className="home-project-grid">
-          {PROJECT_HOME_EXAMPLES.map((project) => (
-            <article className="home-project-card home-project-card-static" key={project.id}>
+          {PROJECT_EXAMPLES.map((project) => (
+            <a className="home-project-card home-project-card-static home-project-card-link" href="#/projects/archive" key={project.id} aria-label={project.title + " 프로젝트 기록 보기"}>
               <div className="home-project-image">
                 <img src={project.cover} alt="" loading="lazy" />
               </div>
               <div className="home-project-body">
-                <span className="home-project-label">시연용 예시 <span aria-hidden="true">·</span> {project.category}</span>
+                <span className="home-project-label">시연용 예시 <span aria-hidden="true">·</span> {project.label}</span>
                 <h3>{project.title}</h3>
                 <p className="home-project-subtitle">{project.subtitle}</p>
               </div>
-            </article>
+            </a>
           ))}
         </div>
         <p className="home-project-disclaimer">※ 홈페이지 구성 시연을 위한 예시 게시물이며, 실제 동아리 참가·수상 실적을 나타내지 않습니다.</p>
@@ -327,7 +304,7 @@ function Home() {
       <div className="container home-join-inner">
         <div>
           <p className="home-section-eyebrow">03 / JOIN US</p>
-          <h2 id="home-join-title">다음 learn-time을 함께할 사람을 기다립니다.</h2>
+          <h2 id="home-join-title">Runtime;과 함께할 사람을 기다립니다.</h2>
           <p>모집 안내와 자주 묻는 질문을 확인해 보세요.</p>
         </div>
         <a className="home-more-link" href="#/join/guide">자세히 알아보기 <span aria-hidden="true">↗</span></a>
