@@ -1264,3 +1264,49 @@ body{background:#fff;color:var(--ink)}
     padding-bottom:50px;
   }
 }
+
+/* Runtime; shortened card headlines and edited seminar background 2026-11-21 */
+.home-project-card-static .home-project-body {
+  display:flex;
+  flex-direction:column;
+  padding-bottom:23px;
+}
+.home-project-card-static .home-project-body h3 {
+  font-size:19px;
+  line-height:1.48;
+  letter-spacing:-.5px;
+}
+.home-project-subtitle {
+  margin:9px 0 0;
+  font-size:13px;
+  color:#55637b;
+  line-height:1.65;
+  font-weight:500;
+  word-break:keep-all;
+}
+.home-study-section {
+  background-position:center 44%;
+}
+.home-study-section .home-study-image-note {
+  position:absolute;
+  right:20px;
+  bottom:12px;
+  z-index:2;
+  font-size:11px;
+  line-height:1.5;
+  letter-spacing:.1px;
+  color:rgba(255,255,255,.92);
+  background:rgba(1,7,54,.38);
+  border-radius:3px;
+  padding:4px 7px;
+}
+@media(max-width:1100px) {
+  .home-project-card-static .home-project-body h3{font-size:17px}
+  .home-project-subtitle{font-size:12px}
+}
+@media(max-width:720px) {
+  .home-project-card-static .home-project-body h3{font-size:18px}
+  .home-project-subtitle{font-size:13px;margin-top:7px}
+  .home-study-section{background-position:60% center}
+  .home-study-section .home-study-image-note{right:10px;bottom:8px;font-size:10px}
+}
