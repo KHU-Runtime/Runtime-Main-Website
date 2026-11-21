@@ -16,9 +16,10 @@ const NAV = [
     { label: '운영 안내', section: 'operation' },
   ] },
   { id: 'activities', label: '주요 활동', children: [
-    { label: '프로그래밍 세미나', section: 'seminars' },
-    { label: '자격증 스터디', section: 'certificates' },
-    { label: '개발 실습', section: 'practice' },
+    { label: 'R 기초 세미나', section: 'seminars' },
+    { label: '바이브코딩 심화반', section: 'practice' },
+    { label: 'SQLD 스터디', section: 'certificates' },
+    { label: 'MT · 번개 모임', section: 'community' },
   ] },
   { id: 'projects', label: '프로젝트', children: [
     { label: '활동 기록', section: 'archive' },
@@ -37,26 +38,26 @@ const NAV = [
 
 const ACTIVITY_LIST = [
   {
-    n: '01', tag: 'LEARN', title: '언어 세미나',
-    description: 'Python, R 등 프로그래밍 언어의 개념을 함께 익히고 직접 코드를 작성합니다.',
-    detail: '프로그래밍 기초 · 실습 · 코드 리뷰',
+    n: '01', id: 'seminars', tag: 'R / FOUNDATIONS',
+    title: 'R 기초 세미나', schedule: '9월 15일 – 11월 24일',
+    description: 'R 프로그래밍의 기본 개념을 차근차근 익히고, 직접 코드를 작성하며 간단한 데이터 분석까지 경험합니다.',
+    details: ['R의 기본 개념 학습', '실습 및 간단한 데이터 분석'],
   },
   {
-    n: '02', tag: 'STUDY', title: '함께하는 스터디',
-    description: '데이터 관련 자격증과 관심 주제를 정해 공부하고, 서로의 학습 과정을 공유합니다.',
-    detail: '데이터 활용 · 자격증 · 스터디 자료',
+    n: '02', id: 'practice', tag: 'PYTHON / VIBE CODING',
+    title: '파이썬 바이브코딩 심화반', schedule: '9월 15일 – 11월 24일',
+    description: '바이브코딩에 필요한 이론을 배우는 데서 시작해, 팀을 이루어 Runtime;만의 프로젝트를 진행합니다.',
+    details: ['바이브코딩을 위한 이론 세미나', '팀으로 진행하는 Runtime; 프로젝트'],
   },
   {
-    n: '03', tag: 'BUILD', title: '실전 개발',
-    description: '배운 내용을 직접 활용해 웹사이트와 작은 프로그램을 만드는 경험을 쌓습니다.',
-    detail: '웹 개발 · 미니 프로젝트 · 협업',
-  },
-  {
-    n: '04', tag: 'CHALLENGE', title: '대회와 공모전',
-    description: '팀을 이루어 공모전, 경진대회, 해커톤에 참여하며 아이디어를 구체화합니다.',
-    detail: '문제 정의 · 팀 프로젝트 · 결과 공유',
+    n: '03', id: 'certificates', tag: 'SQLD / CERTIFICATION',
+    title: '제63회 SQLD 자격증 대비 스터디', schedule: '10월 27일 – 11월 13일',
+    extra: '시험일 · 11월 14일',
+    description: 'SQLD 자격증 시험을 준비하는 부원들이 함께 공부하는 2~3주 집중 스터디입니다.',
+    details: ['2~3주 집중 학습', '제63회 SQLD 시험 대비'],
   },
 ]
+
 
 function currentLocation() {
   const [path, section = ''] = window.location.hash.replace(/^#\/?/, '').split('/')
@@ -359,7 +360,7 @@ function About() {
       <div className="about-team-grid">
         {executives.map((member,index)=><article className="about-team-person" key={member.role}>
           <div className="about-executive-photo">
-            <img src={import.meta.env.BASE_URL + 'images/executive-lion.svg'} alt="붉은 사자 문양" loading="lazy" />
+            <img src={import.meta.env.BASE_URL + 'images/executive-rabbit-navy.svg'} alt="Runtime; 토끼 로고가 그려진 네이비 이미지" loading="lazy" />
             <span className="about-executive-index">{String(index+1).padStart(2,'0')} / 03</span>
           </div>
           <div className="about-executive-body">
@@ -383,15 +384,69 @@ function About() {
 }
 
 function Activities() {
-  return <>
-    <PageHeading number="03" eyebrow="주요 활동" title={<>세미나부터 프로젝트까지,<br /><em>Runtime;의 활동</em></>} description="세미나와 스터디로 익힌 지식을 실제 개발과 팀 활동에 적용해 봅니다." />
-    <section id="seminars" className="container activity-list" aria-label="Runtime; 주요 활동">
-      {ACTIVITY_LIST.map((activity) => <article id={activity.n === '02' ? 'certificates' : activity.n === '03' ? 'practice' : activity.n === '04' ? 'competition' : undefined} className="activity-row" key={activity.n}><div className="activity-no">{activity.n} <span>↗</span></div><div><span className="activity-tag">{activity.tag}</span><h2>{activity.title}</h2></div><div className="activity-body"><p>{activity.description}</p><small>{activity.detail}</small></div></article>)}
-    </section>
-    <section id="collaboration" className="container activity-bottom"><div><SectionLabel number="03.1">AFTER LEARNING</SectionLabel><h2>배운 내용을 활용하는<br />프로젝트와 대회 참여</h2></div><div><p>같은 관심사를 가진 부원들과 팀을 이루고, 각자의 아이디어를 실제 프로젝트로 발전시킬 수 있습니다.</p><TextLink to="projects">프로젝트 살펴보기</TextLink></div></section>
-  </>
-}
+  return <div className="activities-page">
+    <PageHeading number="03" eyebrow="주요 활동" title={<>2026년 2학기,<br /><em>Runtime;의 활동.</em></>}
+      description="프로그래밍 세미나와 팀 프로젝트, 자격증 스터디부터 MT와 번개 모임까지. 함께 배우고 교류하는 한 학기." />
 
+    <section className="container activities-program" aria-labelledby="activities-program-title">
+      <div className="activities-section-head">
+        <div>
+          <span className="activities-eyebrow">2026 FALL · LEARNING &amp; BUILDING</span>
+          <h2 id="activities-program-title">배움을 실제 경험으로.</h2>
+        </div>
+        <p>배우는 시간과 만드는 시간을 연결하는 Runtime;의 정기 학습 활동입니다.</p>
+      </div>
+      <div className="activities-program-list">
+        {ACTIVITY_LIST.map(item=><article className="activities-program-item" key={item.id} id={item.id}>
+          <div className="activities-program-index">{item.n}<span aria-hidden="true">/ 03</span></div>
+          <div className="activities-program-title">
+            <span className="activities-tag">{item.tag}</span>
+            <h3>{item.title}</h3>
+            <p className="activities-period"><span aria-hidden="true">◷</span> {item.schedule}</p>
+            {item.extra&&<p className="activities-extra">{item.extra}</p>}
+          </div>
+          <div className="activities-program-detail">
+            <p>{item.description}</p>
+            <ul>{item.details.map(detail=><li key={detail}>{detail}</li>)}</ul>
+          </div>
+        </article>)}
+      </div>
+      <p className="activities-schedule-note">* 2026학년도 2학기 오리엔테이션 자료 기준 안내입니다. 세부 운영 일정은 변경될 수 있습니다.</p>
+    </section>
+
+    <section id="community" className="activities-community" aria-labelledby="activities-community-title">
+      <div className="container">
+        <div className="activities-section-head">
+          <div>
+            <span className="activities-eyebrow">BEYOND THE CLASSROOM</span>
+            <h2 id="activities-community-title">공부 밖에서도, 함께.</h2>
+          </div>
+          <p>스터디 밖에서 서로의 관심사를 나누고 더 가까워질 수 있는 모임도 마련합니다.</p>
+        </div>
+        <div className="activities-community-grid">
+          <article className="activities-community-card" id="mt">
+            <div className="activities-community-top"><span>04 / COMMUNITY</span><span aria-hidden="true">↗</span></div>
+            <h3>겨울 MT</h3>
+            <p>겨울 바다나 글램핑처럼 특별한 장소에서 함께 보내는 친목 활동을 기대해 주세요. 레크리에이션과 맛있는 음식도 빼놓을 수 없죠.</p>
+            <span className="activities-community-caption">장소와 일정은 추후 안내</span>
+          </article>
+          <article className="activities-community-card" id="meetups">
+            <div className="activities-community-top"><span>05 / COMMUNITY</span><span aria-hidden="true">↗</span></div>
+            <h3>자유로운 번개 모임</h3>
+            <p>방탈출, 클라이밍, 보드게임, 러닝, 놀이공원 등 다양한 활동을 계기로 가볍게 모여요. 새로운 모임 제안도 언제든 환영합니다.</p>
+            <span className="activities-community-caption">관심사에 따라 자유롭게 참여</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section className="container activity-bottom">
+      <div><SectionLabel number="03.1">FROM STUDY TO PROJECT</SectionLabel><h2>배운 내용을 함께<br />직접 구현해 보는 경험.</h2></div>
+      <div><p>세미나와 심화반에서 배운 것을 팀 프로젝트로 연결합니다. Runtime;이 만들어가는 활동과 결과물을 프로젝트 페이지에서 만나보세요.</p>
+        <TextLink to="projects">프로젝트 페이지 살펴보기</TextLink></div>
+    </section>
+  </div>
+}
 
 
 function Quiz() {
