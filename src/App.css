@@ -1227,3 +1227,40 @@ body{background:#fff;color:var(--ink)}
   .home-study-inner{padding-top:50px;padding-bottom:50px}
   .home-join-inner{padding-top:36px;padding-bottom:39px}
 }
+
+/* Runtime; homepage spacing adjustment: comfortable but compact · 2026-11-21 */
+/* Give each full-width section a little more breathing room without reverting to large gaps. */
+.home-overview .overview-layout {
+  padding-top:31px;
+  padding-bottom:31px;
+}
+.home-project-section {
+  padding-top:62px;
+  padding-bottom:67px;
+}
+.home-study-inner {
+  padding-top:66px;
+  padding-bottom:66px;
+}
+.home-join-inner {
+  padding-top:55px;
+  padding-bottom:57px;
+}
+@media(max-width:720px) {
+  .home-overview .overview-layout {
+    padding-top:29px;
+    padding-bottom:29px;
+  }
+  .home-project-section {
+    padding-top:45px;
+    padding-bottom:49px;
+  }
+  .home-study-inner {
+    padding-top:60px;
+    padding-bottom:60px;
+  }
+  .home-join-inner {
+    padding-top:46px;
+    padding-bottom:50px;
+  }
+}
