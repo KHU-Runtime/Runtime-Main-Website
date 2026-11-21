@@ -2019,3 +2019,156 @@ body{background:#fff;color:var(--ink)}
   .activities-page .activities-track h3{margin:4px 0}
   .activities-page .activities-description{margin-top:1px;padding-top:15px!important}
 }
+
+
+/* Activity illustrations, Join page logo, community gallery and extended FAQ */
+.activities-page .activities-extra-media{
+  margin:17px 0 0;overflow:hidden;background:#e7edf6;
+  aspect-ratio:16 / 8.8;border-radius:3px
+}
+.activities-page .activities-extra-media img{
+  display:block;width:100%;height:100%;object-fit:cover;object-position:center;
+  transition:transform .35s ease
+}
+@media(hover:hover){
+  .activities-page .activities-extra-card:hover .activities-extra-media img{transform:scale(1.035)}
+}
+.activities-page .activities-extra-card h3{margin-top:19px}
+.join-page .join-grid{margin-bottom:86px}
+.join-page .join-panel{padding:48px 48px 53px}
+.join-page .join-panel h2{font-size:clamp(28px,3vw,36px);line-height:1.45}
+.join-page .join-panel>p{font-size:15px;line-height:1.85}
+.join-page .join-note{font-size:12px;line-height:1.75}
+.join-page .join-side{
+  min-height:390px;padding:24px 24px 30px;
+  background:#ECEAE4;display:flex;flex-direction:column;align-items:stretch
+}
+.join-page .join-side-kicker{
+  font:700 11px/1.5 'DM Sans',sans-serif;letter-spacing:1px;color:#303f83
+}
+.join-page .join-side-logo{
+  width:100%;max-width:320px;min-height:200px;
+  margin:auto;display:flex;align-items:center;justify-content:center
+}
+.join-page .join-side-logo img{
+  display:block;max-height:210px;width:100%;object-fit:contain;
+  filter:drop-shadow(0 12px 12px rgba(1,7,54,.10))
+}
+.join-page .join-side>p{
+  margin:0;font:700 13px/1.55 'DM Sans',sans-serif;letter-spacing:1.1px;color:#22396f
+}
+.join-page .join-community{background:#f7f8fb;padding:72px 0 71px}
+.join-page .join-community-head{
+  display:flex;align-items:end;justify-content:space-between;gap:36px;margin-bottom:31px
+}
+.join-page .join-community-eyebrow{
+  color:#22396f;display:block;font:700 11px 'DM Sans',sans-serif;letter-spacing:1.4px
+}
+.join-page .join-community-head h2{
+  font-size:clamp(27px,3vw,38px);font-weight:800;line-height:1.43;letter-spacing:-1.3px;
+  margin:12px 0 0;word-break:keep-all
+}
+.join-page .join-community-head>p{
+  font-size:15px;line-height:1.85;color:#52627b;max-width:490px;margin:0 0 4px;
+  word-break:keep-all
+}
+.join-page .join-community-grid{
+  display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:14px
+}
+.join-page .join-community-photo{
+  position:relative;overflow:hidden;min-width:0;height:315px;background:#e4e9f2;
+  margin:0;isolation:isolate
+}
+.join-page .join-community-photo:after{
+  content:"";position:absolute;inset:35% 0 0;pointer-events:none;
+  background:linear-gradient(transparent,rgba(1,7,54,.72));z-index:1
+}
+.join-page .join-community-photo img{
+  display:block;width:100%;height:100%;object-fit:cover;object-position:center;
+  transition:transform .4s ease
+}
+@media(hover:hover){
+  .join-page .join-community-photo:hover img{transform:scale(1.04)}
+}
+.join-page .join-community-photo figcaption{
+  position:absolute;bottom:24px;left:23px;right:15px;z-index:2;
+  display:flex;flex-direction:column;gap:7px;color:#fff
+}
+.join-page .join-community-photo figcaption strong{
+  font-size:20px;letter-spacing:-.6px;text-shadow:0 1px 6px rgba(0,0,0,.25)
+}
+.join-page .join-community-photo figcaption span{
+  font:700 10px 'DM Sans',sans-serif;letter-spacing:1px;color:#e0e7f7
+}
+.join-page .join-community-disclaimer{
+  font-size:12px;line-height:1.75;color:#738199;margin:17px 0 0;word-break:keep-all
+}
+.join-page .join-faq-section{padding-top:90px;padding-bottom:110px;gap:65px}
+.join-page .faq-heading h2{font-size:clamp(27px,2.8vw,36px);line-height:1.48}
+.join-page .faq-heading>p{color:#67748a;font-size:15px;line-height:1.8;max-width:290px}
+.join-page .faq-list summary{
+  justify-content:initial;gap:13px;padding:22px 2px;
+  font-size:16px;line-height:1.55;letter-spacing:-.5px
+}
+.join-page .faq-list .join-faq-number{
+  flex-shrink:0;min-width:28px;font:700 12px 'DM Sans',sans-serif;
+  letter-spacing:0;color:#7b8caa;transform:none!important
+}
+.join-page .faq-list .join-faq-question{flex:1;font-size:16px;font-weight:700;color:#172a4b;transform:none!important}
+.join-page .faq-list .join-faq-toggle{
+  flex-shrink:0;font-size:24px;color:#385489;transition:transform .18s ease
+}
+.join-page .faq-list details[open] .join-faq-toggle{transform:rotate(45deg)}
+.join-page .faq-list details p{
+  margin:0 0 0 41px;padding:0 22px 24px 0;color:#526078;
+  font-size:14px;line-height:1.95;word-break:keep-all
+}
+.join-page .join-faq-footer{
+  background:#eef2f8;padding:26px 28px;margin-top:23px;border:1px solid #e3eaf5
+}
+.join-page .join-faq-footer strong{font-size:19px;color:#010736}
+.join-page .join-faq-footer p{color:#60708b;font-size:14px;line-height:1.8;margin:9px 0 16px}
+.join-page .join-faq-footer a{
+  display:inline-flex;gap:14px;align-items:center;border-bottom:1px solid #22396f;
+  padding-bottom:6px;font-size:14px;font-weight:800;color:#22396f
+}
+@media(max-width:1020px){
+  .join-page .join-community-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .join-page .join-community-photo{height:260px}
+  .join-page .join-community-head>p{max-width:380px}
+}
+@media(max-width:720px){
+  .join-page .join-grid{margin-bottom:56px}
+  .join-page .join-panel{padding:34px 28px}
+  .join-page .join-side{min-height:275px;padding:20px}
+  .join-page .join-side-logo{min-height:160px;max-width:230px}
+  .join-page .join-side-logo img{max-height:140px}
+  .join-page .join-community{padding:52px 0 53px}
+  .join-page .join-community-head{display:block;margin-bottom:21px}
+  .join-page .join-community-head>p{max-width:none;margin:18px 0 0;font-size:14px}
+  .join-page .join-community-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .join-page .join-community-photo{height:185px}
+  .join-page .join-community-photo-wide{grid-column:1/-1;height:230px}
+  .join-page .join-community-photo figcaption{bottom:16px;left:15px}
+  .join-page .join-community-photo figcaption strong{font-size:17px}
+  .join-page .join-community-photo figcaption span{font-size:9px}
+  .join-page .join-faq-section{padding-top:68px;padding-bottom:74px;gap:22px}
+  .join-page .faq-heading>p{max-width:none}
+  .join-page .faq-list summary{font-size:15px;gap:10px;padding:20px 0}
+  .join-page .faq-list .join-faq-number{min-width:24px;font-size:11px}
+  .join-page .faq-list .join-faq-question{font-size:15px}
+  .join-page .faq-list details p{margin-left:33px;font-size:14px;padding-right:0}
+  .join-page .join-faq-footer{padding:22px 20px}
+}
+@media(max-width:420px){
+  .join-page .join-community-photo{height:165px}
+  .join-page .join-community-photo-wide{height:205px}
+  .join-page .join-community-photo figcaption strong{font-size:15px}
+  .join-page .join-community-photo figcaption span{font-size:8px;letter-spacing:.4px}
+  .join-page .join-panel{padding:28px 23px}
+}
+@media(prefers-reduced-motion:reduce){
+  .activities-page .activities-extra-media img,
+  .join-page .join-community-photo img,
+  .join-page .faq-list .join-faq-toggle{transition:none!important}
+}
