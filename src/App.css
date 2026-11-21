@@ -1682,3 +1682,154 @@ body{background:#fff;color:var(--ink)}
   .about-page .about-executive-history{padding-top:12px}
   .about-page .about-executive-history li{grid-template-columns:99px minmax(0,1fr);font-size:12px;gap:7px}
 }
+
+
+/* Executive profile banners: navy Runtime rabbit artwork supplied for this revision */
+.about-page .about-executive-photo{
+  overflow:hidden;background:#101e3d;
+}
+.about-page .about-executive-photo img{
+  display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center;
+}
+.about-page .about-executive-index{
+  z-index:1;color:#e0e8f8;font-weight:650;text-shadow:0 1px 7px #0b1736;
+}
+@media(max-width:980px){
+  .about-page .about-executive-photo img{
+    width:100%;height:100%;max-width:none;object-fit:cover;
+  }
+}
+@media(max-width:600px){
+  .about-page .about-executive-photo img{
+    width:100%;height:100%;max-width:none;object-fit:cover;
+  }
+}
+
+/* 2026–2 Runtime activity overview: three learning programs, two community programs */
+.activities-page .page-heading{padding-top:59px;padding-bottom:44px}
+.activities-page .page-heading h1{margin:16px 0 17px}
+.activities-page .page-heading>p{max-width:840px}
+.activities-page .activities-program{padding-bottom:57px}
+.activities-page .activities-section-head{
+  display:flex;align-items:end;justify-content:space-between;gap:32px;margin-bottom:27px;
+}
+.activities-page .activities-section-head>div{min-width:0}
+.activities-page .activities-eyebrow{
+  display:block;font:700 11px 'DM Sans',sans-serif;letter-spacing:1.6px;color:#22396f;
+}
+.activities-page .activities-section-head h2{
+  font-size:clamp(26px,3vw,38px);line-height:1.4;
+  letter-spacing:-1.2px;margin:10px 0 0;word-break:keep-all;
+}
+.activities-page .activities-section-head>p{
+  width:360px;max-width:43%;font-size:14px;line-height:1.85;
+  color:#647089;word-break:keep-all;margin:0 0 3px;
+}
+.activities-page .activities-program-list{border-top:2px solid #142753}
+.activities-page .activities-program-item{
+  scroll-margin-top:120px;display:grid;
+  grid-template-columns:70px minmax(0,1.08fr) minmax(0,1fr);
+  gap:24px;align-items:start;padding:31px 5px 32px 0;
+  border-bottom:1px solid #dde3ed;
+}
+.activities-page .activities-program-index{
+  color:#243f7b;font:700 28px/1.2 'DM Mono',monospace;letter-spacing:-1px;
+}
+.activities-page .activities-program-index span{
+  color:#9ca9bd;font:600 10px 'DM Mono',monospace;letter-spacing:0;margin-left:5px;
+}
+.activities-page .activities-tag{
+  color:#53678e;font:750 10px 'DM Sans',sans-serif;letter-spacing:1.2px;
+}
+.activities-page .activities-program-title h3{
+  font-size:clamp(22px,2.25vw,30px);
+  line-height:1.4;letter-spacing:-1.2px;margin:9px 0 19px;
+  color:#010736;word-break:keep-all;
+}
+.activities-page .activities-period{
+  font-size:14px;font-weight:700;color:#344d7c;line-height:1.65;margin:0;
+}
+.activities-page .activities-period>span{
+  color:#8393b4;font-size:17px;vertical-align:middle;margin-right:5px;
+}
+.activities-page .activities-extra{font-size:12px;color:#74819a;margin:5px 0 0}
+.activities-page .activities-program-detail>p{
+  font-size:15px;line-height:1.8;color:#4d5a71;word-break:keep-all;margin:3px 0 15px;
+}
+.activities-page .activities-program-detail ul{
+  list-style:none;display:flex;flex-wrap:wrap;gap:7px;
+  padding:0;margin:0;
+}
+.activities-page .activities-program-detail li{
+  background:#f0f3f9;border:1px solid #e6ebf3;padding:8px 11px;
+  color:#3a547f;font-size:12px;font-weight:650;line-height:1.5;word-break:keep-all;
+}
+.activities-page .activities-schedule-note{
+  color:#8a95a7;font-size:12px;line-height:1.7;margin:16px 0 0;
+}
+.activities-page .activities-community{
+  background:#f7f8fb;padding:54px 0 58px;scroll-margin-top:100px;
+}
+.activities-page .activities-community-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.activities-page .activities-community-card{
+  scroll-margin-top:110px;display:flex;flex-direction:column;min-width:0;
+  padding:27px 29px 30px;min-height:244px;
+  background:#fff;border:1px solid #e1e6f0;
+}
+.activities-page .activities-community-top{
+  display:flex;justify-content:space-between;align-items:start;
+  font:700 11px 'DM Sans',sans-serif;letter-spacing:1.2px;color:#59709c;
+}
+.activities-page .activities-community-top>span:last-child{font-size:18px}
+.activities-page .activities-community-card h3{
+  font-size:26px;letter-spacing:-.9px;margin:16px 0 10px;color:#010736;
+}
+.activities-page .activities-community-card>p{
+  font-size:15px;line-height:1.85;color:#546177;word-break:keep-all;margin:0 0 18px;
+}
+.activities-page .activities-community-caption{
+  display:inline-block;align-self:flex-start;margin-top:auto;
+  font-size:12px;font-weight:700;color:#28487a;
+}
+.activities-page .activity-bottom{
+  margin-top:0;margin-bottom:70px;padding:42px 46px 46px;
+}
+.activities-page .activity-bottom h2{font-size:clamp(24px,2.8vw,32px)}
+@media(max-width:900px){
+  .activities-page .page-heading{padding-top:48px;padding-bottom:36px}
+  .activities-page .activities-program-item{
+    grid-template-columns:54px minmax(0,1fr);
+    gap:10px 18px;padding:26px 0 28px;
+  }
+  .activities-page .activities-program-detail{grid-column:2}
+  .activities-page .activities-program-title h3{margin-bottom:11px}
+  .activities-page .activities-program-detail>p{margin-top:0;margin-bottom:12px}
+  .activities-page .activities-community{padding:44px 0 49px}
+}
+@media(max-width:650px){
+  .activities-page .page-heading{padding-top:37px;padding-bottom:29px}
+  .activities-page .page-heading h1{margin:12px 0}
+  .activities-page .page-heading>p{font-size:15px;line-height:1.7}
+  .activities-page .activities-program{padding-bottom:38px}
+  .activities-page .activities-section-head{
+    align-items:start;flex-direction:column;gap:8px;margin-bottom:19px;
+  }
+  .activities-page .activities-section-head h2{font-size:27px;margin-top:7px}
+  .activities-page .activities-section-head>p{
+    width:auto;max-width:none;font-size:13px;line-height:1.7;
+  }
+  .activities-page .activities-program-item{grid-template-columns:39px minmax(0,1fr);column-gap:12px;padding:23px 0}
+  .activities-page .activities-program-index{font-size:19px;margin-top:2px}
+  .activities-page .activities-program-index span{display:none}
+  .activities-page .activities-program-title h3{font-size:21px;letter-spacing:-.6px;margin:6px 0 10px}
+  .activities-page .activities-period{font-size:13px}
+  .activities-page .activities-program-detail>p{font-size:14px;line-height:1.7}
+  .activities-page .activities-program-detail li{font-size:11px;padding:7px 9px}
+  .activities-page .activities-schedule-note{font-size:11px}
+  .activities-page .activities-community{padding:35px 0 38px}
+  .activities-page .activities-community-grid{grid-template-columns:1fr;gap:11px}
+  .activities-page .activities-community-card{min-height:0;padding:21px 22px 23px}
+  .activities-page .activities-community-card h3{font-size:23px;margin:11px 0 7px}
+  .activities-page .activities-community-card>p{font-size:14px;line-height:1.75;margin-bottom:14px}
+  .activities-page .activity-bottom{padding:29px 24px;margin-bottom:42px}
+}
