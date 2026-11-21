@@ -473,7 +473,7 @@ function Quiz() {
     <div className="study-subheading">
       <span className="quiz-kicker">TRY A QUIZ · PREVIEW</span>
       <h3>기초반과 심화반, 한 세트씩 풀어보기.</h3>
-      <p>공개 예시 교안에 맞춰 두 개의 체험 퀴즈를 준비했어요. 각각 5문제를 풀고 해설을 확인할 수 있습니다.</p>
+      <p>기초반 Python 예시와 심화반 HTML·CSS 교안에 맞춘 체험 퀴즈입니다. 과정별 5문제를 풀고 해설을 확인해 보세요.</p>
     </div>
     <div className="seminar-week-tabs" role="tablist" aria-label="체험 퀴즈 과정 선택">
       {SEMINAR_WEEKS.map((week,i)=><button type="button" role="tab" key={week.track}
@@ -486,11 +486,11 @@ function Quiz() {
       <span className="quiz-kicker">{activeWeek.trackName} · QUIZ COMPLETE</span>
       <span className="quiz-score">{score}<small> / {questions.length}</small></span>
       <h3>{activeWeek.trackName} 체험 퀴즈 완료!</h3>
-      <p>궁금한 문제는 위의 {activeWeek.trackName} 공개 예시 교안에서 다시 살펴보세요.</p>
+      <p>관련 내용을 {activeWeek.trackName} 세미나 미리보기에서 복습해 보세요.</p>
       <button className="button button-primary" type="button" onClick={reset}>이 퀴즈 다시 풀기 <span aria-hidden="true">↻</span></button>
     </div> : <div className="quiz-layout">
       <div className="quiz-sidebar">
-        <span className="quiz-kicker">{activeWeek.trackName.toUpperCase()} · PYTHON SAMPLE</span>
+        <span className="quiz-kicker">{activeWeek.trackName.toUpperCase()} · {activeWeek.track==='basic'?'PYTHON SAMPLE':'HTML / CSS'}</span>
         <h3>{activeWeek.title}<br />5문제 복습</h3>
         <p>{activeWeek.topics.join(' · ')}</p>
         <div className="quiz-progress-dots" aria-label={`${idx+1}번째 문제, 총 ${questions.length}개`}>
@@ -523,13 +523,21 @@ function Quiz() {
 function Notes() {
   const [selectedTrack,setSelectedTrack]=useState('basic')
   const [showPreview,setShowPreview]=useState(true)
+  const [advancedFileReady,setAdvancedFileReady]=useState(false)
   const week=SEMINAR_WEEKS.find(item=>item.track===selectedTrack)||SEMINAR_WEEKS[0]
-  const pdfUrl=import.meta.env.BASE_URL+'seminars/week-'+week.week+'.pdf'
+  const pdfUrl=import.meta.env.BASE_URL+'seminars/'+(week.track==='advanced'?'Runtime_심화반_W2.pdf':'week-1.pdf')
+  useEffect(()=>{
+    const controller=new AbortController()
+    fetch(import.meta.env.BASE_URL+'seminars/Runtime_심화반_W2.pdf',{method:'HEAD',signal:controller.signal})
+      .then(response=>setAdvancedFileReady(response.ok && (response.headers.get('content-type')||'').includes('pdf')))
+      .catch(()=>setAdvancedFileReady(false))
+    return ()=>controller.abort()
+  },[])
   return <div className="seminar-archive">
     <div className="study-subheading">
       <span className="quiz-kicker">SEMINAR PREVIEW · OPEN TO ALL</span>
       <h3>기초반부터 심화반까지, 미리 만나보세요.</h3>
-      <p>각 과정에서 한 편씩 공개한 Python 세미나 예시 자료입니다. 전체 교안은 부원 전용 자료실에서 제공할 예정입니다.</p>
+      <p>기초반 Python 예시 교안과 심화반 2주차 HTML·CSS 실습 교안을 소개합니다. 전체 학습자료는 부원 전용 자료실에서 제공할 예정입니다.</p>
     </div>
     <div className="seminar-archive-layout">
       <div className="seminar-archive-list" aria-label="세미나 체험 자료 과정 선택">
@@ -539,27 +547,29 @@ function Notes() {
           <span className="seminar-week-index">{item.track==='basic'?'01 / BASIC':'02 / ADVANCED'}</span>
           <strong>{item.trackName}</strong>
           <small>{item.title}</small>
-          <small>{item.pages}페이지 · 미리보기</small>
+          <small>{item.pages}페이지 · {item.track==='advanced'&&!advancedFileReady?'업로드 준비 중':'미리보기'}</small>
           <span className="seminar-week-arrow" aria-hidden="true">↗</span>
         </button>)}
       </div>
       <div className="seminar-archive-detail">
         <div className="seminar-detail-header">
-          <span className="quiz-kicker">{week.trackName} · PYTHON SAMPLE</span>
+          <span className="quiz-kicker">{week.trackName} · {week.track==='basic'?'PYTHON SAMPLE':'HTML / CSS / VIBE CODING'}</span>
           <h4>{week.title}</h4>
           <div className="seminar-topic-tags">{week.topics.map(topic=><span key={topic}>{topic}</span>)}</div>
           <div className="seminar-actions">
-            <button type="button" className="seminar-action-btn" onClick={()=>setShowPreview(current=>!current)}
-              aria-expanded={showPreview}>{showPreview?'미리보기 접기':'PDF 미리보기 열기'}</button>
+            {(week.track==='basic'||advancedFileReady)
+              ? <button type="button" className="seminar-action-btn" onClick={()=>setShowPreview(current=>!current)}
+                  aria-expanded={showPreview}>{showPreview?'미리보기 접기':'PDF 미리보기 열기'}</button>
+              : <span className="seminar-action-btn seminar-file-pending">심화반 교안 파일 연결 준비 중</span>}
           </div>
         </div>
-        {showPreview&&<div className="seminar-pdf-preview">
+        {showPreview&&(week.track==='basic'||advancedFileReady)&&<div className="seminar-pdf-preview">
           <iframe key={week.track} src={pdfUrl+'#toolbar=0&navpanes=0'} title={`Runtime; ${week.trackName} 공개 세미나 교안 미리보기`} loading="lazy"/>
           <p>브라우저에 따라 PDF 표시 방식이 다를 수 있습니다. 별도의 다운로드 버튼은 제공하지 않습니다.</p>
         </div>}
       </div>
     </div>
-    <p className="seminar-sample-disclaimer">※ 기존 Python 세미나 1·4주차 교안을 공개 예시로 사용했습니다. 2026-2학기 R 기초반·바이브코딩 심화반의 전용 교안과는 별개입니다.</p>
+    <p className="seminar-sample-disclaimer">※ 기초반은 Python 1주차 공개 예시입니다. 심화반은 「Runtime; 심화반 W2」(HTML·CSS·바이브코딩 실습) 교안으로 교체되며 PDF 파일 연결을 준비하고 있습니다.</p>
   </div>
 }
 
