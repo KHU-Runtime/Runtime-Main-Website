@@ -295,8 +295,8 @@ function Home() {
       style={{ backgroundImage: 'linear-gradient(90deg, rgba(1,7,54,.88) 0%, rgba(13,28,66,.60) 53%, rgba(1,7,54,.28) 100%), url(' + seminarImage + ')' }}>
       <div className="container home-study-inner">
         <p className="home-section-eyebrow">02 / STUDY ROOM</p>
-        <h2 id="home-study-title">런타임의 배움, 미리 만나다.</h2>
-        <p>기초·심화반 교안과 퀴즈로 세미나를 체험하고,<br />부원 전용 자료실 연결도 준비하고 있습니다.</p>
+        <h2 id="home-study-title">learn-time 엿보기.</h2>
+        <p>세미나 자료와 퀴즈로 만나는 Runtime;만의 공부.<br />부원 전용 학습자료실 안내까지.</p>
         <a className="home-more-link home-more-light" href="#/study/notes">자세히 알아보기 <span aria-hidden="true">↗</span></a>
       </div>
       <span className="home-study-image-note">AI 편집 이미지</span>
