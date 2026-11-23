@@ -319,10 +319,6 @@ export default function CommunityBoard({initialView=''}) {
           <button type="button" className="cb-primary" onClick={()=>openEditor()}>+ 글쓰기</button>
         </div>
       </div>
-      <div className="cb-demo-notice" role="note">
-        <strong>발표용 데모</strong>
-        <span>기본으로 표시된 3개 프로젝트는 가상의 시연용 예시입니다. 직접 작성한 글과 첨부파일은 현재 브라우저에만 저장됩니다.</span>
-      </div>
       {notice && <p className="cb-notice" role="status">{notice}</p>}
       <ErrorMessage message={error || actionError}/>
       {editor && <DemoEditor key={editing?.id || 'new'} initial={editing}
