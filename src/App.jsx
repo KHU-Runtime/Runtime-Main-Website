@@ -593,7 +593,7 @@ function StudyRoom({ initialTab = 'notes' }) {
   const [driveMessage,setDriveMessage] = useState(false)
   useEffect(()=>{if(['notes','quiz'].includes(initialTab))setTab(initialTab)},[initialTab])
   return <>
-    <PageHeading number="05" eyebrow="스터디룸" title={<>먼저 경험해 보는<br /><em>learn-time</em></>}
+    <PageHeading number="05" eyebrow="스터디룸" title={<>세미나부터 퀴즈까지,<br /><em>직접 경험하는 learn-time.</em></>}
       description="기초반·심화반의 세미나 자료와 미니 퀴즈를 체험해 보세요. 전체 학습자료는 부원에게 제공됩니다." />
     <section className="container study-section">
       <div className="study-switch" role="tablist" aria-label="스터디룸 기능">
