@@ -306,7 +306,7 @@ export default function CommunityBoard({initialView=''}) {
     <section className="page-heading container">
       <div className="section-label"><span className="section-number">/04</span><span>프로젝트</span></div>
       <h1>함께 도전한 기록,<br/><em>함께 만든 결과.</em></h1>
-      <p>글 작성부터 사진·자료 첨부, 검색과 수상 소식까지 발표에서 직접 시연해 보세요.</p>
+      <p>세미나에서 배운 것을 실제 도전으로 이어가고, 공모전과 해커톤, 팀 프로젝트의 과정과 결과를 기록하는 공간입니다.</p>
     </section>
     <section className="container cb-board">
       <div className="cb-top">
