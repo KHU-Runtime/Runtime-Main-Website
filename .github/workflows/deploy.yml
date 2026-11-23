@@ -91,7 +91,7 @@ jobs:
           echo "::error::Published site does not contain the current commit. Check GitHub Pages settings and deployment logs."
           exit 1
 
-      - name: Confirm live JavaScript contains the latest Activities content
+      - name: Confirm live JavaScript contains the latest Activities and Study Room copy
         env:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
@@ -111,11 +111,15 @@ jobs:
           request = urllib.request.Request(js_url, headers={"Cache-Control": "no-cache"})
           with urllib.request.urlopen(request, timeout=20) as response:
               javascript = response.read().decode("utf-8")
-          required = ("기초부터 탄탄히.", "18:00–18:50", "19:00–19:50", "배움을 실제 경험으로.", "runtime-team-project-hq.webp", "runtime-cert-study-hq.webp")
+          required = ("기초부터 탄탄히.", "18:00–18:50", "19:00–19:50", "배움을 실제 경험으로.", "runtime-team-project-hq.webp", "runtime-cert-study-hq.webp", "먼저 경험해 보는", "learn-time", "기초반·심화반의 세미나 자료와 미니 퀴즈를 체험해 보세요.", "전체 학습자료는 부원에게 제공됩니다.")
           missing = [text for text in required if text not in javascript]
           if missing:
-              raise SystemExit(f"Public JS asset is missing Activities changes: {missing}. URL: {js_url}")
-          print(f"Verified published Activities copy and timetable in {js_url}")
+              raise SystemExit(f"Public JS asset is missing required Activities or Study Room text: {missing}. URL: {js_url}")
+          forbidden = ("세미나 자료와 미니 퀴즈를 기초반·심화반별로 한 번씩 체험해 보세요.", "Runtime;의 배움.")
+          lingering = [text for text in forbidden if text in javascript]
+          if lingering:
+              raise SystemExit(f"Published JavaScript contains outdated Study Room text: {lingering}. URL: {js_url}")
+          print(f"Verified published Activities and Study Room text in {js_url}")
           PY
 
       - name: Verify full-resolution activity photos are published
